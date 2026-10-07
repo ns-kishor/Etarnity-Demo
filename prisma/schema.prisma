@@ -1,0 +1,106 @@
+// ETARNITY — corporate data model
+// Core entities mirror the content architecture in src/content/site.ts so a
+// future CMS/admin can migrate each collection without changing the UI.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+/* Inbound conversations from the corporate contact form */
+model ContactSubmission {
+  id           String   @id @default(cuid())
+  name         String
+  email        String
+  organization String?
+  category     String   @default("General") // General | Business | Partnership | Investment | Careers | Media
+  message      String
+  status       String   @default("new") // new | read | responded | archived
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([category, createdAt])
+  @@index([status, createdAt])
+}
+
+/* Future-ready CMS collections (activated as content moves into the CMS) */
+
+model Business {
+  id           String   @id @default(cuid())
+  slug         String   @unique
+  name         String
+  industry     String
+  category     String
+  status       String   @default("Operating") // Operating | Building | Early-stage
+  description  String
+  purpose      String?
+  relationship String?
+  url          String?
+  order        Int      @default(0)
+  published    Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model FounderProfile {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  name      String
+  role      String
+  bio       String
+  quote     String?
+  linkedin  String?
+  order     Int      @default(0)
+  published Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Project {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  name      String
+  sector    String
+  year      String
+  problem   String
+  idea      String
+  design    String
+  outcome   String
+  url       String?
+  order     Int      @default(0)
+  published Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Article {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  title     String
+  category  String
+  excerpt   String
+  body      String?
+  readTime  String?
+  publishedAt DateTime @default(now())
+  isNews    Boolean  @default(false) // false = Insight, true = Company update
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([category, publishedAt])
+}
+
+model JobOpening {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  title     String
+  team      String
+  type      String   @default("Full-time")
+  location  String   @default("Dhaka, Bangladesh")
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
