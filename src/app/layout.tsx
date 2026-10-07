@@ -1,13 +1,21 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Fraunces, JetBrains_Mono } from "next/font/google";
+import { Inter, Space_Grotesk, Fraunces, JetBrains_Mono } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
+import { SmoothScrollProvider } from "@/components/providers/smooth-scroll-provider";
 
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
   display: "swap",
+});
+
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-space-grotesk",
+  subsets: ["latin"],
+  display: "swap",
+  weight: ["300", "400", "500", "600", "700"],
 });
 
 const editorial = Fraunces({
@@ -22,66 +30,64 @@ const monoCorp = JetBrains_Mono({
   variable: "--font-mono-corp",
   subsets: ["latin"],
   display: "swap",
-  weight: ["300", "400", "500"],
+  weight: ["400", "500"],
 });
 
-const SITE_URL = "https://etarnity.com";
+const SITE_URL = "https://machinafusiongroup.com";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "ETARNITY — Building what comes next.",
-    template: "%s — ETARNITY",
+    default: "MachinaFusion — Intelligence that feels",
+    template: "%s — MachinaFusion",
   },
   description:
-    "ETARNITY is a technology-driven parent company building businesses, products, digital systems and ventures designed to solve meaningful problems.",
+    "MachinaFusion bridges the gap between humanity and robotics — algorithms, AI and autonomous systems engineered as one continuum.",
   keywords: [
-    "ETARNITY",
-    "parent company",
-    "technology company",
-    "ventures",
-    "digital products",
-    "software engineering",
-    "Bangladesh",
-    "innovation",
+    "MachinaFusion",
+    "robotics",
+    "artificial intelligence",
+    "autonomous systems",
+    "edge AI",
+    "humanoid robotics",
   ],
-  authors: [{ name: "ETARNITY" }],
-  creator: "ETARNITY",
-  publisher: "ETARNITY",
-  organizationName: "ETARNITY",
-  applicationName: "ETARNITY",
+  authors: [{ name: "MachinaFusion" }],
+  creator: "MachinaFusion",
+  publisher: "MachinaFusion",
+  organizationName: "MachinaFusion",
+  applicationName: "MachinaFusion",
   alternates: {
     canonical: "/",
   },
   icons: {
     icon: [
-      { url: "/logo-mark-light.svg", type: "image/svg+xml", media: "(prefers-color-scheme: light)" },
-      { url: "/logo-mark.svg", type: "image/svg+xml", media: "(prefers-color-scheme: dark)" },
+      { url: "/mf-mark.svg", type: "image/svg+xml", media: "(prefers-color-scheme: light)" },
+      { url: "/mf-mark-dark.svg", type: "image/svg+xml", media: "(prefers-color-scheme: dark)" },
     ],
-    apple: [{ url: "/logo-mark.svg" }],
+    apple: [{ url: "/mf-mark.svg" }],
   },
   openGraph: {
     type: "website",
     locale: "en_US",
     url: SITE_URL,
-    siteName: "ETARNITY",
-    title: "ETARNITY — Building what comes next.",
+    siteName: "MachinaFusion",
+    title: "MachinaFusion — Intelligence that feels",
     description:
-      "A technology-driven parent company building businesses, products, digital systems and ventures designed to solve meaningful problems.",
+      "Bridging the gap between humanity and robotics for a smarter, more connected future.",
     images: [
       {
         url: "/og.jpg",
-        width: 1200,
-        height: 630,
-        alt: "ETARNITY — Building what comes next.",
+        width: 1344,
+        height: 768,
+        alt: "MachinaFusion — a human hand and a robotic hand reaching toward each other",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "ETARNITY — Building what comes next.",
+    title: "MachinaFusion — Intelligence that feels",
     description:
-      "A technology-driven parent company building businesses, products, digital systems and ventures designed to solve meaningful problems.",
+      "Bridging the gap between humanity and robotics for a smarter, more connected future.",
     images: ["/og.jpg"],
   },
   robots: {
@@ -98,7 +104,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0a0a0a",
+  themeColor: "#f4f4f6",
   width: "device-width",
   initialScale: 1,
 };
@@ -106,12 +112,11 @@ export const viewport: Viewport = {
 const organizationSchema = {
   "@context": "https://schema.org",
   "@type": "Organization",
-  name: "ETARNITY",
+  name: "MachinaFusion",
   url: SITE_URL,
-  logo: `${SITE_URL}/logo-mark.svg`,
+  logo: `${SITE_URL}/mf-mark.svg`,
   description:
-    "ETARNITY is a technology-driven parent company building businesses, products, digital systems and ventures designed to solve meaningful problems.",
-  foundingDate: "2024",
+    "MachinaFusion bridges the gap between humanity and robotics — algorithms, AI and autonomous systems engineered as one continuum.",
   address: {
     "@type": "PostalAddress",
     addressLocality: "Dhaka",
@@ -120,15 +125,14 @@ const organizationSchema = {
   contactPoint: {
     "@type": "ContactPoint",
     contactType: "customer support",
-    email: "hello@etarnity.com",
+    email: "hello@machinafusiongroup.com",
   },
   knowsAbout: [
-    "Software Engineering",
+    "Robotics",
     "Artificial Intelligence",
-    "Digital Products",
-    "Media",
-    "Security",
-    "Infrastructure",
+    "Autonomous Systems",
+    "Edge AI",
+    "Sensor Fusion",
   ],
 };
 
@@ -140,25 +144,25 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${inter.variable} ${editorial.variable} ${monoCorp.variable} font-sans antialiased bg-background text-foreground`}
+        className={`${inter.variable} ${spaceGrotesk.variable} ${editorial.variable} ${monoCorp.variable} font-sans antialiased bg-background text-foreground`}
       >
         <script
           type="application/ld+json"
           suppressHydrationWarning
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(organizationSchema),
-          }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
         />
-        {/* Two corporate moods: dark (default, the brand identity) and white.
-            Choice persists; system scheme is deliberately not auto-followed. */}
+        {/* Light mood is the primary aesthetic; dark mood is a full inversion.
+            Choice persists and never auto-follows the system scheme. */}
         <ThemeProvider
           attribute="class"
-          defaultTheme="dark"
+          defaultTheme="light"
           enableSystem={false}
-          themes={["dark", "light"]}
+          themes={["light", "dark"]}
         >
-          {children}
-          <Toaster />
+          <SmoothScrollProvider>
+            {children}
+            <Toaster />
+          </SmoothScrollProvider>
         </ThemeProvider>
       </body>
     </html>

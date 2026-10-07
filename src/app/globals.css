@@ -7,6 +7,7 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-space-grotesk), var(--font-inter), ui-sans-serif, sans-serif;
   --font-serif: var(--font-editorial), ui-serif, Georgia, serif;
   --font-mono: var(--font-mono-corp), ui-monospace, monospace;
   --color-sidebar-ring: var(--sidebar-ring);
@@ -38,310 +39,349 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
-  --color-emerald-corp: var(--emerald-corp);
-  --color-champagne: var(--champagne);
-  --color-ivory: var(--ivory);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
+  --color-panel: var(--panel);
+  --color-panel-foreground: var(--panel-foreground);
+  --color-panel-muted: var(--panel-muted);
+  --color-panel-border: var(--panel-border);
+  --color-glow: var(--glow);
+  --color-tunnel: var(--tunnel);
+  --color-emerald-corp: var(--accent);
+  --color-champagne: #8a8a93;
+  --color-ivory: var(--panel-foreground);
+  --radius-sm: calc(var(--radius) - 6px);
+  --radius-md: calc(var(--radius) - 4px);
+  --radius-lg: calc(var(--radius) - 2px);
+  --radius-xl: var(--radius);
 }
 
 /*
- * ETARNITY Corporate Design System
- * Monochrome Direction — two moods, zero chroma, one accent:
- *   · Dark mood (default) — deep black ground, pure white accent
- *   · White mood — paper-white ground, ink-black accent
- * Grays carry hierarchy in both. The palette is a perfect inversion,
- * so every token flips symmetrically between moods.
+ * MACHINAFUSION — Ultra-Modern Minimalist Design System
+ * Light-first: off-white ground, floating white cards, pitch-black display
+ * type, slate metadata, dark frosted panels (#0A0A0C) and subtle neon
+ * accents (glowing green + tunnel blue). Dark mood = full inversion.
  */
 
-/* ----------------------------- WHITE MOOD ------------------------------ */
+/* ------------------------------ WHITE MOOD -------------------------------- */
 :root {
-  --radius: 0.375rem;
+  --radius: 1.75rem;
   color-scheme: light;
 
-  /* Base — soft paper ground, ink text */
-  --background: oklch(0.975 0 0);
-  --foreground: oklch(0.2 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.2 0 0);
-  --popover: oklch(0.995 0 0);
-  --popover-foreground: oklch(0.2 0 0);
+  /* Ground + ink */
+  --background: #f4f4f6;
+  --foreground: #111111;
+  --card: #ffffff;
+  --card-foreground: #111111;
+  --popover: #ffffff;
+  --popover-foreground: #111111;
 
-  /* Brand — ink black is the single accent (token names kept for compatibility) */
-  --primary: oklch(0.16 0 0);
-  --primary-foreground: oklch(0.98 0 0);
-  --emerald-corp: oklch(0.16 0 0);
-  --emerald-deep: oklch(0.42 0 0);
+  /* Pitch black primary */
+  --primary: #111111;
+  --primary-foreground: #f5f5f7;
 
-  /* Sparse accent — graphite for metadata (was champagne) */
-  --accent: oklch(0.44 0 0);
-  --accent-foreground: oklch(0.98 0 0);
-  --champagne: oklch(0.44 0 0);
+  /* Neon green accent (status dot, focus, live signals) */
+  --accent: #16c784;
+  --accent-foreground: #052e1c;
 
-  --secondary: oklch(0.95 0 0);
-  --secondary-foreground: oklch(0.2 0 0);
-  --muted: oklch(0.95 0 0);
-  --muted-foreground: oklch(0.46 0 0);
-  --ivory: oklch(0.14 0 0);
+  /* Dark frosted panel — tunnel, badges, dark inserts */
+  --panel: #0a0a0c;
+  --panel-foreground: #f5f5f7;
+  --panel-muted: #9a9aa3;
+  --panel-border: rgba(255, 255, 255, 0.09);
 
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.885 0 0);
-  --input: oklch(0.885 0 0);
-  --ring: oklch(0.16 0 0);
+  /* Tunnel blue — only inside the immersive dark showcase */
+  --tunnel: #38bdf8;
+  --glow: rgba(22, 199, 132, 0.55);
 
-  --chart-1: oklch(0.16 0 0);
-  --chart-2: oklch(0.38 0 0);
-  --chart-3: oklch(0.55 0 0);
-  --chart-4: oklch(0.72 0 0);
-  --chart-5: oklch(0.85 0 0);
+  --secondary: #ebebef;
+  --secondary-foreground: #111111;
+  --muted: #ececef;
+  --muted-foreground: #666666;
 
-  --sidebar: oklch(1 0 0);
-  --sidebar-foreground: oklch(0.2 0 0);
-  --sidebar-primary: oklch(0.16 0 0);
-  --sidebar-primary-foreground: oklch(0.98 0 0);
-  --sidebar-accent: oklch(0.95 0 0);
-  --sidebar-accent-foreground: oklch(0.2 0 0);
-  --sidebar-border: oklch(0.885 0 0);
-  --sidebar-ring: oklch(0.16 0 0);
+  --destructive: #e5484d;
+  --border: rgba(17, 17, 17, 0.08);
+  --input: rgba(17, 17, 17, 0.14);
+  --ring: #16c784;
 
-  /* Decorative glow anchors — swap with mood, never chroma */
-  --glow-faint: oklch(0.2 0 0 / 0.05);
-  --glow-deep: oklch(0.3 0 0 / 0.08);
+  --chart-1: #111111;
+  --chart-2: #3d3d44;
+  --chart-3: #666666;
+  --chart-4: #9a9aa3;
+  --chart-5: #c9c9cf;
 
-  /* Scrollbar (light) */
-  --scrollbar-thumb: oklch(0.78 0 0);
-  --scrollbar-thumb-hover: oklch(0.64 0 0);
+  --sidebar: #ffffff;
+  --sidebar-foreground: #111111;
+  --sidebar-primary: #111111;
+  --sidebar-primary-foreground: #f5f5f7;
+  --sidebar-accent: #ebebef;
+  --sidebar-accent-foreground: #111111;
+  --sidebar-border: rgba(17, 17, 17, 0.08);
+  --sidebar-ring: #16c784;
 
-  /* Structural hairlines + grid backdrop */
-  --hairline: oklch(0.75 0 0 / 0.75);
-  --grid-line: oklch(0.45 0 0 / 0.1);
+  /* Ambient elevation — spatial depth against light ground */
+  --shadow-ambient: 0 20px 50px rgba(0, 0, 0, 0.04);
+  --shadow-ambient-lg: 0 30px 90px rgba(0, 0, 0, 0.07);
+  --shadow-panel: 0 40px 120px rgba(0, 0, 0, 0.18);
+
+  /* Soft glowing gradient orbs */
+  --orb-soft: rgba(255, 255, 255, 0.7);
+  --orb-neon: rgba(22, 199, 132, 0.1);
+  --orb-blue: rgba(56, 189, 248, 0.09);
+
+  /* Scrollbar */
+  --scrollbar-thumb: rgba(17, 17, 17, 0.22);
+  --scrollbar-thumb-hover: rgba(17, 17, 17, 0.38);
 }
 
-/* ------------------------------ DARK MOOD ------------------------------ */
+/* ------------------------------ DARK MOOD --------------------------------- */
 .dark {
-  --radius: 0.375rem;
+  --radius: 1.75rem;
   color-scheme: dark;
 
-  /* Base — pure neutral grayscale */
-  --background: oklch(0.135 0 0);
-  --foreground: oklch(0.9 0 0);
-  --card: oklch(0.165 0 0);
-  --card-foreground: oklch(0.9 0 0);
-  --popover: oklch(0.155 0 0);
-  --popover-foreground: oklch(0.9 0 0);
+  --background: #0a0a0c;
+  --foreground: #f5f5f7;
+  --card: #131316;
+  --card-foreground: #f5f5f7;
+  --popover: #131316;
+  --popover-foreground: #f5f5f7;
 
-  /* Brand — pure white is the single accent */
-  --primary: oklch(0.99 0 0);
-  --primary-foreground: oklch(0.135 0 0);
-  --emerald-corp: oklch(0.99 0 0);
-  --emerald-deep: oklch(0.42 0 0);
+  --primary: #f5f5f7;
+  --primary-foreground: #0a0a0c;
 
-  /* Sparse accent — secondary light gray for metadata */
-  --accent: oklch(0.74 0 0);
-  --accent-foreground: oklch(0.135 0 0);
-  --champagne: oklch(0.74 0 0);
+  --accent: #2bd98b;
+  --accent-foreground: #052e1c;
 
-  --secondary: oklch(0.2 0 0);
-  --secondary-foreground: oklch(0.9 0 0);
-  --muted: oklch(0.2 0 0);
-  --muted-foreground: oklch(0.6 0 0);
-  --ivory: oklch(0.945 0 0);
+  --panel: #060608;
+  --panel-foreground: #f5f5f7;
+  --panel-muted: #9a9aa3;
+  --panel-border: rgba(255, 255, 255, 0.09);
 
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.235 0 0);
-  --input: oklch(0.235 0 0);
-  --ring: oklch(0.99 0 0);
+  --tunnel: #38bdf8;
+  --glow: rgba(43, 217, 139, 0.6);
 
-  --chart-1: oklch(0.99 0 0);
-  --chart-2: oklch(0.78 0 0);
-  --chart-3: oklch(0.55 0 0);
-  --chart-4: oklch(0.38 0 0);
-  --chart-5: oklch(0.28 0 0);
+  --secondary: #1a1a1e;
+  --secondary-foreground: #f5f5f7;
+  --muted: #1a1a1e;
+  --muted-foreground: #9a9aa3;
 
-  --sidebar: oklch(0.165 0 0);
-  --sidebar-foreground: oklch(0.9 0 0);
-  --sidebar-primary: oklch(0.99 0 0);
-  --sidebar-primary-foreground: oklch(0.135 0 0);
-  --sidebar-accent: oklch(0.2 0 0);
-  --sidebar-accent-foreground: oklch(0.9 0 0);
-  --sidebar-border: oklch(0.235 0 0);
-  --sidebar-ring: oklch(0.99 0 0);
+  --destructive: #ff6369;
+  --border: rgba(255, 255, 255, 0.09);
+  --input: rgba(255, 255, 255, 0.16);
+  --ring: #2bd98b;
 
-  /* Decorative glow anchors */
-  --glow-faint: oklch(0.98 0 0 / 0.06);
-  --glow-deep: oklch(0.55 0 0 / 0.12);
+  --chart-1: #f5f5f7;
+  --chart-2: #c9c9cf;
+  --chart-3: #9a9aa3;
+  --chart-4: #666666;
+  --chart-5: #3d3d44;
 
-  /* Scrollbar (dark) */
-  --scrollbar-thumb: oklch(0.3 0 0);
-  --scrollbar-thumb-hover: oklch(0.42 0 0);
+  --sidebar: #131316;
+  --sidebar-foreground: #f5f5f7;
+  --sidebar-primary: #f5f5f7;
+  --sidebar-primary-foreground: #0a0a0c;
+  --sidebar-accent: #1a1a1e;
+  --sidebar-accent-foreground: #f5f5f7;
+  --sidebar-border: rgba(255, 255, 255, 0.09);
+  --sidebar-ring: #2bd98b;
 
-  /* Structural hairlines + grid backdrop */
-  --hairline: oklch(0.32 0 0 / 0.7);
-  --grid-line: oklch(0.34 0 0 / 0.16);
+  --shadow-ambient: 0 20px 50px rgba(0, 0, 0, 0.4);
+  --shadow-ambient-lg: 0 30px 90px rgba(0, 0, 0, 0.55);
+  --shadow-panel: 0 40px 120px rgba(0, 0, 0, 0.6);
+
+  --orb-soft: rgba(255, 255, 255, 0.06);
+  --orb-neon: rgba(43, 217, 139, 0.09);
+  --orb-blue: rgba(56, 189, 248, 0.08);
+
+  --scrollbar-thumb: rgba(255, 255, 255, 0.2);
+  --scrollbar-thumb-hover: rgba(255, 255, 255, 0.35);
 }
+
+/* --------------------------------- Base ----------------------------------- */
 
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
-
   html {
-    scroll-behavior: smooth;
-    -webkit-text-size-adjust: 100%;
+    scroll-behavior: auto; /* Lenis owns scrolling */
   }
-
-  @media (prefers-reduced-motion: reduce) {
-    html {
-      scroll-behavior: auto;
-    }
-  }
-
   body {
-    @apply bg-background text-foreground;
-    /* Prevent horizontal scroll from reveal-animations' pre-state transforms */
+    @apply bg-background text-foreground font-sans antialiased;
     overflow-x: clip;
-    /* Soft cross-fade between moods (page base only — cheap, paint-only) */
-    transition:
-      background-color 0.4s ease,
-      color 0.4s ease;
-    font-feature-settings: "ss01" on, "cv11" on;
-    text-rendering: optimizeLegibility;
+    transition: background-color 0.4s ease, color 0.4s ease;
   }
-
   ::selection {
-    background: var(--emerald-corp);
-    color: var(--primary-foreground);
+    background: var(--accent);
+    color: var(--accent-foreground);
   }
-
-  /* Refined corporate scrollbar */
-  ::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
-  }
-  ::-webkit-scrollbar-track {
-    background: var(--background);
-  }
-  ::-webkit-scrollbar-thumb {
-    background: var(--scrollbar-thumb);
-    border-radius: 999px;
-    border: 2px solid var(--background);
-  }
-  ::-webkit-scrollbar-thumb:hover {
-    background: var(--scrollbar-thumb-hover);
-  }
-
   :focus-visible {
     outline: 2px solid var(--ring);
     outline-offset: 3px;
   }
 }
 
-@layer utilities {
-  /* Editorial display serif tracking */
-  .font-editorial {
-    font-family: var(--font-editorial), ui-serif, Georgia, serif;
-    font-variation-settings: "opsz" 100;
-  }
+/* ------------------------------ Typography -------------------------------- */
 
-  .text-balance {
-    text-wrap: balance;
-  }
-  .text-pretty {
-    text-wrap: pretty;
-  }
-
-  /* Mono metadata label — the corporate "system" voice */
-  .label-mono {
-    font-family: var(--font-mono-corp), ui-monospace, monospace;
-    font-size: 0.6875rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--muted-foreground);
-  }
-
-  .text-emerald-corp {
-    color: var(--emerald-corp);
-  }
-  .text-champagne {
-    color: var(--champagne);
-  }
-
-  /* Hairline separators with soft edges */
-  .hairline {
-    background: linear-gradient(
-      90deg,
-      transparent,
-      var(--hairline) 18%,
-      var(--hairline) 82%,
-      transparent
-    );
-    height: 1px;
-  }
-
-  /* Film-grain atmosphere (very subtle) */
-  .bg-noise {
-    position: relative;
-  }
-  .bg-noise::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    opacity: 0.5;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='linear' slope='0.035'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
-  }
-
-  /* Vertical hairline used in editorial layouts */
-  .rule-left {
-    border-left: 1px solid var(--border);
-  }
-
-  /* Fine grid backdrop for "system" sections */
-  .bg-grid-faint {
-    background-image:
-      linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
-      linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
-    background-size: 72px 72px;
-  }
-
-  /* Thin custom scrollbar for internal scroll areas */
-  .scroll-area-corp {
-    scrollbar-width: thin;
-    scrollbar-color: var(--scrollbar-thumb) transparent;
-  }
-  .scroll-area-corp::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-  }
-  .scroll-area-corp::-webkit-scrollbar-thumb {
-    background: var(--scrollbar-thumb);
-    border-radius: 999px;
-    border: none;
-  }
-  .scroll-area-corp::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  /* Hero readability vignette — ink wash (dark) / paper wash (light) */
-  .hero-vignette {
-    background: radial-gradient(
-      ellipse at 18% 45%,
-      oklch(0.975 0 0 / 0.82) 0%,
-      oklch(0.975 0 0 / 0.3) 45%,
-      transparent 75%
-    );
-  }
-  .dark .hero-vignette {
-    background: radial-gradient(
-      ellipse at 18% 45%,
-      oklch(0.135 0 0 / 0.72) 0%,
-      oklch(0.135 0 0 / 0.25) 45%,
-      transparent 75%
-    );
-  }
+.display-hero {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(3rem, 9vw, 9rem);
+  line-height: 0.92;
+  letter-spacing: -0.04em;
 }
+
+.display-section {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(2.25rem, 6vw, 5.5rem);
+  line-height: 0.98;
+  letter-spacing: -0.03em;
+}
+
+.display-footer {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(2.5rem, 7vw, 7rem);
+  line-height: 0.95;
+  letter-spacing: -0.035em;
+}
+
+.label-tag {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+/* Editorial serif accent — italic display words inside sans headlines */
+.editorial-accent {
+  font-family: var(--font-editorial);
+  font-style: italic;
+  font-weight: 350;
+  font-variation-settings: "opsz" 100;
+}
+
+/* ------------------------------- Surfaces ---------------------------------- */
+
+.glass-float {
+  background: color-mix(in srgb, var(--card) 72%, transparent);
+  backdrop-filter: blur(16px) saturate(1.4);
+  -webkit-backdrop-filter: blur(16px) saturate(1.4);
+  border: 1px solid color-mix(in srgb, var(--card) 0%, var(--border));
+}
+
+.panel-dark {
+  background: var(--panel);
+  color: var(--panel-foreground);
+  border: 1px solid var(--panel-border);
+}
+
+.shadow-ambient {
+  box-shadow: var(--shadow-ambient);
+}
+.shadow-ambient-lg {
+  box-shadow: var(--shadow-ambient-lg);
+}
+.shadow-panel {
+  box-shadow: var(--shadow-panel);
+}
+
+.hairline {
+  border-top: 1px solid var(--border);
+}
+
+/* ------------------------------ Atmosphere -------------------------------- */
+
+.orb {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(60px);
+  pointer-events: none;
+}
+.orb-soft {
+  background: var(--orb-soft);
+}
+.orb-neon {
+  background: var(--orb-neon);
+}
+.orb-blue {
+  background: var(--orb-blue);
+}
+
+.bg-noise {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+}
+
+.status-dot {
+  position: relative;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 9999px;
+  background: var(--accent);
+  box-shadow: 0 0 10px 2px var(--glow);
+}
+.status-dot::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: 9999px;
+  background: var(--glow);
+  opacity: 0.35;
+  animation: pulse-ring 2.4s ease-out infinite;
+}
+@keyframes pulse-ring {
+  0% { transform: scale(0.5); opacity: 0.5; }
+  70% { transform: scale(1.6); opacity: 0; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+
+/* Holographic sphere (hero) */
+.holo-sphere {
+  background:
+    radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.15) 22%, transparent 40%),
+    radial-gradient(circle at 50% 50%, var(--orb-neon) 0%, transparent 62%),
+    radial-gradient(circle at 68% 74%, var(--orb-blue) 0%, transparent 45%),
+    radial-gradient(circle at 50% 42%, #e7e7ec 0%, #c9c9d1 34%, #9a9aa3 62%, #66666e 100%);
+}
+.dark .holo-sphere {
+  background:
+    radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.06) 22%, transparent 40%),
+    radial-gradient(circle at 50% 50%, var(--orb-neon) 0%, transparent 62%),
+    radial-gradient(circle at 68% 74%, var(--orb-blue) 0%, transparent 45%),
+    radial-gradient(circle at 50% 42%, #2a2a30 0%, #1a1a1f 34%, #111114 62%, #0a0a0c 100%);
+}
+
+.holo-sheen {
+  background: conic-gradient(
+    from 210deg,
+    transparent 0deg,
+    rgba(255, 255, 255, 0.35) 40deg,
+    transparent 90deg,
+    transparent 180deg,
+    rgba(255, 255, 255, 0.18) 220deg,
+    transparent 300deg
+  );
+  mix-blend-mode: overlay;
+}
+
+/* -------------------------------- Scrollbar -------------------------------- */
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 999px;
+  border: 2px solid var(--background);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover);
+}
+
+/* ------------------------------ Reduced motion ----------------------------- */
 
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -350,6 +390,8 @@
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
+  }
+  .status-dot::after {
+    animation: none;
   }
 }

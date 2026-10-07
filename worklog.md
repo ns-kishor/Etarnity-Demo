@@ -207,3 +207,140 @@ Stage Summary:
 - Every surface adapts: tokens, canvas visual, logo, favicon, scrollbar, selection, focus rings, glows, vignette.
 - MoodToggle = premium segmented control (radiogroup semantics, sliding spring indicator, meta theme-color sync, localStorage persistence).
 - Note: og.jpg still the old green-tinted generated asset (not regenerated — not requested).
+
+---
+Task ID: 14
+Agent: Main orchestrator (Z.ai Code)
+Task: MachinaFusion redesign foundation — PRD "Ultra-Modern Minimalist UI Redesign" (new brand, light-first, floating capsules, kinetic scroll, GSAP+Lenis).
+
+Work Log:
+- Installed gsap@3.15.0, lenis@1.3.26, sharp@0.35.5.
+- Generated 5 AI image assets (z-ai CLI) + cutout to transparent PNGs via custom sharp flood-fill script (scripts/ deleted after use): public/images/hand-human.png (900x389, fingers→right), hand-robot.png (900x505, fingers→right), device-1.png (440x1012), device-2.png (533x1034, regenerated once — first had sketch artifacts), device-3.png (405x988). All VLM-verified clean on light/dark/orange backgrounds. public/og.jpg regenerated (human+robot hands, 1344x768).
+- Cutout pipeline lessons: sharp blur on 1-channel raw outputs 3 channels — sample channel 0; per-image background criteria (neutral-chroma for warm skin, near-white for white bg, neutral-gray≥128/90/55 tiers for soft drop shadows); despeckle removes enclosed white pockets; hole-close refills interior eaten regions.
+- src/content/machina.ts — new single source of truth (nav, hero, tunnel, metrics 97%/12K/30+, stack+partners, newsroom (data-mapped from old news+insights), contact, footer). PRD marketing figures flagged as needing audit.
+- globals.css REWRITTEN: MachinaFusion tokens — light mood default (#F4F4F6 ground, #111 ink, #FFF cards, #0A0A0C dark panels, #16C784 neon green accent, tunnel blue #38BDF8), dark mood full inversion; --radius 1.75rem (pills + 28px cards); utilities: display-hero/section/footer (Space Grotesk, -0.04em), label-tag (mono uppercase), glass-float, panel-dark, shadow-ambient(-lg)/panel, orb-*, status-dot (pulsing neon), holo-sphere/sheen, bg-noise, editorial-accent (Fraunces italic); scrollbar + selection + reduced-motion; legacy token names (emerald-corp→accent) kept mapped for transition.
+- layout.tsx REWRITTEN: Inter + Space_Grotesk + Fraunces (editorial italic accents) + JetBrains_Mono; MachinaFusion SEO metadata, Organization JSON-LD, og.jpg; ThemeProvider defaultTheme="light" (PRD light-first; dark mood retained via toggle); favicon mf-mark.svg / mf-mark-dark.svg.
+- src/components/providers/smooth-scroll-provider.tsx — Lenis (lerp 0.11) driven by gsap.ticker, ScrollTrigger.update on lenis scroll, reduced-motion opt-out, exports getLenis() + scrollToHash() (offset -96).
+- src/components/machina/mf-primitives.tsx — shared language: LogoMark (inline currentColor SVG M+orbit+neon node), MfSection, Kicker (mono index+label+hairline), SectionTitle, Reveal (framer whileInView, blur+y, reduced-motion safe), FloatCard (28px white card ambient shadow), Pill, MonoLabel.
+- src/components/layout/capsule-header.tsx — floating pill nav: fixed top-4 centered, glass-float + backdrop-blur(16), brand left / pill toggles center (layoutId spring active indicator, IntersectionObserver tracking) / status-dot "Available Positions" CTA right; mobile menu expansion panel; MoodToggle restyled round.
+- src/components/theme-toggle.tsx — retokened for new palette (theme-color #f4f4f6/#0a0a0c, rounded-full).
+- src/components/layout/mf-footer.tsx — oversized typography footer (display-footer sign-off with editorial-accent "human intuition", mission, Download/Recruits pills, domain, legal strip, mt-auto sticky-bottom semantics).
+- public/mf-mark.svg + mf-mark-dark.svg — geometric M + orbit + green node favicon/logo.
+
+Stage Summary:
+- Full design system + layout shell live (light-first, dark mood inversion).
+- Assets ready in public/images; old ETARNITY section files still on disk (unused after page swap — cleanup at integration).
+- Next: Kinetic Hero (me, exemplar), then delegate tunnel/metrics/stack/newsroom+contact to frontend-styling-expert agents, then integrate page.tsx + verify.
+
+---
+Task ID: 16-a
+Agent: frontend-styling-expert
+Task: Dynamic Metrics & KPI grid section (PRD Section 4)
+
+Work Log:
+- Read worklog Task 14 foundation, mf-primitives, kinetic-hero exemplar, metrics content, globals tokens, tooltip — then built ONE new file.
+- Created src/components/sections/metrics-grid.tsx exporting `MetricsGrid` ("use client"): MfSection id="metrics", Kicker index "02"/label metrics.kicker, Reveal + SectionTitle (metrics.title), 3 FloatCards in grid-cols-1 md:grid-cols-3 gap-4 md:gap-6, entrance stagger delay i*0.1 via shared Reveal.
+- Number: GSAP count-up 0→value on ScrollTrigger once:true start "top 80%" (tween on a {v:0} object, onUpdate textContent, Math.round, power3.out 1.6s); text-6xl md:text-7xl font-display tracking-[-0.04em] tabular-nums leading-none, min-w-[2ch] so the suffix never shifts mid-count; suffix (%) in text-[var(--accent)] at text-4xl/5xl, baseline-aligned. Label text-[15px] font-medium muted-foreground.
+- SSR-first animation strategy: JSX renders the FINAL state (real number, filled tracks) so no-JS/crawlers/reduced-motion see honest values; the motion branch (gsap.matchMedia "(prefers-reduced-motion: no-preference)") resets to zero and tweens back; cleanup + mm.revert() restore the server-rendered final state. Reduced motion = zero JS animation, fills render at final fill instantly.
+- Pulse button: h-9 w-9 rounded-full border bg-card with .status-dot (green dot + pulsing halo, scale-150) inside; hover/open ring via shadow-[0_0_0_5px_var(--orb-neon)] + border-accent/50; aria-label "More about this metric: …", aria-expanded, aria-haspopup="dialog".
+- Popover: framer-motion AnimatePresence, absolute above the button (bottom-full right-0, transformOrigin bottom right), rounded-2xl bg-popover border shadow-ambient-lg p-4 w-60, MonoLabel accent header + detail text-[12px] leading-relaxed. Closes on Escape (focus returns to trigger), on toggle, and on outside click — transparent fixed scrim portaled to document.body (z-10) PLUS a document-level pointerdown listener (needed because the shared Reveal leaves filter:blur(0px) which creates a stacking context; cards get relative z-20 via Reveal className so the panel z-30 stays above the scrim while the header z-50 stays clickable). Focus moves to the dialog on open (tabIndex -1, role=dialog, aria-modal=false) and restores to the button on close.
+- Pill-slider track: vertical (md+, w-1.5 h-24 rounded-full bg-muted) and horizontal (mobile, h-1.5 w-full) variants, trackLabel in .label-tag at 10px (inline fontSize because .label-tag is unlayered CSS that beats layered Tailwind utilities), tracks aria-hidden with an sr-only "…track indicates N percent." description. Fill bar animates scaleX/scaleY (origin-left/bottom) 0→trackFill% in 1.2s power3.out on ScrollTrigger once; thumb dot (h-3 w-3 rounded-full bg-[var(--accent)] with var(--glow) shadow) rides the fill end via xPercent/yPercent of an inset-0 wrapper (percent-of-own-size trick — no px math, resize-safe). Card hover re-pulses cheaply: fill opacity-90→100 + thumb glow intensify (CSS transitions only).
+- Verification: `bunx eslint src/components/sections/metrics-grid.tsx` → 0 errors/warnings (exit 0); `bunx tsc --noEmit | grep metrics-grid` → no matches (only pre-existing errors in examples/, skills/, layout.tsx); `curl localhost:3000/` → 200.
+
+Stage Summary:
+- File: src/components/sections/metrics-grid.tsx — export `MetricsGrid` (named). No other file touched.
+- Integrator notes: import { MetricsGrid } from "@/components/sections/metrics-grid" and mount after the tunnel section (Kicker index "02" assumes tunnel is "01"). Popover scrim is z-10 at body level; metric cards carry z-20 on their Reveal wrappers — keep any fixed/sticky overlays at z-50+ (capsule header already is). Numbers are PRD marketing placeholders already flagged in src/content/machina.ts — no caveats rendered in UI.
+- Deviations: shadcn tooltip not used (custom click-popover per recommendation); track label size 10px set via inline style instead of text-[10px] (cascade-layer precedence); outside-click = body-ported transparent scrim + document pointerdown listener (stacking-context-proof).
+
+---
+Task ID: 17
+Agent: frontend-styling-expert
+Task: Newsroom + Contact sections (MachinaFusion redesign, PRD Task 17)
+
+Work Log:
+- Read Task 14 foundation entry + mf-primitives, kinetic-hero exemplar, machina.ts content, globals.css tokens/utilities, /api/contact route contract, toast system, shadcn Input/Textarea/Label.
+- Created src/components/sections/newsroom.tsx ("use client", export `Newsroom`): MfSection id="newsroom", Kicker "04 / News & Insights", SectionTitle "Signal over *noise*." (editorial-accent on "noise"), honest mono entry count. Category filter = pill chips built on the shared `Pill` primitive (as="button", aria-pressed; active = bg-primary text-primary-foreground border-transparent, inactive = border-border text-muted-foreground hover:text-foreground). Grid sm:grid-cols-2 lg:grid-cols-3 gap-4, aria-live="polite" + sr-only count announcement, lg:max-h-[32rem] lg:overflow-y-auto (PRD long-list rule; global custom scrollbar; mobile flows naturally). Cards = FloatCard hover + group (equal-height flex col): accent mono category tag + date, font-display lg title with hover text/slide shift, line-clamp-3 summary, optional readTime as dot + mono footer. Non-interactive records (no links, no cursor affordances). Honest empty state "Nothing in this lane yet." + mono tag. Entrance = Reveal stagger.
+- Created src/components/sections/contact-machina.tsx ("use client", export `ContactMachina`): MfSection id="contact", Kicker "05 / Contact", SectionTitle "Introduce *yourself*." + contact.lead. Soft orb-neon glow behind section (aria-hidden, -z-10). lg:grid-cols-12 layout — LEFT col-span-7: form in FloatCard p-6 md:p-8; RIGHT col-span-5: channels dl (mono dt / value dd, Email = mailto link with accent hover) + panel-dark rounded-[22px] status card (status-dot, "Available positions", "We read every introduction — tell us what you want to build.").
+- Form wiring: fetch POST "/api/contact" (relative), JSON {name,email,organization,category,message}; client validation mirrors the zod schema exactly (name ≥2, email regex, message ≥10, maxLength attrs 120/200/160/5000); per-field inline errors (aria-invalid + aria-describedby), focus first invalid field on failed validation. Category = real radiogroup (role="radiogroup"/role="radio", aria-checked, roving tabindex, Arrow/Home-free circular arrow-key nav, Tab+Enter/Space native). Submit = rounded-full bg-primary pill with Send icon, disabled + "Transmitting…" while pending. On 201: form replaced by success panel (check icon, contact.form.successTitle/successBody, mono "Received" tag, focus moved to panel via role="status" tabIndex=-1) + success toast; "Send another" restores form and focuses name input. On 422/500/network: inline role="alert" (contact.form.error) + destructive toast (description offers site.email). useToast from @/hooks/use-toast (Toaster already mounted in layout).
+- Verification: eslint both files exit 0 (zero errors/warnings); tsc --noEmit → no errors in either file (pre-existing errors only in untouched examples/, skills/, layout.tsx); page still 200. POST endpoint NOT tested (orchestrator verifies golden path). All custom utilities cross-checked against a fresh Tailwind v4.3.3 CLI compile of globals.css (line-clamp-3, lg:max-h-[32rem], group-hover:translate-x-1, bg-accent/10, border-accent/40, text-panel-muted, divide-border, dark:bg-card, hover:shadow-lg/md, sr-only all generated; .editorial-accent retained by the compiler — dev-server CSS chunk currently serves a stale pre-07:49 transform that drops it, which equally affects the hero/Kicker; a dev-server restart/HMR catch-up resolves it and a production build includes it).
+
+Stage Summary:
+- Files: src/components/sections/newsroom.tsx (export `Newsroom`), src/components/sections/contact-machina.tsx (export `ContactMachina`). No other file touched.
+- Integrator notes: import Newsroom and mount after the stack/metrics sections (Kicker index "04"; satisfies nav pill [News] → #newsroom) and ContactMachina last before footer (Kicker "05"; satisfies header CTA "Available Positions" + footer "Recruits" → #contact). Both are "use client". Form posts to the existing /api/contact with exact schema; no new API surface. Shared FloatCard/Pill/MfSection/Kicker/SectionTitle/Reveal/MonoLabel used as the design language; no GSAP needed (Reveal stagger only).
+- Deviations: Pill primitive used for newsroom filter chips (as="button" — outside any form so default button type is safe); contact radio chips are plain buttons because Pill's prop type omits `type` and chips sit inside the form. Submit button hover uses hover:shadow-lg (guaranteed utility) rather than the custom shadow-ambient class (variants don't apply to plain CSS classes). Dev-server CSS staleness re: .editorial-accent is pre-existing, not caused by these files.
+
+---
+Task ID: 16-b
+Agent: frontend-styling-expert
+Task: Isometric product stack + partner wall section
+
+Work Log:
+- Read worklog (Task 14 foundation), mf-primitives, kinetic-hero exemplar, machina.ts stack content, globals.css tokens/utilities.
+- Created src/components/sections/product-stack.tsx exporting ProductStack ("use client") — single file, no other file touched.
+- Headline banner: Kicker (index "03", label stack.kicker) → SectionTitle "Touching [editorial-accent]tomorrow,[/] today" (mixed Space Grotesk / Fraunces italic) → muted lead max-w-xl, each in shared Reveal.
+- Isometric architecture: stage div (relative h-[420px] md:h-[560px], [perspective:1400px], [transform-style:preserve-3d]). To reproduce CSS `rotateX(52deg) rotateZ(-38deg)` WITHOUT GSAP matrix-decomposition ambiguity, each device = wrapper (GSAP: xPercent/yPercent centering, rotationX 52, translateZ 0/90/180 via z) > inner plane (GSAP rotation -38) > next/image (natural 440x1012 / 533x1034 / 405x988, explicit width/height, drop-shadow filter). Nested Rx(Rz) == CSS transform:rotateX rotateZ — verified order math.
+- GSAP matchMedia "(min-width: 768px) and (prefers-reduced-motion: no-preference)": scrub 0.5 timeline, trigger stage, start "top 80%" end "bottom 40%", invalidateOnRefresh. Fan-out: One x -fanX()/y -140 (upper-left), Lens x +fanX()/y +40 (right), Pod x 0/y +150 (lower-center); fanX() = clamp(110, 280, stageHalf - 230) as function value so md viewports never clip. Inner planes rotate -38 → -30 (readable screens), floor shadow scaleX 1→1.55, captions autoAlpha/y fade at t=0.72 of scrub (reversible — collapse hides them). Cleanup kills ScrollTrigger + timeline + clearProps:"all" (exemplar pattern).
+- CSS-only branch switching (no JS race): stage = "hidden motion-safe:md:block", static flow = "md:motion-safe:hidden" — verified against compiled Tailwind 4.1.18 output that nested media variants AND correctly and cascade order beats base hidden/flex.
+- Mobile/reduced-motion: vertical stacked-deck flow, images w-48 md:w-56 centered, -mt-4 overlap tuck, DeviceCaption (FloatCard rounded-[20px] p-4 max-w-[220px]: MonoLabel role / font-display name / copy) under each, plain Reveal fades. Device wrappers carry opacity-0 to suppress pre-hydration straight-on flash (gsap.set autoAlpha 1).
+- Partner wall: border-t pt-10/12, MonoLabel label muted centered, minimalist pills (rounded-full border-border bg-card px-5 py-2.5 font-display text-sm tracking-tight muted → hover:text-foreground), aria-label "Partner ecosystem".
+- Decorative layers (orbs, blurred elliptical floor shadow) aria-hidden + pointer-events-none; images have descriptive alt "Name — role".
+- Verified: bunx eslint → 0 errors/warnings; bunx tsc --noEmit → no errors in product-stack.tsx (remaining project errors pre-exist in examples/, skills/, layout.tsx); curl / → 200; all component classes present in dev-served Tailwind CSS (incl. stacked motion-safe variants + [perspective:1400px]).
+- Note: served CSS briefly lacked .editorial-accent due to a stale dev chunk; resolved after recompile — no action needed.
+
+Stage Summary:
+- File: src/components/sections/product-stack.tsx — export ProductStack (client). Integrator: import and place after Metrics, before Newsroom in page.tsx (`<ProductStack />`); section id="stack" matches nav "Explore AI" anchor.
+- Deviations (tuned per spec's "tune so it reads as a fan-out"): device-3 fan y +260 → +150 (contained in 560px stage, avoids overlapping the partner wall hairline); desktop slab widths 172/196/168px; captions fade inside the same scrub (reversible) rather than once:true; mobile overlap -mt-4 (slight, avoids covering caption text).
+- Refs for future tuning: LIFT / REST / FAN / CAPTION_POS arrays at top of file.
+
+---
+Task ID: 15-b
+Agent: frontend-styling-expert
+Task: 3D Tunnel Zoom showcase section
+
+Work Log:
+- Read worklog Task 14 foundation entry, mf-primitives, kinetic-hero exemplar (GSAP matchMedia + scrub + cleanup pattern), metrics-grid (SSR-first animation strategy), tunnel content, globals.css tokens.
+- Created src/components/sections/tunnel-showcase.tsx exporting `TunnelShowcase` ("use client") — single file, no other file touched.
+- Structure: MfSection id="tunnel" → Reveal(Kicker index "01" / tunnel.kicker) on the light ground → centered dark card: panel-dark + rounded-[32px] + shadow-panel + overflow-hidden + mx-auto, max-w-5xl lg:max-w-6xl, aspect-[4/5] sm:aspect-[4/3] md:aspect-[16/10] (mobile gets taller ratios so the overlay copy fits).
+- Tunnel: stage div [perspective:900px] → rib wrapper [transform-style:preserve-3d] will-change-transform containing 16 concentric ribs. Each rib is an absolutely centered flat plane with inline `transform: translate(-50%,-50%) translateZ(-z px)` (z = 58×(i+1)); the browser's own projection supplies the receding scale (size × 900/(900+z)) — no manual scale math, and GSAP only ever animates the single wrapper. Ribs: 1-2px rgba(56,189,248,α) borders (α 0.5→0.14 with depth) + box-shadow glow (26/18px, α 0.22→0.06), opacity 0.92→0.14; the 3 nearest ribs are larger pill frames (88/84.5/81% of card, border-radius 48px, 2px border), deeper ribs 78% / 26px. All decorative layers aria-hidden + pointer-events-none.
+- Rest state = fixed mid-zoom: wrapper carries literal Tailwind class [transform:translateZ(240px)] so mobile / reduced-motion / no-JS all render a mid-dive tunnel (nearest rib just breaking the card edges) with zero JS; the desktop GSAP branch overrides it inline.
+- Vanishing point: blurred radial-gradient div (w-[38%] aspect-square, blur-2xl, z-[1]) that grows 0.7→1.25 scale + 0.5→1 opacity during the scrub; plus bg-noise 4% texture and a radial vignette (z-[2]) to deepen the black.
+- Desktop scrub (gsap.matchMedia "(min-width: 768px) and (prefers-reduced-motion: no-preference)"): timeline scrub 0.5, trigger card, start "top 80%" end "bottom 30%". Flies the rib stack toward the viewer (wrapper z 0→480 — nearest rib projects ~0.94×→1.88×, sweeping past the frame), card scales 1→1.15, wrapper rotationX 2.5°→0 (depth-parallax tilt), glow grows. Overlay text appears DURING the scrub: h2 "NEXT GEN ENGINEERING" (font-display uppercase, clamp(2rem,5vw,4.5rem), tracking -0.02em, text-panel-foreground, dual blue/white text-shadow) is split into per-letter spans (words whitespace-nowrap, h2 md:whitespace-nowrap so the wide-tracking phase never wraps mid-scrub; aria-label carries the full title, letter spans aria-hidden); letters stagger in (autoAlpha+yPercent, stagger 0.03) while letter-spacing tweens 0.25em→-0.02em; subtext (max-w-md text-balance text-panel-muted) at t=0.45; the 3 bullets as mono pill tags (MonoLabel, border rgba(56,189,248,0.22), cyan dot bg-[var(--tunnel)] with glow) stagger at t=0.6. All initial states set via gsap.set inside the branch — markup defaults are fully visible (SSR/no-JS safe, no flash: section sits below the 210vh hero).
+- Mobile / reduced-motion branch ("(max-width: 767px), (prefers-reduced-motion: reduce)"): fully static — no scrub, tunnel at the CSS mid-zoom, all text visible; reduced-motion returns immediately (zero animation); mobile gets a gsap.fromTo fade-up entrance (once:true, start "top 85%") matching the Reveal look. Cleanup everywhere: scrollTrigger kill + timeline kill + clearProps "all", mm.revert() on unmount — markup state always restored.
+- Verification: `bunx eslint src/components/sections/tunnel-showcase.tsx` → 0 errors/warnings (exit 0); `bunx tsc --noEmit | grep tunnel-showcase` → no matches (pre-existing errors only in untouched files); `curl localhost:3000/` → 200. Bonus: dev-served Tailwind CSS chunk confirmed to contain every custom class (perspective: 900px, translateZ(240px), transform-style: preserve-3d, aspect 4/5 + 16/10, clamp(2rem,5vw,4.5rem), text-shadow stack, tunnel-blue gradients #38bdf8…, blur-2xl, white-space: nowrap, letter-spacing -.02em).
+
+Stage Summary:
+- File: src/components/sections/tunnel-showcase.tsx — export `TunnelShowcase` (named, "use client"). No other file touched.
+- Integrator notes: `import { TunnelShowcase } from "@/components/sections/tunnel-showcase"` and mount FIRST in the section sequence (Kicker index "01" — Metrics is "02"), directly after KineticHero in page.tsx; section id="tunnel" satisfies the nav pill "Cutting-Edge Tech" → #tunnel. Plain (non-sticky) section; card scale 1.15 during scrub stays inside the section's py-20/28 padding, no neighbor overlap. All animation is transform/opacity only (compositor-friendly); ribs keep static CSS transforms — only one wrapper + card + glow are tweened.
+- Deviations from the brief: (1) mobile card entrance is a gsap.fromTo fade-up inside the mobile matchMedia branch (the exemplar kinetic-hero's own mobile pattern) instead of the framer `Reveal` wrapper — wrapping the card in Reveal would double-animate on desktop (framer fades the whole card mid-scrub since its -80px trigger fires after the scrub's "top 80%" start); the shared Reveal IS used for the Kicker entrance, and the reduced-motion path is 100% static as specified. (2) FloatCard/SectionTitle intentionally unused — FloatCard is the white-card primitive (wrong surface for the dark panel) and SectionTitle's .display-section is unlayered CSS that beats layered Tailwind size overrides, so the in-tunnel h2 is hand-built with the exact clamp/tracking/glow the PRD specifies. (3) Card aspect is 4/5 → 4/3 → 16/10 across breakpoints (16/10-only would leave the overlay copy overflowing on small screens). (4) The 0.25em→tight letter-spacing tween is per-letter-staggered on a nowrap (md+) headline so the line count never snaps mid-scrub.
+
+---
+Task ID: 18 (integration + verification)
+Agent: Main orchestrator (Z.ai Code)
+Task: Integrate all sections into page.tsx, PDF asset, cleanup, lint, agent-browser end-to-end verification.
+
+Work Log:
+- page.tsx final structure: CapsuleHeader → KineticHero (#top) → TunnelShowcase (#tunnel, 01) → MetricsGrid (#metrics, 02) → ProductStack (#stack, 03) → Newsroom (#newsroom, 04) → ContactMachina (#contact, 05) → MfFooter (mt-auto sticky bottom).
+- Generated public/MachinaFusion-Company-Snapshot.pdf via hand-rolled minimal PDF script (A4, Helvetica family, green accent bar + node dot): mission, metrics, hardware, ecosystem, contact; served 200 application/pdf; footer Download pill uses <a download>.
+- sitemap.ts + robots.ts updated to machinafusiongroup.com.
+- CLEANUP: deleted all 21 old ETARNITY section files + site-header/site-footer/corporate primitives + src/content/site.ts + old logo SVGs. prisma schema + /api/contact untouched (pipeline preserved).
+- Fixed mobile horizontal overflow (scrollWidth 648→390): added overflow-x-clip to MfSection (decorative orbs extended past section bounds; tunnel ribs were already clipped by the card's overflow-hidden).
+- bun run lint → exit 0, zero warnings.
+- AGENT-BROWSER E2E (desktop 1440 + mobile 390):
+  * Hero: headline/sphere/capsule-nav/callout/pills verified by VLM; hands converge on scroll (Creation of Adam), green spark at meeting point, clean cutouts both moods.
+  * Tunnel: blue perspective rib tunnel zooms on scrub; "NEXT GEN ENGINEERING" per-letter assembly mid-scrub (confirmed intentional), FULL text + 3 cyan-dot bullets at scrub end.
+  * Metrics: 97/12/30 count-up; pulse button opens "WHY IT MATTERS" popover; Escape closes (verified).
+  * Stack: isometric fan-out + caption cards + partner pills verified.
+  * Newsroom: AI filter → "Showing 1 of 6 entries" with the single AI article.
+  * Contact GOLDEN PATH: filled form, category=Investment, submit → success panel "Transmission received" + row persisted (Prisma query: Ayaan Rahman / ayaan@machinafusiongroup.com / Investment / new).
+  * Footer: oversized display type w/ italic "human intuition", mission, Download/Recruits pills, domain, legal strip, flush bottom.
+  * Dark mode: html.dark, bg rgb(10,10,12), all sections adapt, hands/sphere/capsule clean (VLM verified); light default restored + persists via localStorage.
+  * Mobile: hero fits, hands in static flow below headline, menu panel + anchor nav (newsroom top at 96px offset), no horizontal overflow (390=390), stack + footer clean.
+  * Fonts loaded: Inter, Space Grotesk, Fraunces, JetBrains Mono (document.fonts).
+  * Console clean (only benign LCP advisory for device-3.png); dev.log stale font error from a transient edit state — current compiles clean.
+  * 1 h1, all 6 section ids, radiogroups/aria labels correct in a11y tree.
+
+Stage Summary:
+- MACHINAFUSION redesign COMPLETE and browser-verified end-to-end (light-first ultra-modern minimalist system, kinetic scroll, dark mood inversion, working contact pipeline).
+- All PRD sections implemented: capsule header, kinetic hero, 3D tunnel, metrics, isometric stack + partners, oversized footer, + data-mapped newsroom/contact.
+- Content honesty: metrics + partners are PRD-specified marketing figures (flagged in machina.ts + PDF footnote); newsroom items adapted from prior site content.
+- Known advisory: Next Image LCP hint for device-3.png (below fold, advisory only).

@@ -7,9 +7,9 @@ import { Moon, Sun } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 /**
- * MoodToggle — the two corporate moods of ETARNITY.
+ * MoodToggle — the two moods of MachinaFusion.
  *
- * A quiet segmented control (dark / white) with a sliding indicator.
+ * A quiet segmented pill (dark / light) with a sliding indicator.
  * Renders inert until mounted so SSR markup never mismatches,
  * keeps the browser theme-color meta in sync with the active mood.
  */
@@ -24,7 +24,7 @@ export function MoodToggle({ className }: { className?: string }) {
   React.useEffect(() => {
     if (!mounted) return;
     const meta = document.querySelector('meta[name="theme-color"]');
-    meta?.setAttribute("content", resolvedTheme === "light" ? "#f8f8f8" : "#0a0a0a");
+    meta?.setAttribute("content", resolvedTheme === "light" ? "#f4f4f6" : "#0a0a0c");
   }, [mounted, resolvedTheme]);
 
   const isDark = resolvedTheme === "dark";
@@ -39,7 +39,7 @@ export function MoodToggle({ className }: { className?: string }) {
       role="radiogroup"
       aria-label="Color mood"
       className={cn(
-        "inline-flex h-9 items-center gap-0.5 rounded-sm border border-border/70 bg-card/60 p-0.5 backdrop-blur-sm",
+        "inline-flex h-9 items-center gap-0.5 rounded-full border border-border bg-card/60 p-0.5 backdrop-blur-sm",
         className
       )}
     >
@@ -60,7 +60,7 @@ export function MoodToggle({ className }: { className?: string }) {
             title={label}
             onClick={() => select(mood)}
             className={cn(
-              "relative inline-flex h-8 w-8 items-center justify-center rounded-[2px] outline-offset-2 transition-colors",
+              "relative inline-flex h-8 w-8 items-center justify-center rounded-full outline-offset-2 transition-colors",
               isActive ? "text-emerald-corp" : "text-muted-foreground/70 hover:text-foreground"
             )}
           >
@@ -68,7 +68,7 @@ export function MoodToggle({ className }: { className?: string }) {
               <motion.span
                 layoutId="mood-indicator"
                 aria-hidden="true"
-                className="absolute inset-0 rounded-[2px] bg-emerald-corp/12"
+                className="absolute inset-0 rounded-full bg-emerald-corp/12"
                 transition={
                   reduce
                     ? { duration: 0.01 }
