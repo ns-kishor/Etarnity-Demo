@@ -52,7 +52,7 @@ export function Vision() {
       {/* Soft gray glow, low center — the horizon the section points to */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute bottom-[-12%] left-1/2 h-[420px] w-[min(92vw,900px)] -translate-x-1/2 bg-[radial-gradient(closest-side,oklch(0.55_0_0/0.12),transparent)] blur-3xl"
+        className="pointer-events-none absolute bottom-[-12%] left-1/2 h-[420px] w-[min(92vw,900px)] -translate-x-1/2 bg-[radial-gradient(closest-side,var(--glow-deep),transparent)] blur-3xl"
       />
 
       <div className="relative py-20 md:py-28">

@@ -32,10 +32,10 @@ export function Hero() {
         <HeroVisual />
       </div>
 
-      {/* Readability gradient over the visual */}
+      {/* Readability wash over the visual — ink in dark mood, paper in white */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_18%_45%,rgba(10,10,10,0.72)_0%,rgba(10,10,10,0.25)_45%,transparent_75%)]"
+        className="hero-vignette pointer-events-none absolute inset-0"
       />
       <div
         aria-hidden="true"
@@ -98,7 +98,7 @@ export function Hero() {
         >
           <a
             href={hero.primaryCta.href}
-            className="group inline-flex h-12 items-center gap-2.5 rounded-sm bg-ivory px-6 text-[14px] font-semibold tracking-tight text-background transition-colors hover:bg-emerald-corp hover:text-background"
+            className="group inline-flex h-12 items-center gap-2.5 rounded-sm bg-ivory px-6 text-[14px] font-semibold tracking-tight text-background transition-colors hover:bg-emerald-corp/85 hover:text-primary-foreground"
           >
             {hero.primaryCta.label}
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />

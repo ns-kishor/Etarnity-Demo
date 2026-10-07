@@ -6,6 +6,7 @@ import { ArrowUpRight, Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { navigation } from "@/content/site";
 import { Wordmark } from "@/components/primitives/corporate";
+import { MoodToggle } from "@/components/theme-toggle";
 
 export function SiteHeader() {
   const [scrolled, setScrolled] = React.useState(false);
@@ -68,7 +69,7 @@ export function SiteHeader() {
             : "border-b border-transparent bg-transparent"
         )}
       >
-        {/* Scroll progress — a hairline of emerald tracking the journey */}
+        {/* Scroll progress — a hairline of ink tracking the journey */}
         <motion.div
           aria-hidden="true"
           className="absolute inset-x-0 top-0 h-px origin-left bg-gradient-to-r from-emerald-corp via-emerald-corp to-champagne"
@@ -113,6 +114,9 @@ export function SiteHeader() {
           </nav>
 
           <div className="flex items-center gap-2">
+            {/* The two corporate moods — dark (default) and white */}
+            <MoodToggle />
+
             <a
               href="#contact"
               className="group hidden items-center gap-2 rounded-sm border border-emerald-corp/40 bg-emerald-corp/10 px-4 py-2 text-[13.5px] font-semibold tracking-tight text-emerald-corp transition-all hover:border-emerald-corp/70 hover:bg-emerald-corp/20 sm:inline-flex"

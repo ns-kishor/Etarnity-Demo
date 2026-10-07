@@ -49,14 +49,80 @@
 
 /*
  * ETARNITY Corporate Design System
- * Monochrome Direction — deep black · pure white accent · grayscale metadata
- * The site is intentionally dark-only and strictly black & white:
- * white is the single accent, grays carry hierarchy, no chroma anywhere.
+ * Monochrome Direction — two moods, zero chroma, one accent:
+ *   · Dark mood (default) — deep black ground, pure white accent
+ *   · White mood — paper-white ground, ink-black accent
+ * Grays carry hierarchy in both. The palette is a perfect inversion,
+ * so every token flips symmetrically between moods.
  */
 
-:root,
+/* ----------------------------- WHITE MOOD ------------------------------ */
+:root {
+  --radius: 0.375rem;
+  color-scheme: light;
+
+  /* Base — soft paper ground, ink text */
+  --background: oklch(0.975 0 0);
+  --foreground: oklch(0.2 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.2 0 0);
+  --popover: oklch(0.995 0 0);
+  --popover-foreground: oklch(0.2 0 0);
+
+  /* Brand — ink black is the single accent (token names kept for compatibility) */
+  --primary: oklch(0.16 0 0);
+  --primary-foreground: oklch(0.98 0 0);
+  --emerald-corp: oklch(0.16 0 0);
+  --emerald-deep: oklch(0.42 0 0);
+
+  /* Sparse accent — graphite for metadata (was champagne) */
+  --accent: oklch(0.44 0 0);
+  --accent-foreground: oklch(0.98 0 0);
+  --champagne: oklch(0.44 0 0);
+
+  --secondary: oklch(0.95 0 0);
+  --secondary-foreground: oklch(0.2 0 0);
+  --muted: oklch(0.95 0 0);
+  --muted-foreground: oklch(0.46 0 0);
+  --ivory: oklch(0.14 0 0);
+
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.885 0 0);
+  --input: oklch(0.885 0 0);
+  --ring: oklch(0.16 0 0);
+
+  --chart-1: oklch(0.16 0 0);
+  --chart-2: oklch(0.38 0 0);
+  --chart-3: oklch(0.55 0 0);
+  --chart-4: oklch(0.72 0 0);
+  --chart-5: oklch(0.85 0 0);
+
+  --sidebar: oklch(1 0 0);
+  --sidebar-foreground: oklch(0.2 0 0);
+  --sidebar-primary: oklch(0.16 0 0);
+  --sidebar-primary-foreground: oklch(0.98 0 0);
+  --sidebar-accent: oklch(0.95 0 0);
+  --sidebar-accent-foreground: oklch(0.2 0 0);
+  --sidebar-border: oklch(0.885 0 0);
+  --sidebar-ring: oklch(0.16 0 0);
+
+  /* Decorative glow anchors — swap with mood, never chroma */
+  --glow-faint: oklch(0.2 0 0 / 0.05);
+  --glow-deep: oklch(0.3 0 0 / 0.08);
+
+  /* Scrollbar (light) */
+  --scrollbar-thumb: oklch(0.78 0 0);
+  --scrollbar-thumb-hover: oklch(0.64 0 0);
+
+  /* Structural hairlines + grid backdrop */
+  --hairline: oklch(0.75 0 0 / 0.75);
+  --grid-line: oklch(0.45 0 0 / 0.1);
+}
+
+/* ------------------------------ DARK MOOD ------------------------------ */
 .dark {
   --radius: 0.375rem;
+  color-scheme: dark;
 
   /* Base — pure neutral grayscale */
   --background: oklch(0.135 0 0);
@@ -66,13 +132,13 @@
   --popover: oklch(0.155 0 0);
   --popover-foreground: oklch(0.9 0 0);
 
-  /* Brand — pure white is the single accent (token names kept for compatibility) */
+  /* Brand — pure white is the single accent */
   --primary: oklch(0.99 0 0);
   --primary-foreground: oklch(0.135 0 0);
   --emerald-corp: oklch(0.99 0 0);
   --emerald-deep: oklch(0.42 0 0);
 
-  /* Sparse accent — secondary light gray for metadata (was champagne) */
+  /* Sparse accent — secondary light gray for metadata */
   --accent: oklch(0.74 0 0);
   --accent-foreground: oklch(0.135 0 0);
   --champagne: oklch(0.74 0 0);
@@ -102,6 +168,18 @@
   --sidebar-accent-foreground: oklch(0.9 0 0);
   --sidebar-border: oklch(0.235 0 0);
   --sidebar-ring: oklch(0.99 0 0);
+
+  /* Decorative glow anchors */
+  --glow-faint: oklch(0.98 0 0 / 0.06);
+  --glow-deep: oklch(0.55 0 0 / 0.12);
+
+  /* Scrollbar (dark) */
+  --scrollbar-thumb: oklch(0.3 0 0);
+  --scrollbar-thumb-hover: oklch(0.42 0 0);
+
+  /* Structural hairlines + grid backdrop */
+  --hairline: oklch(0.32 0 0 / 0.7);
+  --grid-line: oklch(0.34 0 0 / 0.16);
 }
 
 @layer base {
@@ -124,13 +202,17 @@
     @apply bg-background text-foreground;
     /* Prevent horizontal scroll from reveal-animations' pre-state transforms */
     overflow-x: clip;
+    /* Soft cross-fade between moods (page base only — cheap, paint-only) */
+    transition:
+      background-color 0.4s ease,
+      color 0.4s ease;
     font-feature-settings: "ss01" on, "cv11" on;
     text-rendering: optimizeLegibility;
   }
 
   ::selection {
-    background: oklch(0.99 0 0);
-    color: oklch(0.135 0 0);
+    background: var(--emerald-corp);
+    color: var(--primary-foreground);
   }
 
   /* Refined corporate scrollbar */
@@ -139,19 +221,19 @@
     height: 10px;
   }
   ::-webkit-scrollbar-track {
-    background: oklch(0.135 0 0);
+    background: var(--background);
   }
   ::-webkit-scrollbar-thumb {
-    background: oklch(0.3 0 0);
+    background: var(--scrollbar-thumb);
     border-radius: 999px;
-    border: 2px solid oklch(0.135 0 0);
+    border: 2px solid var(--background);
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: oklch(0.42 0 0);
+    background: var(--scrollbar-thumb-hover);
   }
 
   :focus-visible {
-    outline: 2px solid oklch(0.99 0 0 / 0.9);
+    outline: 2px solid var(--ring);
     outline-offset: 3px;
   }
 }
@@ -176,7 +258,7 @@
     font-size: 0.6875rem;
     letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: oklch(0.6 0 0);
+    color: var(--muted-foreground);
   }
 
   .text-emerald-corp {
@@ -191,8 +273,8 @@
     background: linear-gradient(
       90deg,
       transparent,
-      oklch(0.32 0 0 / 0.7) 18%,
-      oklch(0.32 0 0 / 0.7) 82%,
+      var(--hairline) 18%,
+      var(--hairline) 82%,
       transparent
     );
     height: 1px;
@@ -213,33 +295,51 @@
 
   /* Vertical hairline used in editorial layouts */
   .rule-left {
-    border-left: 1px solid oklch(0.235 0 0);
+    border-left: 1px solid var(--border);
   }
 
   /* Fine grid backdrop for "system" sections */
   .bg-grid-faint {
     background-image:
-      linear-gradient(to right, oklch(0.34 0 0 / 0.16) 1px, transparent 1px),
-      linear-gradient(to bottom, oklch(0.34 0 0 / 0.16) 1px, transparent 1px);
+      linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
     background-size: 72px 72px;
   }
 
   /* Thin custom scrollbar for internal scroll areas */
   .scroll-area-corp {
     scrollbar-width: thin;
-    scrollbar-color: oklch(0.32 0 0) transparent;
+    scrollbar-color: var(--scrollbar-thumb) transparent;
   }
   .scroll-area-corp::-webkit-scrollbar {
     width: 6px;
     height: 6px;
   }
   .scroll-area-corp::-webkit-scrollbar-thumb {
-    background: oklch(0.32 0 0);
+    background: var(--scrollbar-thumb);
     border-radius: 999px;
     border: none;
   }
   .scroll-area-corp::-webkit-scrollbar-track {
     background: transparent;
+  }
+
+  /* Hero readability vignette — ink wash (dark) / paper wash (light) */
+  .hero-vignette {
+    background: radial-gradient(
+      ellipse at 18% 45%,
+      oklch(0.975 0 0 / 0.82) 0%,
+      oklch(0.975 0 0 / 0.3) 45%,
+      transparent 75%
+    );
+  }
+  .dark .hero-vignette {
+    background: radial-gradient(
+      ellipse at 18% 45%,
+      oklch(0.135 0 0 / 0.72) 0%,
+      oklch(0.135 0 0 / 0.25) 45%,
+      transparent 75%
+    );
   }
 }
 

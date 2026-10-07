@@ -316,13 +316,34 @@ export function Wordmark({
   const mark = { sm: "h-4 w-4", md: "h-[22px] w-[22px]", lg: "h-7 w-7" }[size];
 
   return (
-    <span className={cn("inline-flex items-center gap-3", className)}>
+    <span className={cn("inline-flex items-center gap-3 text-ivory", className)}>
       {withMark && (
-        <img src="/logo-mark.svg" alt="" aria-hidden="true" className={mark} />
+        /* Inline mark in currentColor so it follows the active mood
+           (white mood → ink strokes, dark mood → white strokes) */
+        <svg
+          viewBox="0 0 64 64"
+          fill="none"
+          aria-hidden="true"
+          className={cn(mark, "shrink-0")}
+        >
+          <rect x="17" y="14" width="34" height="5.2" rx="1.2" fill="currentColor" />
+          <rect x="17" y="29.4" width="26" height="5.2" rx="1.2" fill="currentColor" />
+          <rect x="17" y="44.8" width="34" height="5.2" rx="1.2" fill="currentColor" />
+          <g transform="rotate(-32 32 32)">
+            <ellipse
+              cx="32"
+              cy="32"
+              rx="27"
+              ry="10.5"
+              stroke="currentColor"
+              strokeOpacity="0.9"
+              strokeWidth="1.6"
+            />
+            <circle cx="59" cy="32" r="2.6" fill="currentColor" opacity="0.55" />
+          </g>
+        </svg>
       )}
-      <span className={cn("font-sans font-semibold uppercase text-ivory", letters)}>
-        ETARNITY
-      </span>
+      <span className={cn("font-sans font-semibold uppercase", letters)}>ETARNITY</span>
     </span>
   );
 }

@@ -185,3 +185,25 @@ Stage Summary:
 - The ETARNITY site is now strictly monochrome: white = single accent, grays carry hierarchy, no chroma anywhere in UI, canvas visual, logo, or favicon.
 - og.jpg (social preview image) is a raster asset and was NOT regenerated — it may still contain the old green tint; regenerate separately if needed.
 - All token names unchanged, so future palette work is a single-file (globals.css) change.
+
+---
+Task ID: 13
+Agent: Main orchestrator (Z.ai Code)
+Task: Add dark mood / white mood toggle (next-themes) and professional polish pass.
+
+Work Log:
+- globals.css: split `:root,.dark` into a symmetric two-mood system — :root = WHITE MOOD (paper oklch(0.975) ground, ink 0.16 accent, graphite 0.44 metadata, card=white, border 0.885), .dark = DARK MOOD (previous black/white tokens). Added color-scheme light/dark, mood-scoped vars: --glow-faint/--glow-deep (decorative glows), --scrollbar-thumb(-hover), --hairline, --grid-line. Utilities now var-driven (label-mono, hairline, rule-left, bg-grid-faint, scrollbars, ::selection, :focus-visible); new .hero-vignette utility (paper wash light / ink wash dark). body: soft 0.4s bg/color cross-fade on mood change; overflow-x clip retained.
+- layout.tsx: removed hardcoded html class="dark"; wrapped children in next-themes ThemeProvider (attribute="class", defaultTheme="dark", enableSystem=false, themes=[dark,light]). Favicon icons now media-split: logo-mark-light.svg (ink strokes, NEW file) for prefers-light, logo-mark.svg for dark.
+- NEW src/components/theme-toggle.tsx — MoodToggle: segmented radiogroup (Moon/Sun, aria-checked, title labels "Dark mood"/"White mood"), framer-motion layoutId sliding indicator (spring 500/38, reduced-motion safe), bg-emerald-corp/12 active pill, mounted-guard against hydration mismatch, syncs meta[name=theme-color] (#0a0a0a/#f8f8f8) with resolvedTheme.
+- site-header.tsx: MoodToggle integrated in right cluster (before Contact CTA); scroll-progress comment updated to "ink".
+- corporate.tsx Wordmark: replaced <img logo-mark.svg> with inline currentColor SVG mark (mood-aware strokes: ink on white mood, white on dark; node at 0.55 opacity); text-ivory moved to the wrapping span.
+- hero-visual.tsx: per-frame mood detection (documentElement.classList) + getPalette(dark) — white structure (bright 245/soft 172/faint 210/core 255) vs ink structure (26/128/64/17), mood-scaled glow alphas (0.14→0.06) and shell alphas; canvas repaints instantly on live toggle without remount.
+- hero.tsx: vignette → .hero-vignette class; primary CTA hover → bg-emerald-corp/85 + text-primary-foreground (feedback in both moods). contact.tsx submit button same fix.
+- Decorative glows converted to var(--glow-faint)/var(--glow-deep): mission, vision, presence, founders, contact (Tailwind arbitrary values with var() — no spaces).
+- Verification: lint exit 0; agent-browser desktop+mobile. Default dark confirmed (html.dark, meta #0a0a0a, near-black body). Toggle→light: html.light, meta #f8f8f8, lab(97.1) paper body, canvas pixel-check shows ink strokes; VLM verified light hero/stats/founders/work/contact/footer — strict monochrome, excellent contrast, zero defects. Toggle→dark + reload: mood persists via localStorage. Mobile light: toggle reachable, no horizontal pan. Canvas pixel audit in dark: 1043/11470 bright pixels (rings/nodes drawing) + targeted VLM YES/YES. No console/page errors.
+
+Stage Summary:
+- Two-mood monochrome system live: dark (default, brand identity) and white — perfectly inverted palettes, zero chroma in both.
+- Every surface adapts: tokens, canvas visual, logo, favicon, scrollbar, selection, focus rings, glows, vignette.
+- MoodToggle = premium segmented control (radiogroup semantics, sliding spring indicator, meta theme-color sync, localStorage persistence).
+- Note: og.jpg still the old green-tinted generated asset (not regenerated — not requested).

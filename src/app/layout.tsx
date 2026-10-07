@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Fraunces, JetBrains_Mono } from "next/font/google";
+import { ThemeProvider } from "next-themes";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 
@@ -53,7 +54,10 @@ export const metadata: Metadata = {
     canonical: "/",
   },
   icons: {
-    icon: [{ url: "/logo-mark.svg", type: "image/svg+xml" }],
+    icon: [
+      { url: "/logo-mark-light.svg", type: "image/svg+xml", media: "(prefers-color-scheme: light)" },
+      { url: "/logo-mark.svg", type: "image/svg+xml", media: "(prefers-color-scheme: dark)" },
+    ],
     apple: [{ url: "/logo-mark.svg" }],
   },
   openGraph: {
@@ -134,7 +138,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${inter.variable} ${editorial.variable} ${monoCorp.variable} font-sans antialiased bg-background text-foreground`}
       >
@@ -145,8 +149,17 @@ export default function RootLayout({
             __html: JSON.stringify(organizationSchema),
           }}
         />
-        {children}
-        <Toaster />
+        {/* Two corporate moods: dark (default, the brand identity) and white.
+            Choice persists; system scheme is deliberately not auto-followed. */}
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem={false}
+          themes={["dark", "light"]}
+        >
+          {children}
+          <Toaster />
+        </ThemeProvider>
       </body>
     </html>
   );

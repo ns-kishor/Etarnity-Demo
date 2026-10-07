@@ -115,7 +115,7 @@ export function Contact() {
           <div className="relative rounded-md border border-border/70 bg-card/60 p-6 md:p-8">
             <div
               aria-hidden="true"
-              className="pointer-events-none absolute -inset-px rounded-md bg-[radial-gradient(ellipse_at_top,rgba(255,255,255,0.04),transparent_60%)]"
+              className="pointer-events-none absolute -inset-px rounded-md bg-[radial-gradient(ellipse_at_top,var(--glow-faint),transparent_60%)]"
             />
 
             {state === "success" ? (
@@ -227,7 +227,7 @@ export function Contact() {
                   <Button
                     type="submit"
                     disabled={state === "submitting"}
-                    className="h-11 gap-2.5 rounded-sm bg-ivory px-6 text-[14px] font-semibold text-background hover:bg-emerald-corp"
+                    className="h-11 gap-2.5 rounded-sm bg-ivory px-6 text-[14px] font-semibold text-background hover:bg-emerald-corp/85 hover:text-primary-foreground"
                   >
                     {state === "submitting" ? (
                       <>
