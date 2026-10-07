@@ -33,7 +33,7 @@ function FounderPanel({ founder }: { founder: Founder }) {
       <div
         role="img"
         aria-label={`Portrait placeholder for ${founder.name}`}
-        className="flex aspect-[4/5] w-full shrink-0 items-center justify-center rounded-sm border border-border/70 bg-[radial-gradient(ellipse_at_30%_20%,rgba(91,191,142,0.08),transparent_60%)] bg-card/40 md:w-[220px]"
+        className="flex aspect-[4/5] w-full shrink-0 items-center justify-center rounded-sm border border-border/70 bg-[radial-gradient(ellipse_at_30%_20%,rgba(255,255,255,0.07),transparent_60%)] bg-card/40 md:w-[220px]"
       >
         <div aria-hidden="true" className="flex flex-col items-center gap-3">
           <span className="font-editorial font-light text-6xl text-emerald-corp">

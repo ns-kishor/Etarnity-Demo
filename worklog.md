@@ -167,3 +167,21 @@ Stage Summary:
 - All PRD sections implemented with honest content (TODO markers in src/content/site.ts flag placeholder data: founders, stats, projects, insights, news — replace with real company data there; no fake trust signals anywhere).
 - Backend: Prisma ContactSubmission pipeline live (zod-validated POST /api/contact). Future-ready CMS models (Business, FounderProfile, Project, Article, JobOpening) already in schema.
 - SEO: Organization JSON-LD, OpenGraph with generated og.jpg, sitemap.ts, robots.ts, semantic headings.
+
+---
+Task ID: 12
+Agent: Main orchestrator (Z.ai Code)
+Task: Convert the entire ETARNITY site UI to black & white (monochrome) per user request.
+
+Work Log:
+- globals.css: redefined every design token to zero-chroma grayscale — --emerald-corp → oklch(0.99 0 0) (pure white accent), --champagne/--accent → oklch(0.74 0 0) (light gray), base/background/card/border/muted/ivory all chroma 0; ring/focus → white; charts → grayscale ramp. Updated ::selection (inverted white-on-black), scrollbar, focus-visible, .label-mono, .hairline, .bg-grid-faint, .rule-left, .scroll-area-corp to neutral values. Token NAMES kept (emerald-corp/champagne/ivory) so all utility classes across 20+ components convert automatically. --destructive intentionally kept red (semantic error color).
+- hero-visual.tsx (ETARNITY CORE canvas): renamed hue system to monochrome "tone" tiers (bright/soft/faint → TONES map: [245,245,245]/[172,172,172]/[210,210,210]); nucleus glow + shells + connections → white; dust + outer atmosphere ring → neutral gray; all green/champagne rgba values removed.
+- Raw gradient neutralization: hero.tsx readability overlay rgba(10,13,11)→rgba(10,10,10); contact.tsx + founders.tsx emerald tints → white tints; mission.tsx/vision.tsx/presence.tsx oklch chroma gradients → grayscale; stale "emerald" comments updated.
+- layout.tsx themeColor #0a0d0b → #0a0a0a. public/logo-mark.svg: E strokes #EDEEE8→#F2F2F2, orbit #5BBF8E→#FFFFFF, node #C9A86A→#ABABAB (favicon + header logo + schema logo now monochrome; logo.svg was already B&W).
+- Fixed latent mobile defect found during verification: pre-reveal framer-motion transforms caused 8px horizontal overflow → added `overflow-x: clip` on body (user can no longer pan horizontally; sticky columns unaffected — verified).
+- Verification: bun run lint clean (exit 0); agent-browser desktop 1440px + mobile 390px; VLM confirmed pure B&W with zero color tints across hero/stats/businesses/founders/technology/contact/footer/mobile/work; contact golden path re-verified (POST /api/contact 201, row persisted via Prisma); no console/page errors in dev.log.
+
+Stage Summary:
+- The ETARNITY site is now strictly monochrome: white = single accent, grays carry hierarchy, no chroma anywhere in UI, canvas visual, logo, or favicon.
+- og.jpg (social preview image) is a raster asset and was NOT regenerated — it may still contain the old green tint; regenerate separately if needed.
+- All token names unchanged, so future palette work is a single-file (globals.css) change.

@@ -66,10 +66,10 @@ export function Presence() {
             delay={0.15}
             className="relative"
           >
-            {/* Faint emerald glow behind the card */}
+            {/* Faint white glow behind the card */}
             <div
               aria-hidden="true"
-              className="pointer-events-none absolute -right-24 -top-20 h-96 w-96 rounded-full bg-[radial-gradient(circle,oklch(0.66_0.105_163_/_0.09),transparent_70%)]"
+              className="pointer-events-none absolute -right-24 -top-20 h-96 w-96 rounded-full bg-[radial-gradient(circle,oklch(0.98_0_0_/_0.07),transparent_70%)]"
             />
 
             <div className="relative rounded-sm border border-border/60 bg-background/60 p-6 md:p-8">

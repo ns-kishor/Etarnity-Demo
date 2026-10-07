@@ -49,10 +49,10 @@ export function Vision() {
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 bg-grid-faint [mask-image:radial-gradient(ellipse_65%_55%_at_50%_42%,black_25%,transparent_72%)]"
       />
-      {/* Emerald glow, low center — the horizon the section points to */}
+      {/* Soft gray glow, low center — the horizon the section points to */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute bottom-[-12%] left-1/2 h-[420px] w-[min(92vw,900px)] -translate-x-1/2 bg-[radial-gradient(closest-side,oklch(0.42_0.08_163/0.14),transparent)] blur-3xl"
+        className="pointer-events-none absolute bottom-[-12%] left-1/2 h-[420px] w-[min(92vw,900px)] -translate-x-1/2 bg-[radial-gradient(closest-side,oklch(0.55_0_0/0.12),transparent)] blur-3xl"
       />
 
       <div className="relative py-20 md:py-28">

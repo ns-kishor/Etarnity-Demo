@@ -32,22 +32,23 @@ interface RingDef {
   nodes: number;
   speed: number; // orbital angular speed
   phase: number;
-  hue: "emerald" | "champagne" | "ivory";
+  tone: "bright" | "soft" | "faint"; // monochrome luminance tiers
   alpha: number;
 }
 
 const RINGS: RingDef[] = [
-  { radius: 0.34, incl: 0.0, yaw0: 0.0, nodes: 3, speed: 0.22, phase: 0.2, hue: "ivory", alpha: 0.5 },
-  { radius: 0.52, incl: 0.42, yaw0: 0.6, nodes: 4, speed: -0.16, phase: 1.1, hue: "emerald", alpha: 0.8 },
-  { radius: 0.72, incl: -0.55, yaw0: 1.9, nodes: 5, speed: 0.12, phase: 2.4, hue: "emerald", alpha: 0.65 },
-  { radius: 0.94, incl: 0.95, yaw0: 3.4, nodes: 5, speed: -0.09, phase: 0.7, hue: "champagne", alpha: 0.7 },
-  { radius: 1.18, incl: -0.28, yaw0: 5.1, nodes: 6, speed: 0.07, phase: 3.9, hue: "ivory", alpha: 0.45 },
+  { radius: 0.34, incl: 0.0, yaw0: 0.0, nodes: 3, speed: 0.22, phase: 0.2, tone: "faint", alpha: 0.5 },
+  { radius: 0.52, incl: 0.42, yaw0: 0.6, nodes: 4, speed: -0.16, phase: 1.1, tone: "bright", alpha: 0.8 },
+  { radius: 0.72, incl: -0.55, yaw0: 1.9, nodes: 5, speed: 0.12, phase: 2.4, tone: "bright", alpha: 0.65 },
+  { radius: 0.94, incl: 0.95, yaw0: 3.4, nodes: 5, speed: -0.09, phase: 0.7, tone: "soft", alpha: 0.7 },
+  { radius: 1.18, incl: -0.28, yaw0: 5.1, nodes: 6, speed: 0.07, phase: 3.9, tone: "faint", alpha: 0.45 },
 ];
 
-const COLORS = {
-  emerald: [91, 191, 142],
-  champagne: [201, 168, 106],
-  ivory: [226, 228, 221],
+/* Monochrome palette — luminance-only hierarchy (white → light gray → dim gray) */
+const TONES = {
+  bright: [245, 245, 245], // primary structure — near-white
+  soft: [172, 172, 172], // secondary ring — light gray
+  faint: [210, 210, 210], // tertiary rings — dim gray, low alpha
 } as const;
 
 function rotY(p: Vec3, a: number): Vec3 {
@@ -169,22 +170,22 @@ export function HeroVisual({ className }: { className?: string }) {
           z: r * Math.sin(a),
         });
         const depth = 0.5 + 0.5 * (1 - Math.min(p.z / (core * 1.4), 1));
-        ctx.fillStyle = `rgba(210,214,205,${0.05 + depth * 0.09 * sceneAlpha})`;
+        ctx.fillStyle = `rgba(210,210,210,${0.05 + depth * 0.09 * sceneAlpha})`;
         ctx.fillRect(p.x, p.y, 1, 1);
       }
       ctx.restore();
 
       /* Nucleus — layered glow + rotating hairline shells */
       const glow = ctx.createRadialGradient(cx, cy, 0, cx, cy, core * 0.5);
-      glow.addColorStop(0, `rgba(76,164,118,${0.16 * sceneAlpha})`);
-      glow.addColorStop(0.45, `rgba(76,164,118,${0.05 * sceneAlpha})`);
-      glow.addColorStop(1, "rgba(76,164,118,0)");
+      glow.addColorStop(0, `rgba(255,255,255,${0.14 * sceneAlpha})`);
+      glow.addColorStop(0.45, `rgba(255,255,255,${0.045 * sceneAlpha})`);
+      glow.addColorStop(1, "rgba(255,255,255,0)");
       ctx.fillStyle = glow;
       ctx.beginPath();
       ctx.arc(cx, cy, core * 0.5, 0, Math.PI * 2);
       ctx.fill();
 
-      ctx.fillStyle = `rgba(226,228,221,${0.9 * sceneAlpha})`;
+      ctx.fillStyle = `rgba(255,255,255,${0.95 * sceneAlpha})`;
       ctx.beginPath();
       ctx.arc(cx, cy, 2.6, 0, Math.PI * 2);
       ctx.fill();
@@ -192,7 +193,7 @@ export function HeroVisual({ className }: { className?: string }) {
       for (let shell = 0; shell < 3; shell++) {
         const sr = core * (0.16 + shell * 0.09);
         const a0 = t * (shell % 2 === 0 ? 0.4 : -0.3) + shell;
-        ctx.strokeStyle = `rgba(91,191,142,${(0.28 - shell * 0.07) * sceneAlpha})`;
+        ctx.strokeStyle = `rgba(255,255,255,${(0.24 - shell * 0.06) * sceneAlpha})`;
         ctx.lineWidth = 0.8;
         ctx.beginPath();
         ctx.arc(cx, cy, sr, a0, a0 + Math.PI * 1.6);
@@ -200,7 +201,7 @@ export function HeroVisual({ className }: { className?: string }) {
       }
 
       /* Orbit rings — depth-shaded polylines */
-      const nodePoints: { x: number; y: number; z: number; hue: RingDef["hue"] }[] = [];
+      const nodePoints: { x: number; y: number; z: number; tone: RingDef["tone"] }[] = [];
 
       for (const ring of RINGS) {
         const segs = isDesktop ? 120 : 72;
@@ -217,7 +218,7 @@ export function HeroVisual({ className }: { className?: string }) {
           if (prev) {
             const depth = 1 - Math.min((pr.z + core) / (core * 2), 1); // 0 back → 1 front
             const alpha = ring.alpha * (0.25 + depth * 0.75) * sceneAlpha;
-            ctx.strokeStyle = `rgba(${COLORS[ring.hue][0]},${COLORS[ring.hue][1]},${COLORS[ring.hue][2]},${alpha})`;
+            ctx.strokeStyle = `rgba(${TONES[ring.tone][0]},${TONES[ring.tone][1]},${TONES[ring.tone][2]},${alpha})`;
             ctx.lineWidth = 0.9;
             ctx.beginPath();
             ctx.moveTo(prev.x, prev.y);
@@ -238,7 +239,7 @@ export function HeroVisual({ className }: { className?: string }) {
           };
           p = rotX(rotY(p, ring.yaw0), ring.incl);
           const pr = project(p);
-          nodePoints.push({ ...pr, hue: ring.hue });
+          nodePoints.push({ ...pr, tone: ring.tone });
         }
       }
 
@@ -257,7 +258,7 @@ export function HeroVisual({ className }: { className?: string }) {
             const depth = 1 - Math.min((nodePoints[i].z + nodePoints[j].z + core * 2) / (core * 4), 1);
             const alpha = closeness * (0.16 + depth * 0.34) * sceneAlpha;
             if (alpha > 0.02) {
-              ctx.strokeStyle = `rgba(91,191,142,${alpha})`;
+              ctx.strokeStyle = `rgba(255,255,255,${alpha})`;
               ctx.beginPath();
               ctx.moveTo(nodePoints[i].x, nodePoints[i].y);
               ctx.lineTo(nodePoints[j].x, nodePoints[j].y);
@@ -271,8 +272,8 @@ export function HeroVisual({ className }: { className?: string }) {
       const sorted = [...nodePoints].sort((a, b) => a.z - b.z);
       for (const n of sorted) {
         const depth = 1 - Math.min((n.z + core) / (core * 2), 1);
-        const size = (n.hue === "champagne" ? 2.4 : 2.0) * (0.6 + depth * 0.8);
-        const [r, g, b] = COLORS[n.hue];
+        const size = (n.tone === "soft" ? 2.4 : 2.0) * (0.6 + depth * 0.8);
+        const [r, g, b] = TONES[n.tone];
         const alpha = (0.35 + depth * 0.65) * sceneAlpha;
 
         const halo = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, size * 4.5);
@@ -290,7 +291,7 @@ export function HeroVisual({ className }: { className?: string }) {
       }
 
       /* Thin outer atmosphere ring — the boundary of the system */
-      ctx.strokeStyle = `rgba(201,168,106,${0.14 * sceneAlpha})`;
+      ctx.strokeStyle = `rgba(172,172,172,${0.14 * sceneAlpha})`;
       ctx.lineWidth = 0.7;
       ctx.setLineDash([2, 6]);
       ctx.beginPath();

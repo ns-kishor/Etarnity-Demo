@@ -35,7 +35,7 @@ export function Hero() {
       {/* Readability gradient over the visual */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_18%_45%,rgba(10,13,11,0.72)_0%,rgba(10,13,11,0.25)_45%,transparent_75%)]"
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_18%_45%,rgba(10,10,10,0.72)_0%,rgba(10,10,10,0.25)_45%,transparent_75%)]"
       />
       <div
         aria-hidden="true"

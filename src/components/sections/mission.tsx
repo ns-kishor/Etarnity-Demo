@@ -18,10 +18,10 @@ export function Mission() {
       ariaLabel="Our mission"
       className="overflow-hidden bg-background"
     >
-      {/* Faint emerald glow behind the statement — barely there */}
+      {/* Faint white glow behind the statement — barely there */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute left-1/2 top-14 h-[440px] w-[min(92vw,740px)] -translate-x-1/2 bg-[radial-gradient(closest-side,oklch(0.66_0.105_163/0.07),transparent)] blur-2xl"
+        className="pointer-events-none absolute left-1/2 top-14 h-[440px] w-[min(92vw,740px)] -translate-x-1/2 bg-[radial-gradient(closest-side,oklch(0.98_0_0/0.06),transparent)] blur-2xl"
       />
 
       <div className="relative py-20 md:py-28">

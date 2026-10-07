@@ -115,7 +115,7 @@ export function Contact() {
           <div className="relative rounded-md border border-border/70 bg-card/60 p-6 md:p-8">
             <div
               aria-hidden="true"
-              className="pointer-events-none absolute -inset-px rounded-md bg-[radial-gradient(ellipse_at_top,rgba(91,191,142,0.05),transparent_60%)]"
+              className="pointer-events-none absolute -inset-px rounded-md bg-[radial-gradient(ellipse_at_top,rgba(255,255,255,0.04),transparent_60%)]"
             />
 
             {state === "success" ? (
