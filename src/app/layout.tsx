@@ -1,9 +1,9 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Space_Grotesk, Fraunces, JetBrains_Mono } from "next/font/google";
-import { ThemeProvider } from "next-themes";
+import { Inter, Manrope, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { SmoothScrollProvider } from "@/components/providers/smooth-scroll-provider";
+import { site, founders } from "@/content/site";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -11,19 +11,11 @@ const inter = Inter({
   display: "swap",
 });
 
-const spaceGrotesk = Space_Grotesk({
-  variable: "--font-space-grotesk",
+const manrope = Manrope({
+  variable: "--font-manrope",
   subsets: ["latin"],
   display: "swap",
   weight: ["300", "400", "500", "600", "700"],
-});
-
-const editorial = Fraunces({
-  variable: "--font-editorial",
-  subsets: ["latin"],
-  display: "swap",
-  axes: ["opsz"],
-  style: ["normal", "italic"],
 });
 
 const monoCorp = JetBrains_Mono({
@@ -33,61 +25,57 @@ const monoCorp = JetBrains_Mono({
   weight: ["400", "500"],
 });
 
-const SITE_URL = "https://machinafusiongroup.com";
+const SITE_URL = site.url;
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "MachinaFusion — Intelligence that feels",
-    template: "%s — MachinaFusion",
+    default: "ETARNITY — Building what comes next.",
+    template: "%s — ETARNITY",
   },
-  description:
-    "MachinaFusion bridges the gap between humanity and robotics — algorithms, AI and autonomous systems engineered as one continuum.",
+  description: site.description,
   keywords: [
-    "MachinaFusion",
-    "robotics",
+    "ETARNITY",
+    "parent company",
+    "technology",
+    "businesses",
+    "ventures",
     "artificial intelligence",
-    "autonomous systems",
-    "edge AI",
-    "humanoid robotics",
+    "software engineering",
+    "digital products",
   ],
-  authors: [{ name: "MachinaFusion" }],
-  creator: "MachinaFusion",
-  publisher: "MachinaFusion",
-  organizationName: "MachinaFusion",
-  applicationName: "MachinaFusion",
+  authors: [{ name: "ETARNITY" }],
+  creator: "ETARNITY",
+  publisher: "ETARNITY",
+  organizationName: "ETARNITY",
+  applicationName: "ETARNITY",
   alternates: {
     canonical: "/",
   },
   icons: {
-    icon: [
-      { url: "/mf-mark.svg", type: "image/svg+xml", media: "(prefers-color-scheme: light)" },
-      { url: "/mf-mark-dark.svg", type: "image/svg+xml", media: "(prefers-color-scheme: dark)" },
-    ],
-    apple: [{ url: "/mf-mark.svg" }],
+    icon: [{ url: "/logo-mark.svg", type: "image/svg+xml" }],
+    apple: [{ url: "/logo-mark.svg" }],
   },
   openGraph: {
     type: "website",
     locale: "en_US",
     url: SITE_URL,
-    siteName: "MachinaFusion",
-    title: "MachinaFusion — Intelligence that feels",
-    description:
-      "Bridging the gap between humanity and robotics for a smarter, more connected future.",
+    siteName: "ETARNITY",
+    title: "ETARNITY — Building what comes next.",
+    description: site.description,
     images: [
       {
         url: "/og.jpg",
         width: 1344,
         height: 768,
-        alt: "MachinaFusion — a human hand and a robotic hand reaching toward each other",
+        alt: "ETARNITY — a technology-driven parent company",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "MachinaFusion — Intelligence that feels",
-    description:
-      "Bridging the gap between humanity and robotics for a smarter, more connected future.",
+    title: "ETARNITY — Building what comes next.",
+    description: site.description,
     images: ["/og.jpg"],
   },
   robots: {
@@ -104,37 +92,60 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#f4f4f6",
+  themeColor: "#f8f8f4",
   width: "device-width",
   initialScale: 1,
 };
 
-const organizationSchema = {
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  name: "MachinaFusion",
-  url: SITE_URL,
-  logo: `${SITE_URL}/mf-mark.svg`,
-  description:
-    "MachinaFusion bridges the gap between humanity and robotics — algorithms, AI and autonomous systems engineered as one continuum.",
-  address: {
-    "@type": "PostalAddress",
-    addressLocality: "Dhaka",
-    addressCountry: "BD",
+/* Corporate SEO — Organization + WebSite + Person (founders) schemas. */
+const schemas = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: site.legalName,
+    url: SITE_URL,
+    logo: `${SITE_URL}/logo-mark.svg`,
+    description: site.description,
+    foundingDate: site.founded,
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: site.hq.city,
+      addressCountry: "BD",
+    },
+    contactPoint: {
+      "@type": "ContactPoint",
+      contactType: "corporate inquiries",
+      email: site.email,
+    },
+    knowsAbout: [
+      "Software Engineering",
+      "Applied AI",
+      "Digital Products",
+      "Cloud Infrastructure",
+      "Security",
+      "Digital Media",
+    ],
+    founder: founders.map((f) => ({
+      "@type": "Person",
+      name: f.name,
+      jobTitle: f.role,
+    })),
   },
-  contactPoint: {
-    "@type": "ContactPoint",
-    contactType: "customer support",
-    email: "hello@machinafusiongroup.com",
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "ETARNITY",
+    url: SITE_URL,
   },
-  knowsAbout: [
-    "Robotics",
-    "Artificial Intelligence",
-    "Autonomous Systems",
-    "Edge AI",
-    "Sensor Fusion",
-  ],
-};
+  ...founders.map((f) => ({
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: f.name,
+    jobTitle: f.role,
+    description: f.bio,
+    affiliation: { "@type": "Organization", name: "ETARNITY" },
+  })),
+];
 
 export default function RootLayout({
   children,
@@ -144,26 +155,21 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${inter.variable} ${spaceGrotesk.variable} ${editorial.variable} ${monoCorp.variable} font-sans antialiased bg-background text-foreground`}
+        className={`${inter.variable} ${manrope.variable} ${monoCorp.variable} font-sans antialiased bg-background text-foreground`}
       >
-        <script
-          type="application/ld+json"
-          suppressHydrationWarning
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
-        />
-        {/* Light mood is the primary aesthetic; dark mood is a full inversion.
-            Choice persists and never auto-follows the system scheme. */}
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="light"
-          enableSystem={false}
-          themes={["light", "dark"]}
-        >
-          <SmoothScrollProvider>
-            {children}
-            <Toaster />
-          </SmoothScrollProvider>
-        </ThemeProvider>
+        {schemas.map((schema, i) => (
+          <script
+            key={i}
+            type="application/ld+json"
+            suppressHydrationWarning
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+          />
+        ))}
+        {/* Light-only bright editorial aesthetic — the canvas is the brand. */}
+        <SmoothScrollProvider>
+          {children}
+          <Toaster />
+        </SmoothScrollProvider>
       </body>
     </html>
   );

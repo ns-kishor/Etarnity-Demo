@@ -27,6 +27,7 @@ const contactSchema = z.object({
     "Investment",
     "Careers",
     "Media",
+    "Technology",
   ]),
   message: z
     .string()
