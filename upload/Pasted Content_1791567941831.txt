@@ -1,0 +1,1636 @@
+# ETARNITY
+
+## Master Corporate Website — Complete Product Requirements Document (PRD)
+
+**Product Type:** Corporate Parent Company Website
+**Company:** ETARNITY
+**Primary Market:** Global
+**Brand Positioning:** Technology, Engineering, Innovation, Digital Businesses
+**Platform:** Responsive Web Application
+**Implementation:** AI-Assisted Full-Stack Development
+**Priority:** Premium UI/UX, Corporate Trust, Performance, Security, Scalability
+
+---
+
+# 1. Project Overview
+
+## 1.1 Project Vision
+
+Build the official corporate website of **ETARNITY**, designed to serve as the central digital headquarters of the company and its broader business ecosystem.
+
+This website must communicate what ETARNITY is, what it does, what it builds, how it operates, who leads it, which businesses and products it owns or operates, and how it plans to grow.
+
+ETARNITY must not be presented merely as a web development agency, marketing agency, or service marketplace.
+
+It must be positioned as a technology company with the potential to build and operate multiple digital businesses, products, platforms, services, and technology initiatives.
+
+The website should be designed around three core principles:
+
+1. **Corporate Identity:** Establish a clear and credible understanding of ETARNITY.
+2. **Technology & Innovation:** Demonstrate the company's technical capabilities through its design, products, projects, and engineering philosophy.
+3. **Trust & Transparency:** Present accurate company information, real people, genuine work, and clear business relationships.
+
+The website must feel like a professional corporate platform built for an international audience—not a generic AI-generated landing page.
+
+## 1.2 Core Objective
+
+The website must help visitors understand the company without requiring extensive technical knowledge.
+
+Within the first few seconds, visitors should understand:
+
+* What ETARNITY is.
+* What the company does.
+* Which technology areas it operates in.
+* What products, services, businesses, and projects are associated with it.
+* Who founded and leads the company.
+* How to explore its businesses or contact the appropriate team.
+
+The website is primarily an **informational, corporate, and business-development platform**. It is not intended to be a direct e-commerce store.
+
+Individual products or businesses may link to their own websites, platforms, dashboards, or purchasing experiences.
+
+## 1.3 Definition of Success
+
+A successful website should:
+
+* Communicate ETARNITY's identity clearly.
+* Look credible beside established international technology companies.
+* Demonstrate real technical and design capability.
+* Make company information easy to discover.
+* Organize multiple business areas without overwhelming the homepage.
+* Support future businesses, products, employees, and organizational growth.
+* Be fully manageable through a secure admin panel.
+* Perform reliably across desktop, tablet, and mobile devices.
+
+---
+
+# 2. Company Positioning & Brand Identity
+
+## 2.1 Brand Positioning
+
+**ETARNITY — A Technology Company Building What Comes Next.**
+
+ETARNITY develops and operates technology-driven products, digital platforms, software systems, and business initiatives.
+
+Its areas of activity may include:
+
+* Software Engineering
+* Web and Application Development
+* UI/UX and Digital Product Design
+* Artificial Intelligence and Automation
+* Cybersecurity and Digital Protection
+* Digital Growth and Marketing Technology
+* Cloud and Digital Infrastructure
+* Technology Products and Platforms
+* Research and Innovation
+
+These are capability areas, not a claim that every listed department or business already exists independently. The website must clearly distinguish active operations from planned initiatives.
+
+## 2.2 Brand Personality
+
+The visual identity should feel:
+
+* Intelligent
+* Precise
+* Innovative
+* Technically sophisticated
+* Minimal
+* Confident
+* International
+* Transparent
+* Human-centered
+* Future-oriented
+
+Avoid loud promotional language, exaggerated claims, unnecessary visual decoration, and generic corporate stock imagery.
+
+## 2.3 Brand Voice
+
+All website copy should be concise, professional, and understandable.
+
+Use clear language instead of unnecessarily complex technical terminology.
+
+The company should communicate confidence through the quality of its work and the clarity of its information—not through unsupported claims such as “the world's number one technology company.”
+
+---
+
+# 3. Visual Design System
+
+## 3.1 Overall Design Direction
+
+Create a distinctive visual identity combining:
+
+* Premium corporate editorial design
+* Modern technology-company aesthetics
+* Refined typography
+* Purposeful motion
+* Minimal navigation
+* Sophisticated spatial composition
+* Carefully controlled 3D elements
+* High-quality project imagery
+* Clear information hierarchy
+
+The website should not look like a conventional corporate template, a generic SaaS landing page, or a gaming interface.
+
+Every visual element must have a purpose.
+
+## 3.2 Color Palette
+
+Use a refined, technology-oriented palette.
+
+### Primary Colors
+
+* **Deep Graphite:** `#15171B`
+* **Warm White:** `#F8F8F6`
+* **Pure White:** `#FFFFFF`
+* **Cool Gray:** `#E8E9EC`
+* **Secondary Text:** `#646B76`
+
+### Accent Colors
+
+Use a restrained combination of:
+
+* **Electric Blue:** `#526BFF`
+* **Soft Periwinkle:** `#AAB7FF`
+
+The accent color may be refined during implementation to match the final visual direction.
+
+Use light surfaces for readability, dark sections for contrast, and accent colors sparingly.
+
+Do not force every section into a dark theme.
+
+The overall experience should feel balanced, clean, premium, and unmistakably technical.
+
+## 3.3 Typography
+
+Use professional fonts suitable for an international technology company.
+
+Recommended combinations:
+
+* **Primary:** Geist or Satoshi
+* **Alternative:** Inter or Space Grotesk
+* **Technical Metadata:** Geist Mono or IBM Plex Mono
+
+Typography rules:
+
+* Strong, confident hero typography.
+* Clear distinction between headings and body text.
+* Consistent spacing and line height.
+* Technical labels used sparingly.
+* Highly readable body copy.
+* No excessive font styles.
+* No decorative fonts that undermine technical credibility.
+
+## 3.4 Layout System
+
+Use a consistent responsive grid.
+
+* Maximum content width: approximately 1440px.
+* Generous but controlled whitespace.
+* Consistent horizontal margins.
+* Clear section separation.
+* Responsive typography.
+* Purposeful asymmetrical layouts.
+* Cards only where they improve understanding.
+* Minimal use of borders and shadows.
+
+The design must feel intentionally art-directed, not automatically assembled from repeated components.
+
+---
+
+# 4. Website Architecture
+
+The website must be a multi-page corporate platform.
+
+**The homepage must not contain the entire website.**
+
+It should introduce ETARNITY, establish credibility, highlight selected information, and direct visitors to relevant pages.
+
+## 4.1 Primary Navigation
+
+Recommended navigation:
+
+* Home
+* Company
+* Businesses
+* Technology
+* Work
+* People
+* Insights
+* Contact
+
+The final navigation may be simplified where necessary, but every major destination must remain discoverable.
+
+Include a restrained, responsive menu for smaller screens.
+
+The ETARNITY logo must link to the homepage.
+
+## 4.2 Required Routes
+
+Implement the following routes or equivalent routes within the existing architecture:
+
+* `/`
+* `/company`
+* `/company/mission-vision`
+* `/businesses`
+* `/businesses/[slug]`
+* `/technology`
+* `/work`
+* `/work/[slug]`
+* `/people`
+* `/people/[slug]`
+* `/insights`
+* `/insights/[slug]`
+* `/careers`
+* `/contact`
+* `/privacy-policy`
+* `/terms`
+
+Only create routes that have a genuine purpose. If a route is not yet populated, do not fill it with fabricated information.
+
+Use the existing project structure and working routes wherever possible.
+
+---
+
+# 5. Homepage — The Corporate Entry Point
+
+## Objective
+
+The homepage should introduce the company and communicate its identity through a limited number of high-impact sections.
+
+It should not attempt to explain every business, founder, technology, project, and initiative in detail.
+
+Recommended structure: the Hero plus four concise sections.
+
+## Section 1 — Hero
+
+### Purpose
+
+Make the company's identity immediately understandable.
+
+### Eyebrow
+
+`ETARNITY / TECHNOLOGY COMPANY`
+
+### Headline Direction
+
+**Building What Comes Next.**
+
+### Supporting Copy
+
+“ETARNITY builds technology-driven products, digital platforms, and businesses designed to solve meaningful problems.”
+
+The final copy may be refined without changing the core message.
+
+### Primary CTA
+
+**Explore ETARNITY**
+
+Destination: `/company`
+
+### Secondary CTA
+
+**Explore Our Businesses**
+
+Destination: `/businesses`
+
+### Visual Composition
+
+Use a sophisticated two-column layout:
+
+* Left: eyebrow, headline, supporting text, CTA buttons.
+* Right: one signature visual element.
+
+The right-side visual must use the actual React Bits **Chrome Orbit** component.
+
+Installation:
+
+```bash
+npx shadcn@latest add @reactbits-starter/chrome-orbit-tw
+```
+
+Required usage:
+
+```tsx
+<ChromeOrbit
+  bandWidth={0.09}
+/>
+```
+
+Use the exact `bandWidth={0.09}` configuration.
+
+Integrate the component into the existing design rather than creating an unrelated visual system around it.
+
+The Chrome Orbit must have adequate space, restrained movement, smooth pointer interaction, and a premium metallic appearance.
+
+Do not replace it with a generic globe, gradient sphere, particle cloud, or imitation CSS animation.
+
+### Hero Animation
+
+Use a restrained cinematic entrance:
+
+1. The technical label appears.
+2. The headline reveals with subtle movement.
+3. Supporting text fades in.
+4. CTA buttons enter naturally.
+5. Chrome Orbit appears with subtle depth and controlled motion.
+
+Avoid excessive animation, bouncing, spinning text, or distracting particles.
+
+The hero should feel powerful without sacrificing clarity.
+
+## Section 2 — Company Introduction
+
+### Heading
+
+**A Technology Company. A Broader Vision.**
+
+Provide a concise explanation of ETARNITY's mission and its approach to building technology.
+
+Include only a few lines of text and a clear link to `/company`.
+
+Do not include the complete company history, organizational chart, or detailed mission documentation here.
+
+## Section 3 — Businesses & Ecosystem
+
+### Heading
+
+**Explore the ETARNITY Ecosystem.**
+
+Show a curated selection of active businesses, products, or technology initiatives.
+
+Each item should communicate:
+
+* Name
+* Category
+* One-line description
+* Current status where relevant
+
+Each item links to its dedicated detail page or verified external platform.
+
+Do not present planned concepts as operating businesses.
+
+CTA: **Explore All Businesses**
+
+## Section 4 — Selected Work
+
+### Heading
+
+**Technology in Practice.**
+
+Show approximately three to four of the strongest available projects.
+
+Each project should include:
+
+* Project name
+* Short description
+* Category
+* Visual preview
+* Live link where available
+
+Use real projects only.
+
+CTA: **View All Work**
+
+## Section 5 — Final CTA
+
+Use a short closing statement.
+
+Example:
+
+**The next chapter starts with an idea.**
+
+Provide a clear CTA:
+
+**Contact ETARNITY**
+
+Destination: `/contact`
+
+Keep this section visually minimal.
+
+---
+
+# 6. Company Page
+
+Route: `/company`
+
+This page should provide the complete corporate introduction.
+
+## Required Sections
+
+### 6.1 Company Overview
+
+Explain:
+
+* What ETARNITY is.
+* Why it exists.
+* What kinds of problems it addresses.
+* How technology fits into its strategy.
+* What distinguishes its approach.
+
+### 6.2 Mission
+
+Present the company's verified mission in a clear, prominent section.
+
+### 6.3 Vision
+
+Explain the long-term direction and ambitions of ETARNITY.
+
+Clearly distinguish long-term ambitions from existing achievements.
+
+### 6.4 Core Principles
+
+Present the company's actual principles, such as:
+
+* Engineering Excellence
+* Responsible Innovation
+* User-Centered Design
+* Security and Reliability
+* Continuous Learning
+* Long-Term Value
+
+Only use principles approved by the company.
+
+### 6.5 Company Journey
+
+Present a chronological timeline of meaningful milestones.
+
+Possible entries include:
+
+* Company founding
+* Launch of major projects
+* Introduction of new businesses
+* Product releases
+* Major organizational changes
+
+Display verified dates and events only.
+
+### 6.6 Corporate Overview
+
+Show relevant company facts where available:
+
+* Founding year
+* Headquarters or operating location
+* Current operating status
+* Official contact information
+* Business categories
+* Publicly verifiable milestones
+
+Never generate fictional revenue, offices, employee counts, or corporate achievements.
+
+---
+
+# 7. Businesses & Ecosystem
+
+Route: `/businesses`
+
+## Objective
+
+Present the businesses, ventures, products, and platforms that belong to or are associated with ETARNITY.
+
+The website must distinguish between:
+
+* An owned business
+* A subsidiary
+* A brand operated by ETARNITY
+* A strategic partner
+* An independent client project
+* A planned initiative
+
+These relationships must be accurate.
+
+## 7.1 Business Directory
+
+Each business entry should contain:
+
+* Business name
+* Logo
+* Category
+* Short overview
+* Business status
+* Relationship to ETARNITY
+* Official website
+* Dedicated details link
+
+## 7.2 Business Detail Page
+
+Route: `/businesses/[slug]`
+
+Each business may have:
+
+* Overview
+* Mission
+* Products or services
+* Target audience
+* Problems addressed
+* Technology used
+* Official website
+* Contact information
+
+Not every business requires identical content. Show only relevant, available information.
+
+## 7.3 Future Scalability
+
+Administrators must be able to add new businesses without modifying application code.
+
+---
+
+# 8. Technology Page
+
+Route: `/technology`
+
+## Objective
+
+Demonstrate the company's technical expertise through understandable, evidence-based information.
+
+## Sections
+
+### 8.1 Engineering
+
+Explain the company's approach to software engineering and digital systems.
+
+### 8.2 Software & Applications
+
+Present relevant capabilities in:
+
+* Web applications
+* Mobile applications
+* Backend systems
+* APIs and integrations
+* Digital platforms
+
+### 8.3 AI & Automation
+
+Describe actual AI-related projects, automation systems, and relevant research.
+
+### 8.4 Security
+
+Explain real security practices, testing capabilities, and applicable services.
+
+Do not claim certifications, guarantees, or security standards that have not been verified.
+
+### 8.5 Infrastructure & Cloud
+
+Present relevant infrastructure, deployment, hosting, and operational capabilities.
+
+### 8.6 Design & Product Engineering
+
+Explain the relationship between UI/UX, product strategy, usability, accessibility, and engineering.
+
+### 8.7 Research & Innovation
+
+Display active experiments, prototypes, and research initiatives with accurate status labels.
+
+The page should communicate technical depth without becoming unnecessarily difficult for non-technical visitors.
+
+---
+
+# 9. Products & Services
+
+Products and services should be presented as part of the company's ecosystem rather than as an online shopping catalog.
+
+Where appropriate, create dedicated product or service pages.
+
+Each page should explain:
+
+* What the product or service does
+* Who it is for
+* What problem it solves
+* Key capabilities
+* Relevant technology
+* Current availability
+* How to learn more or contact the responsible team
+
+Use appropriate CTA labels:
+
+* Explore Product
+* Visit Official Website
+* View Documentation
+* Request Information
+* Contact the Team
+
+Do not use Add to Cart or Checkout unless a specific business genuinely requires e-commerce functionality.
+
+---
+
+# 10. Work & Project Portfolio
+
+Route: `/work`
+
+## Objective
+
+Demonstrate the company's ability to deliver real work.
+
+This section is important for building trust with clients, partners, and potential employees.
+
+## 10.1 Project Directory
+
+Include:
+
+* Project title
+* Project category
+* Project thumbnail
+* Concise description
+* Project status
+* Live website or application link where available
+
+Optional filters:
+
+* Software
+* Web Applications
+* UI/UX
+* AI & Automation
+* Marketing Technology
+* Security
+* Internal Products
+
+Only show categories that are supported by actual projects.
+
+## 10.2 Case Study Page
+
+Route: `/work/[slug]`
+
+Each case study may include:
+
+1. Project Overview
+2. Problem
+3. Objectives
+4. Solution
+5. Design and Engineering Process
+6. Technology Stack
+7. Screenshots or Demonstration
+8. Outcomes
+9. Live Project Link
+
+Use verified results only.
+
+If quantitative outcomes are unavailable, explain the delivered work without inventing percentages, revenue, traffic, or performance improvements.
+
+## 10.3 Project Ownership Transparency
+
+Clearly distinguish:
+
+* Internal ETARNITY products
+* Client projects
+* Demonstration projects
+* Experimental prototypes
+* Personal or independent projects
+
+Do not imply ownership of an external project without authorization.
+
+---
+
+# 11. People, Founders & Leadership
+
+Route: `/people`
+
+## Objective
+
+Introduce the real people responsible for building and operating ETARNITY.
+
+## 11.1 Founders
+
+Each founder profile may contain:
+
+* Real photograph
+* Full name
+* Official position
+* Professional biography
+* Responsibilities
+* Relevant expertise
+* Professional links
+
+## 11.2 Leadership
+
+Present leadership information only where appropriate and verified.
+
+## 11.3 Team Directory
+
+If the company has sufficient team members and approved information, organize them by department.
+
+Possible categories:
+
+* Engineering
+* Design
+* Product
+* Growth
+* Security
+* Operations
+* Research
+
+Do not create fictional employees, fake portraits, invented credentials, or misleading job titles.
+
+If the team is small, present it confidently and honestly.
+
+A real five-person founding team is more credible than a fictional large organization.
+
+## 11.4 Individual Profile Pages
+
+Route: `/people/[slug]`
+
+Optional pages for founders or key personnel.
+
+Include biography, role, focus areas, and approved links.
+
+---
+
+# 12. Insights & Research
+
+Route: `/insights`
+
+## Objective
+
+Provide a space for thoughtful company perspectives and useful technology knowledge.
+
+Possible content categories:
+
+* Engineering
+* AI & Automation
+* Product Design
+* Cybersecurity
+* Digital Business
+* Research
+* Company Announcements
+
+Each article should include:
+
+* Title
+* Summary
+* Author, if applicable
+* Publication date
+* Category
+* Cover image where relevant
+* Article body
+
+Use proper typography and a distraction-free reading layout.
+
+Administrators must be able to draft, edit, schedule where supported, publish, unpublish, and archive articles.
+
+Do not populate the website with fabricated research or automatically generated filler content.
+
+---
+
+# 13. Careers
+
+Route: `/careers`
+
+Present real employment and collaboration opportunities.
+
+Include:
+
+* Company culture
+* Working principles
+* Available positions
+* Role descriptions
+* Required skills
+* Application instructions
+
+If there are no open positions, display an honest message and an optional general-interest contact method.
+
+Do not display fake vacancies.
+
+---
+
+# 14. Contact & Business Inquiries
+
+Route: `/contact`
+
+The contact page should make it easy for visitors to reach the correct team.
+
+## Contact Categories
+
+* General Inquiry
+* Business Inquiry
+* Partnership
+* Product Inquiry
+* Careers
+* Media or Press
+
+## Contact Form
+
+Fields:
+
+* Full Name
+* Email Address
+* Organization, optional
+* Inquiry Type
+* Subject
+* Message
+* Privacy Consent
+
+Requirements:
+
+* Client-side and server-side validation
+* Clear error messages
+* Submission confirmation
+* Spam prevention
+* Rate limiting
+* Secure handling of personal information
+* Email notifications to the appropriate company address
+
+Never expose private internal contact details or administrative email addresses in frontend code.
+
+---
+
+# 15. Footer
+
+The footer must consistently use the exact company name:
+
+**ETARNITY**
+
+Include:
+
+* Brief company description
+* Company
+* Businesses
+* Technology
+* Work
+* People
+* Insights
+* Careers
+* Contact
+* Privacy Policy
+* Terms
+* Official social links
+* Copyright information
+
+Show external business links where appropriate.
+
+Avoid oversized, cluttered footers with unnecessary promotional copy.
+
+---
+
+# 16. Frontend Technical Requirements
+
+## 16.1 Technology Stack
+
+Preferred stack:
+
+* Next.js with App Router
+* React
+* TypeScript
+* Tailwind CSS
+* shadcn/ui where appropriate
+* React Bits components for selected advanced visual elements
+* A suitable animation library, such as Framer Motion or Motion
+* A suitable icon library, such as Lucide
+
+Use stable, compatible versions.
+
+If the existing project already uses a suitable stack, preserve it unless a migration is necessary.
+
+Do not introduce multiple libraries for the same purpose without a clear reason.
+
+## 16.2 Component Architecture
+
+Build reusable components for:
+
+* Header
+* Navigation
+* Mobile Menu
+* Hero
+* Chrome Orbit
+* Section Heading
+* Business Preview
+* Business Detail
+* Project Card
+* Project Detail
+* Founder Profile
+* Team Member
+* Article Card
+* CTA Section
+* Contact Form
+* Footer
+* Loading State
+* Error State
+* Empty State
+
+Avoid duplicating the same markup and business logic across pages.
+
+## 16.3 Responsive Design
+
+Support:
+
+* Desktop
+* Laptop
+* Tablet
+* Mobile
+
+Requirements:
+
+* No horizontal overflow.
+* Readable text at all screen sizes.
+* Properly sized buttons.
+* Accessible mobile navigation.
+* Correct image cropping.
+* Responsive typography and spacing.
+* Appropriate 3D rendering on smaller devices.
+
+## 16.4 Animation & Motion
+
+Use motion to support storytelling, not to decorate every element.
+
+Permitted patterns:
+
+* Subtle entrance transitions
+* Scroll-triggered reveals
+* Controlled parallax
+* Interactive Chrome Orbit
+* Refined hover transitions
+* Project showcase transitions
+* Small, responsive navigation animations
+
+Avoid:
+
+* Excessive scroll hijacking
+* Unnecessary cursor trails
+* Constantly moving backgrounds
+* Excessive blur
+* Repeated bouncing animations
+* Motion that reduces readability
+
+Respect reduced-motion preferences.
+
+## 16.5 Accessibility
+
+Follow WCAG 2.2 AA as the target.
+
+Implement:
+
+* Semantic HTML
+* Keyboard navigation
+* Visible focus states
+* Accessible form labels
+* Appropriate color contrast
+* Descriptive image alt text
+* Correct heading hierarchy
+* Screen-reader-friendly interactions
+* Reduced-motion support
+
+Do not rely on color alone to communicate status.
+
+---
+
+# 17. Backend & CMS Requirements
+
+## Objective
+
+Build a backend that allows authorized administrators to manage the website without editing source code.
+
+The backend should support future growth as new businesses, products, people, projects, and content are added.
+
+## 17.1 Recommended Backend Architecture
+
+A suitable implementation may use:
+
+* Next.js server-side functionality or a dedicated backend API
+* PostgreSQL
+* Prisma ORM or an equivalent established database layer
+* Secure authentication
+* Object storage for images and documents
+* Transactional email service
+* Server-side validation
+* Role-based authorization
+
+Choose compatible services based on the AI builder's environment and deployment capabilities.
+
+If the website is deployed on a platform with limitations, select an appropriate supported alternative.
+
+The backend must be functional, not a static mockup.
+
+## 17.2 Admin Authentication
+
+Provide a secure admin login.
+
+Requirements:
+
+* Password hashing
+* Secure session management
+* Server-side authorization
+* Rate limiting
+* Login failure handling
+* Password reset flow where supported
+* Secure cookie configuration
+* Protection against common web vulnerabilities
+
+Never hardcode administrator credentials into frontend code.
+
+Never expose secret keys or database credentials in public JavaScript bundles.
+
+## 17.3 Roles & Permissions
+
+Implement role-based access control.
+
+Suggested roles:
+
+**Super Admin**
+
+* Full system access
+* Manage administrators and permissions
+* Manage all website content
+* Manage system configuration
+
+**Content Manager**
+
+* Manage company pages
+* Manage articles
+* Manage projects
+* Manage approved media
+
+**Business Manager**
+
+* Manage assigned business profiles
+* Update relevant product and service information
+
+**Viewer**
+
+* Read-only access to permitted admin data
+
+Create only the roles needed for the current team. Additional roles can be added later.
+
+Every protected action must be authorized on the server.
+
+---
+
+# 18. Admin Dashboard
+
+Route: `/admin`
+
+This is a separate administrative interface and must not be confused with the public homepage.
+
+## 18.1 Dashboard Overview
+
+Show useful operational information:
+
+* Published pages
+* Draft pages
+* Active businesses
+* Published projects
+* Published insights
+* Open contact inquiries
+* Recent content updates
+
+Display actual database information.
+
+Do not display invented analytics or hardcoded business metrics.
+
+## 18.2 Company Management
+
+Administrators can manage:
+
+* Company description
+* Mission
+* Vision
+* Core principles
+* Founding information
+* Company timeline
+* Approved corporate facts
+* Public contact information
+
+## 18.3 Business Management
+
+Administrators can:
+
+* Add a business
+* Edit a business
+* Archive a business
+* Upload a logo
+* Upload images
+* Set a unique slug
+* Set its relationship to ETARNITY
+* Set its operational status
+* Add an official external link
+* Publish or unpublish the profile
+
+Use clear status labels such as:
+
+* Active
+* In Development
+* Planned
+* Archived
+
+Only display relevant statuses publicly.
+
+## 18.4 Project Management
+
+Administrators can:
+
+* Add projects
+* Edit project details
+* Upload screenshots
+* Add project links
+* Assign categories
+* Add case studies
+* Set project ownership type
+* Publish or unpublish projects
+* Reorder featured projects
+
+## 18.5 People Management
+
+Administrators can:
+
+* Add founders or team members
+* Edit biographies
+* Update positions
+* Upload portraits
+* Add approved professional links
+* Control public visibility
+
+## 18.6 Content Management
+
+Administrators can:
+
+* Create pages
+* Edit page content
+* Create articles
+* Manage article categories
+* Save drafts
+* Publish or unpublish content
+* Edit SEO metadata
+* Manage featured content
+* Archive outdated material
+
+## 18.7 Media Library
+
+Implement a central media library.
+
+Features:
+
+* Upload images and documents
+* Preview files
+* Add alternative text
+* Reuse uploaded media
+* Replace media where authorized
+* Remove unused files
+* Validate file type and size
+
+Use direct file uploads to the configured storage system.
+
+Do not force users to provide external image URLs for ordinary image uploads.
+
+Validate uploads server-side and restrict dangerous file types.
+
+## 18.8 Contact Inquiry Management
+
+Administrators can:
+
+* View submitted inquiries
+* Open inquiry details
+* Filter by type and status
+* Mark inquiries as New, In Progress, Resolved, or Archived
+* Add internal notes where appropriate
+* Export permitted records if required
+
+Protect contact data from unauthorized access.
+
+---
+
+# 19. Suggested Database Structure
+
+Design a normalized, maintainable relational database.
+
+Suggested entities:
+
+### `users`
+
+* id
+* name
+* email
+* password_hash or external authentication identifier
+* role_id
+* status
+* created_at
+* updated_at
+
+### `roles`
+
+* id
+* name
+* permissions
+
+### `company_profiles`
+
+* id
+* name
+* overview
+* mission
+* vision
+* founding_year, nullable
+* headquarters, nullable
+* updated_at
+
+### `businesses`
+
+* id
+* name
+* slug
+* summary
+* description
+* category
+* relationship_type
+* operational_status
+* logo_media_id
+* website_url
+* is_published
+* created_at
+* updated_at
+
+### `projects`
+
+* id
+* title
+* slug
+* summary
+* description
+* category
+* ownership_type
+* project_status
+* live_url
+* is_featured
+* is_published
+* created_at
+* updated_at
+
+### `people`
+
+* id
+* name
+* slug
+* position
+* biography
+* department
+* profile_media_id
+* is_public
+* display_order
+
+### `articles`
+
+* id
+* title
+* slug
+* summary
+* body
+* author_id, nullable
+* category
+* status
+* published_at
+* created_at
+* updated_at
+
+### `media`
+
+* id
+* storage_key
+* file_name
+* mime_type
+* size
+* alt_text
+* uploaded_by
+* created_at
+
+### `contact_inquiries`
+
+* id
+* name
+* email
+* organization, nullable
+* inquiry_type
+* subject
+* message
+* status
+* created_at
+* updated_at
+
+### `site_settings`
+
+* id
+* key
+* value
+* updated_at
+
+### `audit_logs`
+
+* id
+* actor_id
+* action
+* entity_type
+* entity_id
+* created_at
+
+Use foreign keys, unique constraints, indexes, timestamps, and appropriate deletion policies.
+
+Use JSON fields only where they provide a genuine benefit. Avoid storing the entire website as one unstructured database object.
+
+The exact schema can be adjusted during implementation.
+
+---
+
+# 20. API & Server-Side Functionality
+
+Implement secure, documented endpoints or server actions for the actual operations required.
+
+Examples:
+
+### Public Operations
+
+* Retrieve published businesses
+* Retrieve published projects
+* Retrieve project details
+* Retrieve public people profiles
+* Retrieve published articles
+* Submit contact inquiries
+
+### Administrative Operations
+
+* Create, edit, publish, and archive business records
+* Manage projects
+* Manage people
+* Manage articles
+* Manage company settings
+* Upload and manage media
+* Manage contact inquiries
+* Manage authorized users
+
+All administrative operations must require authentication and permission checks.
+
+Validate all incoming data on the server.
+
+Sanitize rich-text content appropriately.
+
+Prevent unauthorized access to unpublished content.
+
+Do not expose internal audit logs or contact inquiries through public endpoints.
+
+---
+
+# 21. SEO & International Readiness
+
+Implement technical SEO from the beginning.
+
+Requirements:
+
+* Unique page titles
+* Meta descriptions
+* Canonical URLs
+* Open Graph metadata
+* Social sharing previews
+* XML sitemap
+* Robots.txt
+* Correct redirects
+* Structured data where appropriate
+* Descriptive image alt text
+* Semantic headings
+* Clean, readable URLs
+
+Use appropriate structured data for the actual organization and its published content.
+
+Do not insert fake ratings, addresses, reviews, or organizational details.
+
+## Internationalization
+
+Prepare the architecture for future multilingual support.
+
+English should be the primary language for the initial international-facing website.
+
+Bangla may be introduced as an additional language through a structured localization system.
+
+Do not mix languages inconsistently within the same interface.
+
+---
+
+# 22. Performance & Reliability
+
+Target strong Core Web Vitals and fast loading on ordinary mobile connections.
+
+Requirements:
+
+* Optimize images
+* Use modern image formats
+* Lazy-load below-the-fold media
+* Minimize unnecessary JavaScript
+* Split code where appropriate
+* Avoid excessive client-side rendering
+* Optimize fonts
+* Avoid layout shifts
+* Cache appropriate public content
+* Keep database queries efficient
+* Handle errors gracefully
+
+The Chrome Orbit must not prevent the headline and primary CTA from becoming usable.
+
+Provide a graceful fallback if the 3D component fails to load or is unavailable on a device.
+
+Do not remove the required component merely to simplify the implementation.
+
+---
+
+# 23. Security & Privacy
+
+Implement security as a core requirement.
+
+Include:
+
+* Server-side validation
+* Authorization on protected operations
+* Secure authentication
+* Rate limiting
+* Spam protection
+* Safe file uploads
+* Environment-based secrets
+* Appropriate HTTP security headers
+* Protection against common injection attacks
+* Appropriate CSRF protection where applicable
+* Secure session expiration
+* Minimal collection of personal data
+* Privacy policy and terms pages
+* Safe error handling
+
+Do not store sensitive information in public frontend state or browser-accessible configuration.
+
+Do not log passwords, session tokens, or unnecessary personal information.
+
+---
+
+# 24. Analytics & Reporting
+
+Where analytics are enabled, measure useful public website interactions:
+
+* Page views
+* Business profile visits
+* Project detail visits
+* Contact form submissions
+* CTA interactions
+* External business website clicks
+
+Use a privacy-conscious analytics configuration.
+
+Do not fabricate analytics in the admin dashboard.
+
+Distinguish analytics data from operational database counts.
+
+---
+
+# 25. Content Accuracy & Corporate Transparency
+
+This section is mandatory.
+
+The website must never fabricate:
+
+* Number of employees
+* Number of businesses
+* Revenue
+* Company valuation
+* International offices
+* Investors
+* Corporate partnerships
+* Awards
+* Certifications
+* Client testimonials
+* Client logos
+* Project outcomes
+* Security guarantees
+* Company milestones
+
+If information is unavailable, omit it or mark it appropriately as undisclosed, planned, or in development.
+
+A small company can present itself professionally without pretending to be a large corporation.
+
+The design should demonstrate ambition, while the content remains truthful.
+
+The relationship between ETARNITY and every associated business, product, or project must be accurately represented.
+
+---
+
+# 26. Development & Implementation Strategy
+
+Implement the project in the following order.
+
+## Phase 1 — Foundation
+
+* Inspect the existing codebase.
+* Confirm the framework and current routes.
+* Establish design tokens.
+* Implement shared layout components.
+* Configure the database and environment variables.
+* Establish authentication and authorization.
+
+## Phase 2 — Public Website
+
+* Build the homepage.
+* Integrate Chrome Orbit.
+* Build the Company page.
+* Build the Businesses directory and detail pages.
+* Build the Technology page.
+* Build Work and case-study pages.
+* Build People pages.
+* Build Insights pages.
+* Build Contact and Careers pages.
+
+## Phase 3 — Backend & CMS
+
+* Implement database models.
+* Implement protected administrative operations.
+* Build the admin dashboard.
+* Implement media uploads.
+* Connect all public pages to real data.
+* Implement contact inquiry management.
+
+## Phase 4 — Quality Assurance
+
+* Test all routes.
+* Test direct URL access.
+* Test browser back and forward navigation.
+* Test authentication and permissions.
+* Test form validation.
+* Test media uploads.
+* Test mobile and tablet layouts.
+* Test loading, error, and empty states.
+* Test performance and accessibility.
+* Verify that all visible buttons work.
+
+## Phase 5 — Deployment
+
+* Configure production environment variables.
+* Apply database migrations.
+* Configure storage and email.
+* Configure the production domain.
+* Enable HTTPS.
+* Verify redirects and canonical URLs.
+* Test the production deployment.
+
+Do not claim a feature is complete merely because its UI has been generated.
+
+---
+
+# 27. Definition of Done
+
+The project is complete when:
+
+### Corporate Website
+
+* ETARNITY is clearly presented as a technology company and parent organization.
+* The homepage is concise, clear, and visually premium.
+* Detailed information is distributed across relevant internal pages.
+* Businesses, products, services, and projects are presented accurately.
+* The website uses the Chrome Orbit component with `bandWidth={0.09}`.
+* Typography and animation communicate technical sophistication.
+* The design works across devices.
+
+### Backend
+
+* Admin authentication works.
+* Permissions are enforced server-side.
+* The admin can manage businesses, projects, people, and content.
+* Image uploads work.
+* Contact inquiries are stored and manageable.
+* Public pages display real database content.
+* Protected data remains private.
+* Error and empty states are handled properly.
+
+### Quality
+
+* Navigation works.
+* Forms work.
+* Browser history works.
+* Direct URLs work.
+* SEO metadata is present.
+* Security basics are implemented.
+* No placeholder buttons remain in the production interface.
+* No fabricated corporate claims appear.
+
+---
+
+# 28. Final Product Principle
+
+ETARNITY must not try to prove its size by displaying an excessive amount of information on one page.
+
+It must establish credibility through:
+
+* Clear corporate identity
+* Thoughtful information architecture
+* Excellent design
+* Real projects
+* Genuine people
+* Accurate business relationships
+* Technical competence
+* Reliable functionality
+* Transparent communication
+
+The homepage is the entrance to the company.
+
+The Company page explains its identity.
+
+The Businesses page explains its ecosystem.
+
+The Technology page demonstrates its capabilities.
+
+The Work page provides evidence.
+
+The People page introduces the people behind it.
+
+The Backend enables the company to manage and grow the entire platform.
+
+**The final result should feel like the official digital headquarters of an ambitious Bangladeshi technology company built to operate in the international market.**
+
+The ambition should be global. The design should be world-class. The information should be honest. The technology should be reliable.
+
+**ETARNITY — Building What Comes Next.**

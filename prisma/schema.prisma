@@ -1,0 +1,234 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+/* ---------- Auth & roles ---------- */
+
+model Role {
+  id          Int     @id @default(autoincrement())
+  name        String  @unique
+  description String?
+  users       User[]
+}
+
+model User {
+  id           Int         @id @default(autoincrement())
+  name         String
+  email        String      @unique
+  passwordHash String
+  roleId       Int
+  role         Role        @relation(fields: [roleId], references: [id])
+  status       String      @default("ACTIVE")
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  sessions     Session[]
+  auditLogs    AuditLog[]
+  mediaItems   MediaItem[]
+}
+
+model Session {
+  id        Int      @id @default(autoincrement())
+  token     String   @unique
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
+
+/* ---------- Company ---------- */
+
+model CompanyProfile {
+  id              Int     @id @default(1)
+  name            String  @default("ETARNITY")
+  tagline         String?
+  overview        String?
+  mission         String?
+  vision          String?
+  foundingYear    Int?
+  headquarters    String?
+  operatingStatus String?
+  contactEmail    String?
+}
+
+model Principle {
+  id           Int    @id @default(autoincrement())
+  title        String
+  description  String
+  displayOrder Int    @default(0)
+}
+
+model Milestone {
+  id           Int    @id @default(autoincrement())
+  year         String
+  title        String
+  description  String
+  displayOrder Int    @default(0)
+}
+
+model TechnologyArea {
+  id           Int     @id @default(autoincrement())
+  key          String  @unique
+  title        String
+  description  String?
+  items        String  @default("[]")
+  displayOrder Int     @default(0)
+}
+
+model JobPosition {
+  id           Int     @id @default(autoincrement())
+  title        String
+  department   String?
+  location     String?
+  type         String?
+  description  String?
+  requirements String  @default("[]")
+  isOpen       Boolean @default(true)
+  displayOrder Int     @default(0)
+}
+
+/* ---------- Ecosystem ---------- */
+
+model Business {
+  id                Int         @id @default(autoincrement())
+  name              String
+  slug              String      @unique
+  summary           String
+  description       String?
+  category          String
+  relationshipType  String
+  operationalStatus String
+  websiteUrl        String?
+  isPublished       Boolean     @default(false)
+  isFeatured        Boolean     @default(false)
+  displayOrder      Int         @default(0)
+  logoMediaId       Int?
+  logoMedia         MediaItem?  @relation("BusinessLogo", fields: [logoMediaId], references: [id], onDelete: SetNull)
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+}
+
+model Project {
+  id            Int            @id @default(autoincrement())
+  title         String
+  slug          String         @unique
+  summary       String
+  problem       String?
+  solution      String?
+  process       String?
+  outcomes      String?
+  stack         String         @default("[]")
+  category      String
+  ownershipType String
+  projectStatus String
+  liveUrl       String?
+  isFeatured    Boolean        @default(false)
+  isPublished   Boolean        @default(false)
+  displayOrder  Int            @default(0)
+  coverMediaId  Int?
+  coverMedia   MediaItem?      @relation("ProjectCover", fields: [coverMediaId], references: [id], onDelete: SetNull)
+  assets        ProjectAsset[]
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+}
+
+model ProjectAsset {
+  id           Int       @id @default(autoincrement())
+  projectId    Int
+  project      Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  mediaId      Int
+  media        MediaItem @relation("ProjectAsset", fields: [mediaId], references: [id], onDelete: Cascade)
+  displayOrder Int       @default(0)
+}
+
+model Person {
+  id              Int        @id @default(autoincrement())
+  name            String
+  slug            String     @unique
+  position        String
+  biography       String?
+  department      String?
+  responsibilities String?
+  expertise       String     @default("[]")
+  links           String     @default("[]")
+  isFounder       Boolean    @default(false)
+  isPublic        Boolean    @default(true)
+  displayOrder    Int        @default(0)
+  profileMediaId  Int?
+  profileMedia    MediaItem? @relation("PersonPortrait", fields: [profileMediaId], references: [id], onDelete: SetNull)
+  articles        Article[]
+}
+
+model Article {
+  id           Int        @id @default(autoincrement())
+  title        String
+  slug         String     @unique
+  summary      String
+  body         String
+  category     String
+  status       String     @default("DRAFT")
+  publishedAt  DateTime?
+  isFeatured   Boolean    @default(false)
+  authorId     Int?
+  author       Person?    @relation(fields: [authorId], references: [id], onDelete: SetNull)
+  coverMediaId Int?
+  coverMedia   MediaItem? @relation("ArticleCover", fields: [coverMediaId], references: [id], onDelete: SetNull)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+}
+
+/* ---------- Media ---------- */
+
+model MediaItem {
+  id              Int            @id @default(autoincrement())
+  storageKey      String         @unique
+  fileName        String
+  mimeType        String
+  size            Int
+  altText         String?
+  uploadedById    Int?
+  uploadedBy      User?          @relation(fields: [uploadedById], references: [id], onDelete: SetNull)
+  createdAt       DateTime       @default(now())
+  businessLogos   Business[]     @relation("BusinessLogo")
+  projectCovers   Project[]      @relation("ProjectCover")
+  projectAssets   ProjectAsset[] @relation("ProjectAsset")
+  personPortraits Person[]       @relation("PersonPortrait")
+  articleCovers   Article[]      @relation("ArticleCover")
+}
+
+/* ---------- Inquiries, settings, audit ---------- */
+
+model ContactInquiry {
+  id            Int      @id @default(autoincrement())
+  name          String
+  email         String
+  organization  String?
+  inquiryType   String
+  subject       String
+  message       String
+  status        String   @default("NEW")
+  internalNotes String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model SiteSetting {
+  id        Int      @id @default(autoincrement())
+  key       String   @unique
+  value     String
+  updatedAt DateTime @updatedAt
+}
+
+model AuditLog {
+  id         Int      @id @default(autoincrement())
+  actorId    Int?
+  actor      User?    @relation(fields: [actorId], references: [id], onDelete: SetNull)
+  action     String
+  entityType String
+  entityId   String?
+  createdAt  DateTime @default(now())
+}

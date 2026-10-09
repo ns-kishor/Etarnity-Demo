@@ -1,0 +1,1637 @@
+     1→# ETARNITY
+     2→
+     3→## Master Corporate Website — Complete Product Requirements Document (PRD)
+     4→
+     5→**Product Type:** Corporate Parent Company Website
+     6→**Company:** ETARNITY
+     7→**Primary Market:** Global
+     8→**Brand Positioning:** Technology, Engineering, Innovation, Digital Businesses
+     9→**Platform:** Responsive Web Application
+    10→**Implementation:** AI-Assisted Full-Stack Development
+    11→**Priority:** Premium UI/UX, Corporate Trust, Performance, Security, Scalability
+    12→
+    13→---
+    14→
+    15→# 1. Project Overview
+    16→
+    17→## 1.1 Project Vision
+    18→
+    19→Build the official corporate website of **ETARNITY**, designed to serve as the central digital headquarters of the company and its broader business ecosystem.
+    20→
+    21→This website must communicate what ETARNITY is, what it does, what it builds, how it operates, who leads it, which businesses and products it owns or operates, and how it plans to grow.
+    22→
+    23→ETARNITY must not be presented merely as a web development agency, marketing agency, or service marketplace.
+    24→
+    25→It must be positioned as a technology company with the potential to build and operate multiple digital businesses, products, platforms, services, and technology initiatives.
+    26→
+    27→The website should be designed around three core principles:
+    28→
+    29→1. **Corporate Identity:** Establish a clear and credible understanding of ETARNITY.
+    30→2. **Technology & Innovation:** Demonstrate the company's technical capabilities through its design, products, projects, and engineering philosophy.
+    31→3. **Trust & Transparency:** Present accurate company information, real people, genuine work, and clear business relationships.
+    32→
+    33→The website must feel like a professional corporate platform built for an international audience—not a generic AI-generated landing page.
+    34→
+    35→## 1.2 Core Objective
+    36→
+    37→The website must help visitors understand the company without requiring extensive technical knowledge.
+    38→
+    39→Within the first few seconds, visitors should understand:
+    40→
+    41→* What ETARNITY is.
+    42→* What the company does.
+    43→* Which technology areas it operates in.
+    44→* What products, services, businesses, and projects are associated with it.
+    45→* Who founded and leads the company.
+    46→* How to explore its businesses or contact the appropriate team.
+    47→
+    48→The website is primarily an **informational, corporate, and business-development platform**. It is not intended to be a direct e-commerce store.
+    49→
+    50→Individual products or businesses may link to their own websites, platforms, dashboards, or purchasing experiences.
+    51→
+    52→## 1.3 Definition of Success
+    53→
+    54→A successful website should:
+    55→
+    56→* Communicate ETARNITY's identity clearly.
+    57→* Look credible beside established international technology companies.
+    58→* Demonstrate real technical and design capability.
+    59→* Make company information easy to discover.
+    60→* Organize multiple business areas without overwhelming the homepage.
+    61→* Support future businesses, products, employees, and organizational growth.
+    62→* Be fully manageable through a secure admin panel.
+    63→* Perform reliably across desktop, tablet, and mobile devices.
+    64→
+    65→---
+    66→
+    67→# 2. Company Positioning & Brand Identity
+    68→
+    69→## 2.1 Brand Positioning
+    70→
+    71→**ETARNITY — A Technology Company Building What Comes Next.**
+    72→
+    73→ETARNITY develops and operates technology-driven products, digital platforms, software systems, and business initiatives.
+    74→
+    75→Its areas of activity may include:
+    76→
+    77→* Software Engineering
+    78→* Web and Application Development
+    79→* UI/UX and Digital Product Design
+    80→* Artificial Intelligence and Automation
+    81→* Cybersecurity and Digital Protection
+    82→* Digital Growth and Marketing Technology
+    83→* Cloud and Digital Infrastructure
+    84→* Technology Products and Platforms
+    85→* Research and Innovation
+    86→
+    87→These are capability areas, not a claim that every listed department or business already exists independently. The website must clearly distinguish active operations from planned initiatives.
+    88→
+    89→## 2.2 Brand Personality
+    90→
+    91→The visual identity should feel:
+    92→
+    93→* Intelligent
+    94→* Precise
+    95→* Innovative
+    96→* Technically sophisticated
+    97→* Minimal
+    98→* Confident
+    99→* International
+   100→* Transparent
+   101→* Human-centered
+   102→* Future-oriented
+   103→
+   104→Avoid loud promotional language, exaggerated claims, unnecessary visual decoration, and generic corporate stock imagery.
+   105→
+   106→## 2.3 Brand Voice
+   107→
+   108→All website copy should be concise, professional, and understandable.
+   109→
+   110→Use clear language instead of unnecessarily complex technical terminology.
+   111→
+   112→The company should communicate confidence through the quality of its work and the clarity of its information—not through unsupported claims such as “the world's number one technology company.”
+   113→
+   114→---
+   115→
+   116→# 3. Visual Design System
+   117→
+   118→## 3.1 Overall Design Direction
+   119→
+   120→Create a distinctive visual identity combining:
+   121→
+   122→* Premium corporate editorial design
+   123→* Modern technology-company aesthetics
+   124→* Refined typography
+   125→* Purposeful motion
+   126→* Minimal navigation
+   127→* Sophisticated spatial composition
+   128→* Carefully controlled 3D elements
+   129→* High-quality project imagery
+   130→* Clear information hierarchy
+   131→
+   132→The website should not look like a conventional corporate template, a generic SaaS landing page, or a gaming interface.
+   133→
+   134→Every visual element must have a purpose.
+   135→
+   136→## 3.2 Color Palette
+   137→
+   138→Use a refined, technology-oriented palette.
+   139→
+   140→### Primary Colors
+   141→
+   142→* **Deep Graphite:** `#15171B`
+   143→* **Warm White:** `#F8F8F6`
+   144→* **Pure White:** `#FFFFFF`
+   145→* **Cool Gray:** `#E8E9EC`
+   146→* **Secondary Text:** `#646B76`
+   147→
+   148→### Accent Colors
+   149→
+   150→Use a restrained combination of:
+   151→
+   152→* **Electric Blue:** `#526BFF`
+   153→* **Soft Periwinkle:** `#AAB7FF`
+   154→
+   155→The accent color may be refined during implementation to match the final visual direction.
+   156→
+   157→Use light surfaces for readability, dark sections for contrast, and accent colors sparingly.
+   158→
+   159→Do not force every section into a dark theme.
+   160→
+   161→The overall experience should feel balanced, clean, premium, and unmistakably technical.
+   162→
+   163→## 3.3 Typography
+   164→
+   165→Use professional fonts suitable for an international technology company.
+   166→
+   167→Recommended combinations:
+   168→
+   169→* **Primary:** Geist or Satoshi
+   170→* **Alternative:** Inter or Space Grotesk
+   171→* **Technical Metadata:** Geist Mono or IBM Plex Mono
+   172→
+   173→Typography rules:
+   174→
+   175→* Strong, confident hero typography.
+   176→* Clear distinction between headings and body text.
+   177→* Consistent spacing and line height.
+   178→* Technical labels used sparingly.
+   179→* Highly readable body copy.
+   180→* No excessive font styles.
+   181→* No decorative fonts that undermine technical credibility.
+   182→
+   183→## 3.4 Layout System
+   184→
+   185→Use a consistent responsive grid.
+   186→
+   187→* Maximum content width: approximately 1440px.
+   188→* Generous but controlled whitespace.
+   189→* Consistent horizontal margins.
+   190→* Clear section separation.
+   191→* Responsive typography.
+   192→* Purposeful asymmetrical layouts.
+   193→* Cards only where they improve understanding.
+   194→* Minimal use of borders and shadows.
+   195→
+   196→The design must feel intentionally art-directed, not automatically assembled from repeated components.
+   197→
+   198→---
+   199→
+   200→# 4. Website Architecture
+   201→
+   202→The website must be a multi-page corporate platform.
+   203→
+   204→**The homepage must not contain the entire website.**
+   205→
+   206→It should introduce ETARNITY, establish credibility, highlight selected information, and direct visitors to relevant pages.
+   207→
+   208→## 4.1 Primary Navigation
+   209→
+   210→Recommended navigation:
+   211→
+   212→* Home
+   213→* Company
+   214→* Businesses
+   215→* Technology
+   216→* Work
+   217→* People
+   218→* Insights
+   219→* Contact
+   220→
+   221→The final navigation may be simplified where necessary, but every major destination must remain discoverable.
+   222→
+   223→Include a restrained, responsive menu for smaller screens.
+   224→
+   225→The ETARNITY logo must link to the homepage.
+   226→
+   227→## 4.2 Required Routes
+   228→
+   229→Implement the following routes or equivalent routes within the existing architecture:
+   230→
+   231→* `/`
+   232→* `/company`
+   233→* `/company/mission-vision`
+   234→* `/businesses`
+   235→* `/businesses/[slug]`
+   236→* `/technology`
+   237→* `/work`
+   238→* `/work/[slug]`
+   239→* `/people`
+   240→* `/people/[slug]`
+   241→* `/insights`
+   242→* `/insights/[slug]`
+   243→* `/careers`
+   244→* `/contact`
+   245→* `/privacy-policy`
+   246→* `/terms`
+   247→
+   248→Only create routes that have a genuine purpose. If a route is not yet populated, do not fill it with fabricated information.
+   249→
+   250→Use the existing project structure and working routes wherever possible.
+   251→
+   252→---
+   253→
+   254→# 5. Homepage — The Corporate Entry Point
+   255→
+   256→## Objective
+   257→
+   258→The homepage should introduce the company and communicate its identity through a limited number of high-impact sections.
+   259→
+   260→It should not attempt to explain every business, founder, technology, project, and initiative in detail.
+   261→
+   262→Recommended structure: the Hero plus four concise sections.
+   263→
+   264→## Section 1 — Hero
+   265→
+   266→### Purpose
+   267→
+   268→Make the company's identity immediately understandable.
+   269→
+   270→### Eyebrow
+   271→
+   272→`ETARNITY / TECHNOLOGY COMPANY`
+   273→
+   274→### Headline Direction
+   275→
+   276→**Building What Comes Next.**
+   277→
+   278→### Supporting Copy
+   279→
+   280→“ETARNITY builds technology-driven products, digital platforms, and businesses designed to solve meaningful problems.”
+   281→
+   282→The final copy may be refined without changing the core message.
+   283→
+   284→### Primary CTA
+   285→
+   286→**Explore ETARNITY**
+   287→
+   288→Destination: `/company`
+   289→
+   290→### Secondary CTA
+   291→
+   292→**Explore Our Businesses**
+   293→
+   294→Destination: `/businesses`
+   295→
+   296→### Visual Composition
+   297→
+   298→Use a sophisticated two-column layout:
+   299→
+   300→* Left: eyebrow, headline, supporting text, CTA buttons.
+   301→* Right: one signature visual element.
+   302→
+   303→The right-side visual must use the actual React Bits **Chrome Orbit** component.
+   304→
+   305→Installation:
+   306→
+   307→```bash
+   308→npx shadcn@latest add @reactbits-starter/chrome-orbit-tw
+   309→```
+   310→
+   311→Required usage:
+   312→
+   313→```tsx
+   314→<ChromeOrbit
+   315→  bandWidth={0.09}
+   316→/>
+   317→```
+   318→
+   319→Use the exact `bandWidth={0.09}` configuration.
+   320→
+   321→Integrate the component into the existing design rather than creating an unrelated visual system around it.
+   322→
+   323→The Chrome Orbit must have adequate space, restrained movement, smooth pointer interaction, and a premium metallic appearance.
+   324→
+   325→Do not replace it with a generic globe, gradient sphere, particle cloud, or imitation CSS animation.
+   326→
+   327→### Hero Animation
+   328→
+   329→Use a restrained cinematic entrance:
+   330→
+   331→1. The technical label appears.
+   332→2. The headline reveals with subtle movement.
+   333→3. Supporting text fades in.
+   334→4. CTA buttons enter naturally.
+   335→5. Chrome Orbit appears with subtle depth and controlled motion.
+   336→
+   337→Avoid excessive animation, bouncing, spinning text, or distracting particles.
+   338→
+   339→The hero should feel powerful without sacrificing clarity.
+   340→
+   341→## Section 2 — Company Introduction
+   342→
+   343→### Heading
+   344→
+   345→**A Technology Company. A Broader Vision.**
+   346→
+   347→Provide a concise explanation of ETARNITY's mission and its approach to building technology.
+   348→
+   349→Include only a few lines of text and a clear link to `/company`.
+   350→
+   351→Do not include the complete company history, organizational chart, or detailed mission documentation here.
+   352→
+   353→## Section 3 — Businesses & Ecosystem
+   354→
+   355→### Heading
+   356→
+   357→**Explore the ETARNITY Ecosystem.**
+   358→
+   359→Show a curated selection of active businesses, products, or technology initiatives.
+   360→
+   361→Each item should communicate:
+   362→
+   363→* Name
+   364→* Category
+   365→* One-line description
+   366→* Current status where relevant
+   367→
+   368→Each item links to its dedicated detail page or verified external platform.
+   369→
+   370→Do not present planned concepts as operating businesses.
+   371→
+   372→CTA: **Explore All Businesses**
+   373→
+   374→## Section 4 — Selected Work
+   375→
+   376→### Heading
+   377→
+   378→**Technology in Practice.**
+   379→
+   380→Show approximately three to four of the strongest available projects.
+   381→
+   382→Each project should include:
+   383→
+   384→* Project name
+   385→* Short description
+   386→* Category
+   387→* Visual preview
+   388→* Live link where available
+   389→
+   390→Use real projects only.
+   391→
+   392→CTA: **View All Work**
+   393→
+   394→## Section 5 — Final CTA
+   395→
+   396→Use a short closing statement.
+   397→
+   398→Example:
+   399→
+   400→**The next chapter starts with an idea.**
+   401→
+   402→Provide a clear CTA:
+   403→
+   404→**Contact ETARNITY**
+   405→
+   406→Destination: `/contact`
+   407→
+   408→Keep this section visually minimal.
+   409→
+   410→---
+   411→
+   412→# 6. Company Page
+   413→
+   414→Route: `/company`
+   415→
+   416→This page should provide the complete corporate introduction.
+   417→
+   418→## Required Sections
+   419→
+   420→### 6.1 Company Overview
+   421→
+   422→Explain:
+   423→
+   424→* What ETARNITY is.
+   425→* Why it exists.
+   426→* What kinds of problems it addresses.
+   427→* How technology fits into its strategy.
+   428→* What distinguishes its approach.
+   429→
+   430→### 6.2 Mission
+   431→
+   432→Present the company's verified mission in a clear, prominent section.
+   433→
+   434→### 6.3 Vision
+   435→
+   436→Explain the long-term direction and ambitions of ETARNITY.
+   437→
+   438→Clearly distinguish long-term ambitions from existing achievements.
+   439→
+   440→### 6.4 Core Principles
+   441→
+   442→Present the company's actual principles, such as:
+   443→
+   444→* Engineering Excellence
+   445→* Responsible Innovation
+   446→* User-Centered Design
+   447→* Security and Reliability
+   448→* Continuous Learning
+   449→* Long-Term Value
+   450→
+   451→Only use principles approved by the company.
+   452→
+   453→### 6.5 Company Journey
+   454→
+   455→Present a chronological timeline of meaningful milestones.
+   456→
+   457→Possible entries include:
+   458→
+   459→* Company founding
+   460→* Launch of major projects
+   461→* Introduction of new businesses
+   462→* Product releases
+   463→* Major organizational changes
+   464→
+   465→Display verified dates and events only.
+   466→
+   467→### 6.6 Corporate Overview
+   468→
+   469→Show relevant company facts where available:
+   470→
+   471→* Founding year
+   472→* Headquarters or operating location
+   473→* Current operating status
+   474→* Official contact information
+   475→* Business categories
+   476→* Publicly verifiable milestones
+   477→
+   478→Never generate fictional revenue, offices, employee counts, or corporate achievements.
+   479→
+   480→---
+   481→
+   482→# 7. Businesses & Ecosystem
+   483→
+   484→Route: `/businesses`
+   485→
+   486→## Objective
+   487→
+   488→Present the businesses, ventures, products, and platforms that belong to or are associated with ETARNITY.
+   489→
+   490→The website must distinguish between:
+   491→
+   492→* An owned business
+   493→* A subsidiary
+   494→* A brand operated by ETARNITY
+   495→* A strategic partner
+   496→* An independent client project
+   497→* A planned initiative
+   498→
+   499→These relationships must be accurate.
+   500→
+   501→## 7.1 Business Directory
+   502→
+   503→Each business entry should contain:
+   504→
+   505→* Business name
+   506→* Logo
+   507→* Category
+   508→* Short overview
+   509→* Business status
+   510→* Relationship to ETARNITY
+   511→* Official website
+   512→* Dedicated details link
+   513→
+   514→## 7.2 Business Detail Page
+   515→
+   516→Route: `/businesses/[slug]`
+   517→
+   518→Each business may have:
+   519→
+   520→* Overview
+   521→* Mission
+   522→* Products or services
+   523→* Target audience
+   524→* Problems addressed
+   525→* Technology used
+   526→* Official website
+   527→* Contact information
+   528→
+   529→Not every business requires identical content. Show only relevant, available information.
+   530→
+   531→## 7.3 Future Scalability
+   532→
+   533→Administrators must be able to add new businesses without modifying application code.
+   534→
+   535→---
+   536→
+   537→# 8. Technology Page
+   538→
+   539→Route: `/technology`
+   540→
+   541→## Objective
+   542→
+   543→Demonstrate the company's technical expertise through understandable, evidence-based information.
+   544→
+   545→## Sections
+   546→
+   547→### 8.1 Engineering
+   548→
+   549→Explain the company's approach to software engineering and digital systems.
+   550→
+   551→### 8.2 Software & Applications
+   552→
+   553→Present relevant capabilities in:
+   554→
+   555→* Web applications
+   556→* Mobile applications
+   557→* Backend systems
+   558→* APIs and integrations
+   559→* Digital platforms
+   560→
+   561→### 8.3 AI & Automation
+   562→
+   563→Describe actual AI-related projects, automation systems, and relevant research.
+   564→
+   565→### 8.4 Security
+   566→
+   567→Explain real security practices, testing capabilities, and applicable services.
+   568→
+   569→Do not claim certifications, guarantees, or security standards that have not been verified.
+   570→
+   571→### 8.5 Infrastructure & Cloud
+   572→
+   573→Present relevant infrastructure, deployment, hosting, and operational capabilities.
+   574→
+   575→### 8.6 Design & Product Engineering
+   576→
+   577→Explain the relationship between UI/UX, product strategy, usability, accessibility, and engineering.
+   578→
+   579→### 8.7 Research & Innovation
+   580→
+   581→Display active experiments, prototypes, and research initiatives with accurate status labels.
+   582→
+   583→The page should communicate technical depth without becoming unnecessarily difficult for non-technical visitors.
+   584→
+   585→---
+   586→
+   587→# 9. Products & Services
+   588→
+   589→Products and services should be presented as part of the company's ecosystem rather than as an online shopping catalog.
+   590→
+   591→Where appropriate, create dedicated product or service pages.
+   592→
+   593→Each page should explain:
+   594→
+   595→* What the product or service does
+   596→* Who it is for
+   597→* What problem it solves
+   598→* Key capabilities
+   599→* Relevant technology
+   600→* Current availability
+   601→* How to learn more or contact the responsible team
+   602→
+   603→Use appropriate CTA labels:
+   604→
+   605→* Explore Product
+   606→* Visit Official Website
+   607→* View Documentation
+   608→* Request Information
+   609→* Contact the Team
+   610→
+   611→Do not use Add to Cart or Checkout unless a specific business genuinely requires e-commerce functionality.
+   612→
+   613→---
+   614→
+   615→# 10. Work & Project Portfolio
+   616→
+   617→Route: `/work`
+   618→
+   619→## Objective
+   620→
+   621→Demonstrate the company's ability to deliver real work.
+   622→
+   623→This section is important for building trust with clients, partners, and potential employees.
+   624→
+   625→## 10.1 Project Directory
+   626→
+   627→Include:
+   628→
+   629→* Project title
+   630→* Project category
+   631→* Project thumbnail
+   632→* Concise description
+   633→* Project status
+   634→* Live website or application link where available
+   635→
+   636→Optional filters:
+   637→
+   638→* Software
+   639→* Web Applications
+   640→* UI/UX
+   641→* AI & Automation
+   642→* Marketing Technology
+   643→* Security
+   644→* Internal Products
+   645→
+   646→Only show categories that are supported by actual projects.
+   647→
+   648→## 10.2 Case Study Page
+   649→
+   650→Route: `/work/[slug]`
+   651→
+   652→Each case study may include:
+   653→
+   654→1. Project Overview
+   655→2. Problem
+   656→3. Objectives
+   657→4. Solution
+   658→5. Design and Engineering Process
+   659→6. Technology Stack
+   660→7. Screenshots or Demonstration
+   661→8. Outcomes
+   662→9. Live Project Link
+   663→
+   664→Use verified results only.
+   665→
+   666→If quantitative outcomes are unavailable, explain the delivered work without inventing percentages, revenue, traffic, or performance improvements.
+   667→
+   668→## 10.3 Project Ownership Transparency
+   669→
+   670→Clearly distinguish:
+   671→
+   672→* Internal ETARNITY products
+   673→* Client projects
+   674→* Demonstration projects
+   675→* Experimental prototypes
+   676→* Personal or independent projects
+   677→
+   678→Do not imply ownership of an external project without authorization.
+   679→
+   680→---
+   681→
+   682→# 11. People, Founders & Leadership
+   683→
+   684→Route: `/people`
+   685→
+   686→## Objective
+   687→
+   688→Introduce the real people responsible for building and operating ETARNITY.
+   689→
+   690→## 11.1 Founders
+   691→
+   692→Each founder profile may contain:
+   693→
+   694→* Real photograph
+   695→* Full name
+   696→* Official position
+   697→* Professional biography
+   698→* Responsibilities
+   699→* Relevant expertise
+   700→* Professional links
+   701→
+   702→## 11.2 Leadership
+   703→
+   704→Present leadership information only where appropriate and verified.
+   705→
+   706→## 11.3 Team Directory
+   707→
+   708→If the company has sufficient team members and approved information, organize them by department.
+   709→
+   710→Possible categories:
+   711→
+   712→* Engineering
+   713→* Design
+   714→* Product
+   715→* Growth
+   716→* Security
+   717→* Operations
+   718→* Research
+   719→
+   720→Do not create fictional employees, fake portraits, invented credentials, or misleading job titles.
+   721→
+   722→If the team is small, present it confidently and honestly.
+   723→
+   724→A real five-person founding team is more credible than a fictional large organization.
+   725→
+   726→## 11.4 Individual Profile Pages
+   727→
+   728→Route: `/people/[slug]`
+   729→
+   730→Optional pages for founders or key personnel.
+   731→
+   732→Include biography, role, focus areas, and approved links.
+   733→
+   734→---
+   735→
+   736→# 12. Insights & Research
+   737→
+   738→Route: `/insights`
+   739→
+   740→## Objective
+   741→
+   742→Provide a space for thoughtful company perspectives and useful technology knowledge.
+   743→
+   744→Possible content categories:
+   745→
+   746→* Engineering
+   747→* AI & Automation
+   748→* Product Design
+   749→* Cybersecurity
+   750→* Digital Business
+   751→* Research
+   752→* Company Announcements
+   753→
+   754→Each article should include:
+   755→
+   756→* Title
+   757→* Summary
+   758→* Author, if applicable
+   759→* Publication date
+   760→* Category
+   761→* Cover image where relevant
+   762→* Article body
+   763→
+   764→Use proper typography and a distraction-free reading layout.
+   765→
+   766→Administrators must be able to draft, edit, schedule where supported, publish, unpublish, and archive articles.
+   767→
+   768→Do not populate the website with fabricated research or automatically generated filler content.
+   769→
+   770→---
+   771→
+   772→# 13. Careers
+   773→
+   774→Route: `/careers`
+   775→
+   776→Present real employment and collaboration opportunities.
+   777→
+   778→Include:
+   779→
+   780→* Company culture
+   781→* Working principles
+   782→* Available positions
+   783→* Role descriptions
+   784→* Required skills
+   785→* Application instructions
+   786→
+   787→If there are no open positions, display an honest message and an optional general-interest contact method.
+   788→
+   789→Do not display fake vacancies.
+   790→
+   791→---
+   792→
+   793→# 14. Contact & Business Inquiries
+   794→
+   795→Route: `/contact`
+   796→
+   797→The contact page should make it easy for visitors to reach the correct team.
+   798→
+   799→## Contact Categories
+   800→
+   801→* General Inquiry
+   802→* Business Inquiry
+   803→* Partnership
+   804→* Product Inquiry
+   805→* Careers
+   806→* Media or Press
+   807→
+   808→## Contact Form
+   809→
+   810→Fields:
+   811→
+   812→* Full Name
+   813→* Email Address
+   814→* Organization, optional
+   815→* Inquiry Type
+   816→* Subject
+   817→* Message
+   818→* Privacy Consent
+   819→
+   820→Requirements:
+   821→
+   822→* Client-side and server-side validation
+   823→* Clear error messages
+   824→* Submission confirmation
+   825→* Spam prevention
+   826→* Rate limiting
+   827→* Secure handling of personal information
+   828→* Email notifications to the appropriate company address
+   829→
+   830→Never expose private internal contact details or administrative email addresses in frontend code.
+   831→
+   832→---
+   833→
+   834→# 15. Footer
+   835→
+   836→The footer must consistently use the exact company name:
+   837→
+   838→**ETARNITY**
+   839→
+   840→Include:
+   841→
+   842→* Brief company description
+   843→* Company
+   844→* Businesses
+   845→* Technology
+   846→* Work
+   847→* People
+   848→* Insights
+   849→* Careers
+   850→* Contact
+   851→* Privacy Policy
+   852→* Terms
+   853→* Official social links
+   854→* Copyright information
+   855→
+   856→Show external business links where appropriate.
+   857→
+   858→Avoid oversized, cluttered footers with unnecessary promotional copy.
+   859→
+   860→---
+   861→
+   862→# 16. Frontend Technical Requirements
+   863→
+   864→## 16.1 Technology Stack
+   865→
+   866→Preferred stack:
+   867→
+   868→* Next.js with App Router
+   869→* React
+   870→* TypeScript
+   871→* Tailwind CSS
+   872→* shadcn/ui where appropriate
+   873→* React Bits components for selected advanced visual elements
+   874→* A suitable animation library, such as Framer Motion or Motion
+   875→* A suitable icon library, such as Lucide
+   876→
+   877→Use stable, compatible versions.
+   878→
+   879→If the existing project already uses a suitable stack, preserve it unless a migration is necessary.
+   880→
+   881→Do not introduce multiple libraries for the same purpose without a clear reason.
+   882→
+   883→## 16.2 Component Architecture
+   884→
+   885→Build reusable components for:
+   886→
+   887→* Header
+   888→* Navigation
+   889→* Mobile Menu
+   890→* Hero
+   891→* Chrome Orbit
+   892→* Section Heading
+   893→* Business Preview
+   894→* Business Detail
+   895→* Project Card
+   896→* Project Detail
+   897→* Founder Profile
+   898→* Team Member
+   899→* Article Card
+   900→* CTA Section
+   901→* Contact Form
+   902→* Footer
+   903→* Loading State
+   904→* Error State
+   905→* Empty State
+   906→
+   907→Avoid duplicating the same markup and business logic across pages.
+   908→
+   909→## 16.3 Responsive Design
+   910→
+   911→Support:
+   912→
+   913→* Desktop
+   914→* Laptop
+   915→* Tablet
+   916→* Mobile
+   917→
+   918→Requirements:
+   919→
+   920→* No horizontal overflow.
+   921→* Readable text at all screen sizes.
+   922→* Properly sized buttons.
+   923→* Accessible mobile navigation.
+   924→* Correct image cropping.
+   925→* Responsive typography and spacing.
+   926→* Appropriate 3D rendering on smaller devices.
+   927→
+   928→## 16.4 Animation & Motion
+   929→
+   930→Use motion to support storytelling, not to decorate every element.
+   931→
+   932→Permitted patterns:
+   933→
+   934→* Subtle entrance transitions
+   935→* Scroll-triggered reveals
+   936→* Controlled parallax
+   937→* Interactive Chrome Orbit
+   938→* Refined hover transitions
+   939→* Project showcase transitions
+   940→* Small, responsive navigation animations
+   941→
+   942→Avoid:
+   943→
+   944→* Excessive scroll hijacking
+   945→* Unnecessary cursor trails
+   946→* Constantly moving backgrounds
+   947→* Excessive blur
+   948→* Repeated bouncing animations
+   949→* Motion that reduces readability
+   950→
+   951→Respect reduced-motion preferences.
+   952→
+   953→## 16.5 Accessibility
+   954→
+   955→Follow WCAG 2.2 AA as the target.
+   956→
+   957→Implement:
+   958→
+   959→* Semantic HTML
+   960→* Keyboard navigation
+   961→* Visible focus states
+   962→* Accessible form labels
+   963→* Appropriate color contrast
+   964→* Descriptive image alt text
+   965→* Correct heading hierarchy
+   966→* Screen-reader-friendly interactions
+   967→* Reduced-motion support
+   968→
+   969→Do not rely on color alone to communicate status.
+   970→
+   971→---
+   972→
+   973→# 17. Backend & CMS Requirements
+   974→
+   975→## Objective
+   976→
+   977→Build a backend that allows authorized administrators to manage the website without editing source code.
+   978→
+   979→The backend should support future growth as new businesses, products, people, projects, and content are added.
+   980→
+   981→## 17.1 Recommended Backend Architecture
+   982→
+   983→A suitable implementation may use:
+   984→
+   985→* Next.js server-side functionality or a dedicated backend API
+   986→* PostgreSQL
+   987→* Prisma ORM or an equivalent established database layer
+   988→* Secure authentication
+   989→* Object storage for images and documents
+   990→* Transactional email service
+   991→* Server-side validation
+   992→* Role-based authorization
+   993→
+   994→Choose compatible services based on the AI builder's environment and deployment capabilities.
+   995→
+   996→If the website is deployed on a platform with limitations, select an appropriate supported alternative.
+   997→
+   998→The backend must be functional, not a static mockup.
+   999→
+  1000→## 17.2 Admin Authentication
+  1001→
+  1002→Provide a secure admin login.
+  1003→
+  1004→Requirements:
+  1005→
+  1006→* Password hashing
+  1007→* Secure session management
+  1008→* Server-side authorization
+  1009→* Rate limiting
+  1010→* Login failure handling
+  1011→* Password reset flow where supported
+  1012→* Secure cookie configuration
+  1013→* Protection against common web vulnerabilities
+  1014→
+  1015→Never hardcode administrator credentials into frontend code.
+  1016→
+  1017→Never expose secret keys or database credentials in public JavaScript bundles.
+  1018→
+  1019→## 17.3 Roles & Permissions
+  1020→
+  1021→Implement role-based access control.
+  1022→
+  1023→Suggested roles:
+  1024→
+  1025→**Super Admin**
+  1026→
+  1027→* Full system access
+  1028→* Manage administrators and permissions
+  1029→* Manage all website content
+  1030→* Manage system configuration
+  1031→
+  1032→**Content Manager**
+  1033→
+  1034→* Manage company pages
+  1035→* Manage articles
+  1036→* Manage projects
+  1037→* Manage approved media
+  1038→
+  1039→**Business Manager**
+  1040→
+  1041→* Manage assigned business profiles
+  1042→* Update relevant product and service information
+  1043→
+  1044→**Viewer**
+  1045→
+  1046→* Read-only access to permitted admin data
+  1047→
+  1048→Create only the roles needed for the current team. Additional roles can be added later.
+  1049→
+  1050→Every protected action must be authorized on the server.
+  1051→
+  1052→---
+  1053→
+  1054→# 18. Admin Dashboard
+  1055→
+  1056→Route: `/admin`
+  1057→
+  1058→This is a separate administrative interface and must not be confused with the public homepage.
+  1059→
+  1060→## 18.1 Dashboard Overview
+  1061→
+  1062→Show useful operational information:
+  1063→
+  1064→* Published pages
+  1065→* Draft pages
+  1066→* Active businesses
+  1067→* Published projects
+  1068→* Published insights
+  1069→* Open contact inquiries
+  1070→* Recent content updates
+  1071→
+  1072→Display actual database information.
+  1073→
+  1074→Do not display invented analytics or hardcoded business metrics.
+  1075→
+  1076→## 18.2 Company Management
+  1077→
+  1078→Administrators can manage:
+  1079→
+  1080→* Company description
+  1081→* Mission
+  1082→* Vision
+  1083→* Core principles
+  1084→* Founding information
+  1085→* Company timeline
+  1086→* Approved corporate facts
+  1087→* Public contact information
+  1088→
+  1089→## 18.3 Business Management
+  1090→
+  1091→Administrators can:
+  1092→
+  1093→* Add a business
+  1094→* Edit a business
+  1095→* Archive a business
+  1096→* Upload a logo
+  1097→* Upload images
+  1098→* Set a unique slug
+  1099→* Set its relationship to ETARNITY
+  1100→* Set its operational status
+  1101→* Add an official external link
+  1102→* Publish or unpublish the profile
+  1103→
+  1104→Use clear status labels such as:
+  1105→
+  1106→* Active
+  1107→* In Development
+  1108→* Planned
+  1109→* Archived
+  1110→
+  1111→Only display relevant statuses publicly.
+  1112→
+  1113→## 18.4 Project Management
+  1114→
+  1115→Administrators can:
+  1116→
+  1117→* Add projects
+  1118→* Edit project details
+  1119→* Upload screenshots
+  1120→* Add project links
+  1121→* Assign categories
+  1122→* Add case studies
+  1123→* Set project ownership type
+  1124→* Publish or unpublish projects
+  1125→* Reorder featured projects
+  1126→
+  1127→## 18.5 People Management
+  1128→
+  1129→Administrators can:
+  1130→
+  1131→* Add founders or team members
+  1132→* Edit biographies
+  1133→* Update positions
+  1134→* Upload portraits
+  1135→* Add approved professional links
+  1136→* Control public visibility
+  1137→
+  1138→## 18.6 Content Management
+  1139→
+  1140→Administrators can:
+  1141→
+  1142→* Create pages
+  1143→* Edit page content
+  1144→* Create articles
+  1145→* Manage article categories
+  1146→* Save drafts
+  1147→* Publish or unpublish content
+  1148→* Edit SEO metadata
+  1149→* Manage featured content
+  1150→* Archive outdated material
+  1151→
+  1152→## 18.7 Media Library
+  1153→
+  1154→Implement a central media library.
+  1155→
+  1156→Features:
+  1157→
+  1158→* Upload images and documents
+  1159→* Preview files
+  1160→* Add alternative text
+  1161→* Reuse uploaded media
+  1162→* Replace media where authorized
+  1163→* Remove unused files
+  1164→* Validate file type and size
+  1165→
+  1166→Use direct file uploads to the configured storage system.
+  1167→
+  1168→Do not force users to provide external image URLs for ordinary image uploads.
+  1169→
+  1170→Validate uploads server-side and restrict dangerous file types.
+  1171→
+  1172→## 18.8 Contact Inquiry Management
+  1173→
+  1174→Administrators can:
+  1175→
+  1176→* View submitted inquiries
+  1177→* Open inquiry details
+  1178→* Filter by type and status
+  1179→* Mark inquiries as New, In Progress, Resolved, or Archived
+  1180→* Add internal notes where appropriate
+  1181→* Export permitted records if required
+  1182→
+  1183→Protect contact data from unauthorized access.
+  1184→
+  1185→---
+  1186→
+  1187→# 19. Suggested Database Structure
+  1188→
+  1189→Design a normalized, maintainable relational database.
+  1190→
+  1191→Suggested entities:
+  1192→
+  1193→### `users`
+  1194→
+  1195→* id
+  1196→* name
+  1197→* email
+  1198→* password_hash or external authentication identifier
+  1199→* role_id
+  1200→* status
+  1201→* created_at
+  1202→* updated_at
+  1203→
+  1204→### `roles`
+  1205→
+  1206→* id
+  1207→* name
+  1208→* permissions
+  1209→
+  1210→### `company_profiles`
+  1211→
+  1212→* id
+  1213→* name
+  1214→* overview
+  1215→* mission
+  1216→* vision
+  1217→* founding_year, nullable
+  1218→* headquarters, nullable
+  1219→* updated_at
+  1220→
+  1221→### `businesses`
+  1222→
+  1223→* id
+  1224→* name
+  1225→* slug
+  1226→* summary
+  1227→* description
+  1228→* category
+  1229→* relationship_type
+  1230→* operational_status
+  1231→* logo_media_id
+  1232→* website_url
+  1233→* is_published
+  1234→* created_at
+  1235→* updated_at
+  1236→
+  1237→### `projects`
+  1238→
+  1239→* id
+  1240→* title
+  1241→* slug
+  1242→* summary
+  1243→* description
+  1244→* category
+  1245→* ownership_type
+  1246→* project_status
+  1247→* live_url
+  1248→* is_featured
+  1249→* is_published
+  1250→* created_at
+  1251→* updated_at
+  1252→
+  1253→### `people`
+  1254→
+  1255→* id
+  1256→* name
+  1257→* slug
+  1258→* position
+  1259→* biography
+  1260→* department
+  1261→* profile_media_id
+  1262→* is_public
+  1263→* display_order
+  1264→
+  1265→### `articles`
+  1266→
+  1267→* id
+  1268→* title
+  1269→* slug
+  1270→* summary
+  1271→* body
+  1272→* author_id, nullable
+  1273→* category
+  1274→* status
+  1275→* published_at
+  1276→* created_at
+  1277→* updated_at
+  1278→
+  1279→### `media`
+  1280→
+  1281→* id
+  1282→* storage_key
+  1283→* file_name
+  1284→* mime_type
+  1285→* size
+  1286→* alt_text
+  1287→* uploaded_by
+  1288→* created_at
+  1289→
+  1290→### `contact_inquiries`
+  1291→
+  1292→* id
+  1293→* name
+  1294→* email
+  1295→* organization, nullable
+  1296→* inquiry_type
+  1297→* subject
+  1298→* message
+  1299→* status
+  1300→* created_at
+  1301→* updated_at
+  1302→
+  1303→### `site_settings`
+  1304→
+  1305→* id
+  1306→* key
+  1307→* value
+  1308→* updated_at
+  1309→
+  1310→### `audit_logs`
+  1311→
+  1312→* id
+  1313→* actor_id
+  1314→* action
+  1315→* entity_type
+  1316→* entity_id
+  1317→* created_at
+  1318→
+  1319→Use foreign keys, unique constraints, indexes, timestamps, and appropriate deletion policies.
+  1320→
+  1321→Use JSON fields only where they provide a genuine benefit. Avoid storing the entire website as one unstructured database object.
+  1322→
+  1323→The exact schema can be adjusted during implementation.
+  1324→
+  1325→---
+  1326→
+  1327→# 20. API & Server-Side Functionality
+  1328→
+  1329→Implement secure, documented endpoints or server actions for the actual operations required.
+  1330→
+  1331→Examples:
+  1332→
+  1333→### Public Operations
+  1334→
+  1335→* Retrieve published businesses
+  1336→* Retrieve published projects
+  1337→* Retrieve project details
+  1338→* Retrieve public people profiles
+  1339→* Retrieve published articles
+  1340→* Submit contact inquiries
+  1341→
+  1342→### Administrative Operations
+  1343→
+  1344→* Create, edit, publish, and archive business records
+  1345→* Manage projects
+  1346→* Manage people
+  1347→* Manage articles
+  1348→* Manage company settings
+  1349→* Upload and manage media
+  1350→* Manage contact inquiries
+  1351→* Manage authorized users
+  1352→
+  1353→All administrative operations must require authentication and permission checks.
+  1354→
+  1355→Validate all incoming data on the server.
+  1356→
+  1357→Sanitize rich-text content appropriately.
+  1358→
+  1359→Prevent unauthorized access to unpublished content.
+  1360→
+  1361→Do not expose internal audit logs or contact inquiries through public endpoints.
+  1362→
+  1363→---
+  1364→
+  1365→# 21. SEO & International Readiness
+  1366→
+  1367→Implement technical SEO from the beginning.
+  1368→
+  1369→Requirements:
+  1370→
+  1371→* Unique page titles
+  1372→* Meta descriptions
+  1373→* Canonical URLs
+  1374→* Open Graph metadata
+  1375→* Social sharing previews
+  1376→* XML sitemap
+  1377→* Robots.txt
+  1378→* Correct redirects
+  1379→* Structured data where appropriate
+  1380→* Descriptive image alt text
+  1381→* Semantic headings
+  1382→* Clean, readable URLs
+  1383→
+  1384→Use appropriate structured data for the actual organization and its published content.
+  1385→
+  1386→Do not insert fake ratings, addresses, reviews, or organizational details.
+  1387→
+  1388→## Internationalization
+  1389→
+  1390→Prepare the architecture for future multilingual support.
+  1391→
+  1392→English should be the primary language for the initial international-facing website.
+  1393→
+  1394→Bangla may be introduced as an additional language through a structured localization system.
+  1395→
+  1396→Do not mix languages inconsistently within the same interface.
+  1397→
+  1398→---
+  1399→
+  1400→# 22. Performance & Reliability
+  1401→
+  1402→Target strong Core Web Vitals and fast loading on ordinary mobile connections.
+  1403→
+  1404→Requirements:
+  1405→
+  1406→* Optimize images
+  1407→* Use modern image formats
+  1408→* Lazy-load below-the-fold media
+  1409→* Minimize unnecessary JavaScript
+  1410→* Split code where appropriate
+  1411→* Avoid excessive client-side rendering
+  1412→* Optimize fonts
+  1413→* Avoid layout shifts
+  1414→* Cache appropriate public content
+  1415→* Keep database queries efficient
+  1416→* Handle errors gracefully
+  1417→
+  1418→The Chrome Orbit must not prevent the headline and primary CTA from becoming usable.
+  1419→
+  1420→Provide a graceful fallback if the 3D component fails to load or is unavailable on a device.
+  1421→
+  1422→Do not remove the required component merely to simplify the implementation.
+  1423→
+  1424→---
+  1425→
+  1426→# 23. Security & Privacy
+  1427→
+  1428→Implement security as a core requirement.
+  1429→
+  1430→Include:
+  1431→
+  1432→* Server-side validation
+  1433→* Authorization on protected operations
+  1434→* Secure authentication
+  1435→* Rate limiting
+  1436→* Spam protection
+  1437→* Safe file uploads
+  1438→* Environment-based secrets
+  1439→* Appropriate HTTP security headers
+  1440→* Protection against common injection attacks
+  1441→* Appropriate CSRF protection where applicable
+  1442→* Secure session expiration
+  1443→* Minimal collection of personal data
+  1444→* Privacy policy and terms pages
+  1445→* Safe error handling
+  1446→
+  1447→Do not store sensitive information in public frontend state or browser-accessible configuration.
+  1448→
+  1449→Do not log passwords, session tokens, or unnecessary personal information.
+  1450→
+  1451→---
+  1452→
+  1453→# 24. Analytics & Reporting
+  1454→
+  1455→Where analytics are enabled, measure useful public website interactions:
+  1456→
+  1457→* Page views
+  1458→* Business profile visits
+  1459→* Project detail visits
+  1460→* Contact form submissions
+  1461→* CTA interactions
+  1462→* External business website clicks
+  1463→
+  1464→Use a privacy-conscious analytics configuration.
+  1465→
+  1466→Do not fabricate analytics in the admin dashboard.
+  1467→
+  1468→Distinguish analytics data from operational database counts.
+  1469→
+  1470→---
+  1471→
+  1472→# 25. Content Accuracy & Corporate Transparency
+  1473→
+  1474→This section is mandatory.
+  1475→
+  1476→The website must never fabricate:
+  1477→
+  1478→* Number of employees
+  1479→* Number of businesses
+  1480→* Revenue
+  1481→* Company valuation
+  1482→* International offices
+  1483→* Investors
+  1484→* Corporate partnerships
+  1485→* Awards
+  1486→* Certifications
+  1487→* Client testimonials
+  1488→* Client logos
+  1489→* Project outcomes
+  1490→* Security guarantees
+  1491→* Company milestones
+  1492→
+  1493→If information is unavailable, omit it or mark it appropriately as undisclosed, planned, or in development.
+  1494→
+  1495→A small company can present itself professionally without pretending to be a large corporation.
+  1496→
+  1497→The design should demonstrate ambition, while the content remains truthful.
+  1498→
+  1499→The relationship between ETARNITY and every associated business, product, or project must be accurately represented.
+  1500→
+  1501→---
+  1502→
+  1503→# 26. Development & Implementation Strategy
+  1504→
+  1505→Implement the project in the following order.
+  1506→
+  1507→## Phase 1 — Foundation
+  1508→
+  1509→* Inspect the existing codebase.
+  1510→* Confirm the framework and current routes.
+  1511→* Establish design tokens.
+  1512→* Implement shared layout components.
+  1513→* Configure the database and environment variables.
+  1514→* Establish authentication and authorization.
+  1515→
+  1516→## Phase 2 — Public Website
+  1517→
+  1518→* Build the homepage.
+  1519→* Integrate Chrome Orbit.
+  1520→* Build the Company page.
+  1521→* Build the Businesses directory and detail pages.
+  1522→* Build the Technology page.
+  1523→* Build Work and case-study pages.
+  1524→* Build People pages.
+  1525→* Build Insights pages.
+  1526→* Build Contact and Careers pages.
+  1527→
+  1528→## Phase 3 — Backend & CMS
+  1529→
+  1530→* Implement database models.
+  1531→* Implement protected administrative operations.
+  1532→* Build the admin dashboard.
+  1533→* Implement media uploads.
+  1534→* Connect all public pages to real data.
+  1535→* Implement contact inquiry management.
+  1536→
+  1537→## Phase 4 — Quality Assurance
+  1538→
+  1539→* Test all routes.
+  1540→* Test direct URL access.
+  1541→* Test browser back and forward navigation.
+  1542→* Test authentication and permissions.
+  1543→* Test form validation.
+  1544→* Test media uploads.
+  1545→* Test mobile and tablet layouts.
+  1546→* Test loading, error, and empty states.
+  1547→* Test performance and accessibility.
+  1548→* Verify that all visible buttons work.
+  1549→
+  1550→## Phase 5 — Deployment
+  1551→
+  1552→* Configure production environment variables.
+  1553→* Apply database migrations.
+  1554→* Configure storage and email.
+  1555→* Configure the production domain.
+  1556→* Enable HTTPS.
+  1557→* Verify redirects and canonical URLs.
+  1558→* Test the production deployment.
+  1559→
+  1560→Do not claim a feature is complete merely because its UI has been generated.
+  1561→
+  1562→---
+  1563→
+  1564→# 27. Definition of Done
+  1565→
+  1566→The project is complete when:
+  1567→
+  1568→### Corporate Website
+  1569→
+  1570→* ETARNITY is clearly presented as a technology company and parent organization.
+  1571→* The homepage is concise, clear, and visually premium.
+  1572→* Detailed information is distributed across relevant internal pages.
+  1573→* Businesses, products, services, and projects are presented accurately.
+  1574→* The website uses the Chrome Orbit component with `bandWidth={0.09}`.
+  1575→* Typography and animation communicate technical sophistication.
+  1576→* The design works across devices.
+  1577→
+  1578→### Backend
+  1579→
+  1580→* Admin authentication works.
+  1581→* Permissions are enforced server-side.
+  1582→* The admin can manage businesses, projects, people, and content.
+  1583→* Image uploads work.
+  1584→* Contact inquiries are stored and manageable.
+  1585→* Public pages display real database content.
+  1586→* Protected data remains private.
+  1587→* Error and empty states are handled properly.
+  1588→
+  1589→### Quality
+  1590→
+  1591→* Navigation works.
+  1592→* Forms work.
+  1593→* Browser history works.
+  1594→* Direct URLs work.
+  1595→* SEO metadata is present.
+  1596→* Security basics are implemented.
+  1597→* No placeholder buttons remain in the production interface.
+  1598→* No fabricated corporate claims appear.
+  1599→
+  1600→---
+  1601→
+  1602→# 28. Final Product Principle
+  1603→
+  1604→ETARNITY must not try to prove its size by displaying an excessive amount of information on one page.
+  1605→
+  1606→It must establish credibility through:
+  1607→
+  1608→* Clear corporate identity
+  1609→* Thoughtful information architecture
+  1610→* Excellent design
+  1611→* Real projects
+  1612→* Genuine people
+  1613→* Accurate business relationships
+  1614→* Technical competence
+  1615→* Reliable functionality
+  1616→* Transparent communication
+  1617→
+  1618→The homepage is the entrance to the company.
+  1619→
+  1620→The Company page explains its identity.
+  1621→
+  1622→The Businesses page explains its ecosystem.
+  1623→
+  1624→The Technology page demonstrates its capabilities.
+  1625→
+  1626→The Work page provides evidence.
+  1627→
+  1628→The People page introduces the people behind it.
+  1629→
+  1630→The Backend enables the company to manage and grow the entire platform.
+  1631→
+  1632→**The final result should feel like the official digital headquarters of an ambitious Bangladeshi technology company built to operate in the international market.**
+  1633→
+  1634→The ambition should be global. The design should be world-class. The information should be honest. The technology should be reliable.
+  1635→
+  1636→**ETARNITY — Building What Comes Next.**
+  1637→
