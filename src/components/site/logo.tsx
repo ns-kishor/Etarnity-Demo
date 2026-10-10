@@ -71,6 +71,7 @@ export function Logo({
       <OrbitMark gradientId={`etarnity-orbit-${gradientId}`} />
       {withWordmark && (
         <span
+          data-wordmark
           className={cn(
             "text-sm font-semibold tracking-[0.18em]",
             variant === "dark" ? "text-warmwhite" : "text-graphite"

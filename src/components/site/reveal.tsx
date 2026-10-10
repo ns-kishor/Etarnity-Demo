@@ -26,7 +26,15 @@ export function Reveal({
 }: RevealProps) {
   const reduceMotion = useReducedMotion();
 
-  if (reduceMotion) {
+  // Decide only after hydration: SSR always renders the motion variant, so
+  // branching on prefers-reduced-motion during the first client render would
+  // cause hydration mismatches for reduced-motion visitors.
+  const [mounted, setMounted] = React.useState(false);
+  React.useLayoutEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (mounted && reduceMotion) {
     // Cast to a concrete intrinsic tag: a union of all intrinsic element
     // names would collapse `children` to `never` in JSX type checking.
     const Tag = as as "div";

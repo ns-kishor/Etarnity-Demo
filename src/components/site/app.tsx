@@ -6,6 +6,7 @@ import { useRouter } from "@/lib/router";
 import type { HomePayload } from "@/lib/queries";
 import { Header } from "./header";
 import { Footer } from "./footer";
+import { BrandIntro } from "./intro";
 import AdminApp from "@/components/admin/admin-app";
 import HomePage from "./pages/home";
 import CompanyPage from "./pages/company";
@@ -72,6 +73,8 @@ export default function SiteApp({
 
   return (
     <div className="flex min-h-screen flex-col bg-warmwhite">
+      {/* Brand intro — plays once per browser session (see intro.tsx). */}
+      <BrandIntro />
       <Header />
       <main id="main-content" className="flex-1">
         <AnimatePresence mode="wait">

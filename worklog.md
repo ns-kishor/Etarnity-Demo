@@ -335,3 +335,23 @@ Work Log:
 
 Stage Summary:
 - PROJECT COMPLETE. All PRD requirements delivered within the single-route constraint.
+
+---
+Task ID: 5
+Agent: orchestrator (main)
+Task: ETARNITY customization — animated loading screen (faint ghost → settles into navbar), typography-driven hero replacing the 3D ChromeOrbit, animated typing headline, reduced-motion + hydration hardening.
+
+Work Log:
+- Created src/components/site/intro.tsx — BrandIntro overlay. SSR-rendered warm-white fixed overlay (no content flash pre-hydration); "ETARNITY" ghost-in: per-letter opacity 0.04→1 + blur(14px)→0 + rise, parent letterSpacing 0.55em→0.18em condense (1.6s). At 2.1s: measures #brand-intro-fly + `header [data-wordmark]` rects live, FLIP-style translate+scale flight (0.9s, EASE [0.22,1,0.36,1], transform-origin 50% 50%) landing pixel-exact on the navbar wordmark; backdrop fades at flight+0.42s; real wordmark crossfades in at flight+0.5s; fly text fades [1,1,0] times [0,0.74,1]; overlay unmounts at 3.12s, body scroll unlock + inline styles restored. Module-singleton phase machine (ghost/settle/done) via useSyncExternalStore — survives remounts/strict-mode/fast-refresh, plays once per browser session (sessionStorage `etarnity.intro.v1`), skipped on /admin (not mounted) and for reduced motion. Failsafes: React timer at 4.2s force-finish + pure-CSS fade at 6s (no-JS) + `display:none` under prefers-reduced-motion (pre-hydration).
+- Created src/components/site/typing-phrase.tsx — TypingPhrase. Exact sequence solve problems → build solutions → create products → develop software → transform businesses → loops forever. Initial phrase SSR-rendered fully ("solve problems."), then delete char-by-char (34ms) → gap (380ms) → type char-by-char (62ms + 26ms jitter) → hold (2000ms). Blinking electric cursor (CSS steps keyframes). Auto-fit: measures longest phrase via hidden probe span, shrinks own font-size only when the line would overflow (also on resize + fonts.ready) — zero horizontal overflow at any viewport, line height constant → no layout shift. Full timer cleanup on unmount. Reduced motion → static first phrase, no cursor (mounted-gated to avoid hydration mismatch).
+- Modified src/components/site/logo.tsx — added `data-wordmark` to the wordmark span (scoped queries use `header [data-wordmark]` so footer/mobile-nav Logos are unaffected).
+- Modified src/components/site/app.tsx — mounted <BrandIntro /> above <Header /> in the public chrome (admin route untouched).
+- Rewrote hero in src/components/site/pages/home.tsx — removed ChromeOrbit import + entire 3D visual column + motion/useReducedMotion/EASE imports. New centered typography-driven hero: eyebrow, h1 = "We don't just" / [TypingPhrase in text-electric on its own block line] / "We rethink what's possible." with sr-only full static headline + aria-hidden visual spans (screen readers get the static sentence). Lede/CTAs/meta centered; all downstream sections untouched. chrome-orbit.tsx file left in place (no longer imported → not bundled).
+- Extended src/app/globals.css — #brand-intro CSS failsafe (6s fade for no-JS), reduced-motion display:none backstop, .type-cursor blink keyframes.
+- Hardened src/components/site/reveal.tsx (pre-existing hydration bug found during QA): useReducedMotion branch at render caused SSR/client attribute mismatch for reduced-motion visitors. Added mounted-gate (useLayoutEffect flag) so hydration render always matches SSR, plain-tag fallback only post-hydration. Same pattern applied to TypingPhrase.
+- QA (agent-browser + VLM + z-ai CLI): flight logged via in-page observer — ghost (transform none, wordmark hidden) → flight translate(-505px,-253px) scale 0.68→0.19 decelerating → crossfade → overlay removed at exactly 3120ms, styles restored. Phrase sequence recorded over 28s: exact order + infinite loop confirmed. Mobile 375px: overflowX=0, clean wrapping, navbar aligned. Reduced motion: no intro, static phrase, all sections visible, ZERO hydration errors after fix. Normal motion: zero errors, intro/session/navigation regression-tested (#/company → #/ works, no intro replay, phrase restarts). Lint clean, dev.log clean.
+
+Stage Summary:
+- Loading screen + typography hero + typing headline shipped and browser-verified end-to-end; no 3D in hero; all other pages/routes/sections/admin untouched.
+- New files: intro.tsx, typing-phrase.tsx. Touched: logo.tsx, app.tsx, home.tsx, globals.css, reveal.tsx.
+- Key gotchas for future agents: framer-motion useReducedMotion returns the true value during the hydration render (differs from SSR) — never branch render output on it without a mounted gate; BrandIntro phase machine is a module singleton (don't convert to component state); session key `etarnity.intro.v1` controls once-per-session replay.

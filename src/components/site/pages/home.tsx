@@ -2,7 +2,6 @@
 
 import * as React from "react";
 import Image from "next/image";
-import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import type { HomePayload } from "@/lib/queries";
 import type {
@@ -11,8 +10,8 @@ import type {
   Project,
 } from "@/lib/types";
 import { Link } from "@/lib/router";
-import ChromeOrbit from "../chrome-orbit";
-import { Reveal, EASE } from "../reveal";
+import { Reveal } from "../reveal";
+import TypingPhrase from "../typing-phrase";
 import { Section } from "../section";
 import { StatusChip } from "../status-chip";
 import { EmptyState } from "../states";
@@ -287,7 +286,6 @@ export default function HomePage({
     businesses: Business[];
     projects: Project[];
   };
-  const reduceMotion = useReducedMotion();
 
   const featuredBusinesses = businesses.slice(0, 4);
   const [leadProject, ...restProjects] = projects;
@@ -295,33 +293,42 @@ export default function HomePage({
 
   return (
     <>
-      {/* ============ HERO ============ */}
-      <section className="relative overflow-hidden pt-16 pb-16 md:pt-24 md:pb-24">
-        <div className="container-site lg:grid lg:grid-cols-12 lg:items-center lg:gap-10">
-          {/* Hero copy */}
-          <div className="lg:col-span-6">
+      {/* ============ HERO — typography-driven ============ */}
+      <section className="relative pt-20 pb-16 md:pt-28 md:pb-24">
+        <div className="container-site">
+          <div className="mx-auto max-w-4xl text-center">
             <Reveal>
               <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-electric">
                 ETARNITY / TECHNOLOGY COMPANY
               </p>
             </Reveal>
             <Reveal delay={0.1}>
-              <h1 className="mt-6 text-[2.75rem] font-semibold leading-[1.04] tracking-[-0.03em] text-graphite sm:text-6xl lg:text-[4.25rem]">
-                Building What Comes{" "}
-                <span className="underline decoration-[#526BFF]/60 decoration-[3px] underline-offset-[10px]">
-                  Next
+              <h1 className="mt-8 text-[2.125rem] font-semibold leading-[1.08] tracking-[-0.03em] text-graphite sm:text-5xl md:text-6xl lg:text-[4.25rem]">
+                {/* Static, accessible headline for screen readers and SEO. */}
+                <span className="sr-only">
+                  We don&apos;t just solve problems. We rethink what&apos;s
+                  possible.
                 </span>
-                .
+                {/* Visual headline — only the middle phrase animates. */}
+                <span aria-hidden="true">
+                  <span className="block">We don&apos;t just</span>
+                  <span className="block">
+                    <TypingPhrase />
+                  </span>
+                  <span className="mt-2 block md:mt-3">
+                    We rethink what&apos;s possible.
+                  </span>
+                </span>
               </h1>
             </Reveal>
             <Reveal delay={0.2}>
-              <p className="mt-6 max-w-xl text-lg leading-relaxed text-ink-soft">
+              <p className="mx-auto mt-8 max-w-xl text-lg leading-relaxed text-ink-soft">
                 ETARNITY builds technology-driven products, digital platforms,
                 and businesses designed to solve meaningful problems.
               </p>
             </Reveal>
             <Reveal delay={0.3}>
-              <div className="flex flex-wrap gap-3 pt-2">
+              <div className="flex flex-wrap justify-center gap-3 pt-2">
                 <Link
                   to="/company"
                   className="group inline-flex items-center gap-2 rounded-full bg-graphite px-6 py-3.5 text-sm font-medium text-warmwhite transition hover:bg-[#23262D]"
@@ -341,7 +348,7 @@ export default function HomePage({
               </div>
             </Reveal>
             <Reveal delay={0.4}>
-              <div className="flex flex-wrap items-center gap-x-6 gap-y-2 pt-8 font-mono text-[11px] uppercase tracking-[0.18em] text-ink-soft">
+              <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 pt-8 font-mono text-[11px] uppercase tracking-[0.18em] text-ink-soft">
                 <span>
                   EST. {company?.foundingYear ?? 2025} —{" "}
                   {company?.headquarters ?? "Dhaka, Bangladesh"}
@@ -355,39 +362,6 @@ export default function HomePage({
               </div>
             </Reveal>
           </div>
-
-          {/* Signature visual — chrome orbit */}
-          <motion.div
-            className="relative mt-12 h-[360px] overflow-hidden rounded-2xl border border-graphite bg-graphite sm:h-[420px] lg:mt-0 lg:h-[560px] lg:col-span-6"
-            initial={reduceMotion ? false : { opacity: 0, scale: 0.97 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.9, ease: EASE, delay: 0.15 }}
-          >
-            <ChromeOrbit bandWidth={0.09} />
-            <div
-              aria-hidden="true"
-              className="pointer-events-none absolute inset-0 z-10 bg-[radial-gradient(60%_50%_at_70%_40%,rgba(170,183,255,0.14),transparent)]"
-            />
-            <div
-              aria-hidden="true"
-              className="pointer-events-none absolute inset-0 z-10 rounded-2xl ring-1 ring-inset ring-white/10"
-            />
-            <p
-              aria-hidden="true"
-              className="pointer-events-none absolute top-5 left-5 z-10 font-mono text-[10px] tracking-[0.18em] text-periwinkle/70"
-            >
-              ETR.ORB / 01 — CHROME
-            </p>
-            <p
-              aria-hidden="true"
-              className="pointer-events-none absolute right-5 bottom-5 z-10 font-mono text-[10px] tracking-[0.18em] text-periwinkle/70"
-            >
-              SYS.ACTIVE{" "}
-              <span className="text-electric" aria-hidden="true">
-                ●
-              </span>
-            </p>
-          </motion.div>
         </div>
       </section>
 

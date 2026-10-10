@@ -198,3 +198,53 @@
     scroll-behavior: auto !important;
   }
 }
+
+/* ------------------------------------------------------------------ */
+/* Brand intro overlay (see src/components/site/intro.tsx)             */
+/* ------------------------------------------------------------------ */
+
+/*
+ * Fail-safe: if JavaScript never takes over (or dies), fade the intro
+ * overlay out instead of trapping the visitor. React normally unmounts
+ * the overlay long before this ever fires.
+ */
+#brand-intro {
+  animation: brand-intro-failsafe 0.6s ease 6s forwards;
+}
+
+@keyframes brand-intro-failsafe {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+/*
+ * Accessible reduced-motion alternative: skip the intro entirely —
+ * works even before hydration and without JavaScript.
+ */
+@media (prefers-reduced-motion: reduce) {
+  #brand-intro {
+    display: none;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Typing cursor (hero headline — see typing-phrase.tsx)                */
+/* ------------------------------------------------------------------ */
+
+.type-cursor {
+  animation: type-cursor-blink 1.1s linear infinite;
+}
+
+@keyframes type-cursor-blink {
+  0%,
+  49.9% {
+    opacity: 1;
+  }
+
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
