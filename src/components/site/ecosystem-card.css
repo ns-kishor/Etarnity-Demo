@@ -1,0 +1,189 @@
+/* ------------------------------------------------------------------ */
+/* EcosystemCard — animated SVG glyph engine                           */
+/*                                                                    */
+/* Every glyph <svg> carries the shared `.ecosystem-glyph` root class; */
+/* all helpers are `glyph-` prefixed. No global side effects.          */
+/*                                                                    */
+/* Keyframes animate ONLY transform / opacity / stroke-dashoffset —   */
+/* compositor-friendly properties, no layout or paint work.            */
+/* Every loop is seamless (see comments on each keyframe).            */
+/* ------------------------------------------------------------------ */
+
+.ecosystem-glyph {
+  display: block;
+}
+
+/* --- Studio — design canvas ---------------------------------------- */
+
+/* Dashed selection ring — rotates 360° over 18s (identity loop).
+   fill-box + center origin = rotation around the circle's own center. */
+.glyph-spin {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: glyph-spin 18s linear infinite;
+}
+
+/* Corner brackets — soft staggered breathing (0.16 → 0.7 → 0.16). */
+.glyph-bracket {
+  animation: glyph-bracket-pulse 3s ease-in-out infinite;
+}
+
+/* --- AI — neural net ------------------------------------------------- */
+
+/* Edge pulses — dash pattern period is exactly 100 (pathLength="100",
+   dasharray "16 84"), so animating dashoffset 0 → -100 shifts the
+   pattern by exactly one period: a perfectly seamless infinite loop. */
+.glyph-edge-pulse {
+  animation: glyph-edge-dash 2.4s linear infinite;
+}
+
+/* Graphite nodes — staggered opacity breathing. */
+.glyph-node {
+  animation: glyph-node-breathe 3.2s ease-in-out infinite;
+}
+
+/* Electric core node — scale + opacity pulse around its own center. */
+.glyph-node-core {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: glyph-core-pulse 2.4s ease-in-out infinite;
+}
+
+/* --- Signal — radar --------------------------------------------------- */
+
+/* Range rings — staggered opacity ping (ripple feel). */
+.glyph-ring {
+  animation: glyph-ring-ping 3s ease-in-out infinite;
+}
+
+/* Sweep — rotates 360° around the canvas center (48,48 in the
+   0 0 96 96 viewBox). The group's own bbox is NOT centered on the
+   pivot, so view-box (not fill-box) is the correct reference box. */
+.glyph-radar-sweep {
+  transform-box: view-box;
+  transform-origin: center;
+  animation: glyph-radar-rotate 7s linear infinite;
+}
+
+/* Beacon core dot — soft scale + opacity pulse. */
+.glyph-radar-core {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: glyph-radar-core-pulse 2.2s ease-in-out infinite;
+}
+
+/* --- Cell — honeycomb ------------------------------------------------- */
+
+/* Sequential glow sweep — electric overlay hexagons flash in turn
+   (staggered via animation-delay in the TSX). Starts and ends at
+   opacity 0, so the loop is seamless. */
+.glyph-cell-glow {
+  animation: glyph-cell-glow 4.2s linear infinite;
+}
+
+/* --- Keyframes --------------------------------------------------------- */
+
+@keyframes glyph-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes glyph-bracket-pulse {
+  0%,
+  100% {
+    opacity: 0.16;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes glyph-edge-dash {
+  from {
+    stroke-dashoffset: 0;
+  }
+  to {
+    stroke-dashoffset: -100;
+  }
+}
+
+@keyframes glyph-node-breathe {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.38;
+  }
+}
+
+@keyframes glyph-core-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.22);
+    opacity: 0.62;
+  }
+}
+
+@keyframes glyph-ring-ping {
+  0%,
+  100% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 0.75;
+  }
+}
+
+@keyframes glyph-radar-rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes glyph-radar-core-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.34);
+    opacity: 0.58;
+  }
+}
+
+@keyframes glyph-cell-glow {
+  0% {
+    opacity: 0;
+  }
+  6% {
+    opacity: 1;
+  }
+  26% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* --- Reduced motion: freeze every glyph animation --------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .ecosystem-glyph,
+  .ecosystem-glyph * {
+    animation: none !important;
+  }
+}

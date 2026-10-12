@@ -1,0 +1,35 @@
+/* ------------------------------------------------------------------ */
+/* ProcessSection — local styles. Everything is prefixed `process-`.   */
+/* Consumed only via import in process-section.tsx; no other global    */
+/* side effects besides the (prefixed) keyframes name.                 */
+/* ------------------------------------------------------------------ */
+
+/*
+ * Quick soft pulse on the Client Project card each time a stage dot
+ * arrives: an electric ring expands out from the card while it very
+ * slightly scales up, then settles. 650ms, site easing.
+ */
+@keyframes process-client-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(82, 107, 255, 0.3);
+    transform: scale(1);
+  }
+  55% {
+    box-shadow: 0 0 0 16px rgba(82, 107, 255, 0);
+    transform: scale(1.018);
+  }
+  100% {
+    box-shadow: 0 0 0 22px rgba(82, 107, 255, 0);
+    transform: scale(1);
+  }
+}
+
+.process-client-pulse {
+  animation: process-client-pulse 650ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .process-client-pulse {
+    animation: none;
+  }
+}
