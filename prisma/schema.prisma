@@ -150,6 +150,10 @@ model Person {
   name            String
   slug            String     @unique
   position        String
+  positionAbbr    String?    // e.g. "CEO" — short badge for founder cards
+  cardIntro       String?    // 2–3 line founder-card intro
+  contactEmail    String?    // public business email — only shown publicly if provided
+  location        String?    // published location — only if provided
   biography       String?
   department      String?
   responsibilities String?
@@ -161,6 +165,9 @@ model Person {
   profileMediaId  Int?
   profileMedia    MediaItem? @relation("PersonPortrait", fields: [profileMediaId], references: [id], onDelete: SetNull)
   articles        Article[]
+  availabilityRules AvailabilityRule[]
+  blockedDates    BlockedDate[]
+  bookings        Booking[]
 }
 
 model Article {
@@ -198,6 +205,62 @@ model MediaItem {
   projectAssets   ProjectAsset[] @relation("ProjectAsset")
   personPortraits Person[]       @relation("PersonPortrait")
   articleCovers   Article[]      @relation("ArticleCover")
+}
+
+/* ---------- Homepage: Problem Solving ---------- */
+
+model ProblemPair {
+  id            Int     @id @default(autoincrement())
+  problemTitle  String
+  problemDesc   String
+  solutionTitle String
+  solutionDesc  String
+  displayOrder  Int     @default(0)
+  isActive      Boolean @default(true)
+}
+
+/* ---------- Meeting booking ---------- */
+
+model AvailabilityRule {
+  id            Int     @id @default(autoincrement())
+  personId      Int
+  person        Person  @relation(fields: [personId], references: [id], onDelete: Cascade)
+  dayOfWeek     Int     // 0 = Sunday … 6 = Saturday (BST week)
+  startMinute   Int     // minutes from midnight BST, e.g. 600 = 10:00
+  endMinute     Int     // e.g. 1020 = 17:00
+  slotMinutes   Int     @default(30)
+  bufferMinutes Int     @default(15)
+  isActive      Boolean @default(true)
+
+  @@unique([personId, dayOfWeek])
+}
+
+model BlockedDate {
+  id       Int    @id @default(autoincrement())
+  personId Int
+  person   Person @relation(fields: [personId], references: [id], onDelete: Cascade)
+  date     String // "YYYY-MM-DD" in BST
+  note     String?
+
+  @@unique([personId, date])
+}
+
+model Booking {
+  id              Int      @id @default(autoincrement())
+  personId        Int
+  person          Person   @relation(fields: [personId], references: [id], onDelete: Cascade)
+  date            String   // "YYYY-MM-DD" in BST
+  startMinute     Int      // minutes from midnight BST
+  durationMinutes Int      @default(30)
+  status          String   @default("CONFIRMED") // CONFIRMED | CANCELLED
+  name            String   // visitor full name
+  email           String
+  mobile          String
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@unique([personId, date, startMinute])
+  @@index([personId, date])
 }
 
 /* ---------- Inquiries, settings, audit ---------- */

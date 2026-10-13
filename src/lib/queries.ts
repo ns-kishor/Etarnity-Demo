@@ -7,6 +7,7 @@ import type {
   MediaRef,
   Person,
   PersonLink,
+  ProblemPair,
   Project,
   TechnologyArea,
 } from "./types";
@@ -215,6 +216,10 @@ type PersonRow = {
   name: string;
   slug: string;
   position: string;
+  positionAbbr: string | null;
+  cardIntro: string | null;
+  contactEmail: string | null;
+  location: string | null;
   biography: string | null;
   department: string | null;
   responsibilities: string | null;
@@ -230,6 +235,10 @@ export function serializePerson(row: PersonRow): Person {
     name: row.name,
     slug: row.slug,
     position: row.position,
+    positionAbbr: row.positionAbbr,
+    cardIntro: row.cardIntro,
+    contactEmail: row.contactEmail,
+    location: row.location,
     biography: row.biography,
     department: row.department,
     responsibilities: row.responsibilities,
@@ -332,23 +341,44 @@ export async function getJobPositions(): Promise<JobPosition[]> {
   }));
 }
 
+/* ---------- Homepage: Problem Solving ---------- */
+
+export async function getProblemPairs(): Promise<ProblemPair[]> {
+  const rows = await db.problemPair.findMany({
+    where: { isActive: true },
+    orderBy: [{ displayOrder: "asc" }, { id: "asc" }],
+  });
+  return rows.map((r) => ({
+    id: r.id,
+    problemTitle: r.problemTitle,
+    problemDesc: r.problemDesc,
+    solutionTitle: r.solutionTitle,
+    solutionDesc: r.solutionDesc,
+    displayOrder: r.displayOrder,
+    isActive: r.isActive,
+  }));
+}
+
 /* ---------- Initial home payload ---------- */
 
 export interface HomePayload {
   company: CompanyProfile | null;
   businesses: Business[];
   projects: Project[];
+  problems: ProblemPair[];
 }
 
 export async function getHomePayload(): Promise<HomePayload> {
-  const [company, businesses, projects] = await Promise.all([
+  const [company, businesses, projects, problems] = await Promise.all([
     getCompanyProfile(),
     getPublishedBusinesses(),
     getPublishedProjects(),
+    getProblemPairs(),
   ]);
   return {
     company,
     businesses,
     projects: projects.filter((p) => p.isFeatured).slice(0, 4),
+    problems,
   };
 }

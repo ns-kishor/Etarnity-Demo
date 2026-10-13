@@ -12,6 +12,8 @@ import { EmptyState } from "../states";
 import CompanyScrolly from "../company-scrolly";
 import EcosystemCard from "../ecosystem-card";
 import ProcessSection from "../process-section";
+import ProblemSolvingSection from "../problem-solving";
+import type { ProblemPairData } from "../problem-solving";
 
 /* ------------------------------------------------------------------ */
 /* Local constants                                                     */
@@ -66,8 +68,9 @@ export default function HomePage({
   // model types, but its serializers actually emit the src/lib/types shapes
   // (logo/cover/gallery included — verified against the live route). Cast to
   // the public contract so this page stays type-safe against lib/types.
-  const { businesses } = initialData as unknown as {
+  const { businesses, problems } = initialData as unknown as {
     businesses: Business[];
+    problems: ProblemPairData[];
   };
 
   const featuredBusinesses = businesses.slice(0, 4);
@@ -178,7 +181,12 @@ export default function HomePage({
       {/* ============ 03 / OUR WORKING PROCESS ============ */}
       <ProcessSection />
 
-      {/* ============ 04 / NEXT — FINAL CTA ============ */}
+      {/* ============ 04 / PROBLEM SOLVING ============ */}
+      {problems && problems.length > 0 ? (
+        <ProblemSolvingSection pairs={problems} />
+      ) : null}
+
+      {/* ============ 05 / NEXT — FINAL CTA ============ */}
       <section className="relative overflow-hidden bg-graphite text-warmwhite">
         <div
           aria-hidden="true"
@@ -187,7 +195,7 @@ export default function HomePage({
         <div className="container-site relative py-24 text-center md:py-32">
           <Reveal>
             <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-periwinkle">
-              04 / NEXT
+              {problems && problems.length > 0 ? "05 / NEXT" : "04 / NEXT"}
             </p>
           </Reveal>
           <Reveal delay={0.08}>

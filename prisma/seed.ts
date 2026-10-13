@@ -45,6 +45,10 @@ async function main() {
   /* ---------- wipe (FK-safe order) ---------- */
   await db.auditLog.deleteMany();
   await db.session.deleteMany();
+  await db.booking.deleteMany();
+  await db.blockedDate.deleteMany();
+  await db.availabilityRule.deleteMany();
+  await db.problemPair.deleteMany();
   await db.projectAsset.deleteMany();
   await db.mediaItem.deleteMany();
   await db.contactInquiry.deleteMany();
@@ -235,19 +239,111 @@ async function main() {
     name: string;
     slug: string;
     position: string;
+    positionAbbr?: string;
+    cardIntro?: string;
     department: string;
     isFounder: boolean;
+    isPublic: boolean;
     biography: string;
     responsibilities: string;
     expertise: string[];
     displayOrder: number;
   }[] = [
+    /* Real founders — public faces of the company. contactEmail/location
+     * intentionally stay null (never fabricate). */
+    {
+      name: "Abu Nayem",
+      slug: "abu-nayem",
+      position: "Chief Executive Officer",
+      positionAbbr: "CEO",
+      cardIntro:
+        "Leads ETARNITY's overall direction — what we build, who we build it for, and the standard every product is held to.",
+      department: "LEADERSHIP",
+      isFounder: true,
+      isPublic: true,
+      biography:
+        "Abu Nayem is the Chief Executive Officer of ETARNITY. He holds overall responsibility for the company's direction: what ETARNITY builds, the clients and problems it takes on, and the standard each product must meet before it ships.\n\nHe works across strategy, partnerships, and delivery — making sure the company's ambitions stay matched by what it can actually engineer.",
+      responsibilities:
+        "Company direction, client partnerships, and final quality standards across the ETARNITY ecosystem.",
+      expertise: ["Company Strategy", "Partnerships", "Product Direction", "Operations"],
+      displayOrder: 1,
+    },
+    {
+      name: "Fahim Shaikh",
+      slug: "fahim-shaikh",
+      position: "Chief Financial Officer",
+      positionAbbr: "CFO",
+      cardIntro:
+        "Keeps ETARNITY financially disciplined — budgets, forecasting, and the numbers behind every build decision.",
+      department: "LEADERSHIP",
+      isFounder: true,
+      isPublic: true,
+      biography:
+        "Fahim Shaikh is the Chief Financial Officer of ETARNITY. He is responsible for the company's financial planning, budgeting, and reporting — keeping early-stage spending deliberate rather than reactive.\n\nHe evaluates the financial side of every initiative: what a build costs, what it needs to sustain itself, and how the ecosystem's investments compound over time.",
+      responsibilities:
+        "Financial planning, budgets, forecasting, and financial review of ETARNITY initiatives.",
+      expertise: ["Financial Planning", "Budgeting", "Forecasting", "Financial Reporting"],
+      displayOrder: 2,
+    },
+    {
+      name: "Abrar Hasan",
+      slug: "abrar-hasan",
+      position: "Chief Technology Officer",
+      positionAbbr: "CTO",
+      cardIntro:
+        "Owns ETARNITY's engineering bar — architecture, security practice, and systems that stay maintainable.",
+      department: "LEADERSHIP",
+      isFounder: true,
+      isPublic: true,
+      biography:
+        "Abrar Hasan is the Chief Technology Officer of ETARNITY. He owns the technical standard everything is built to: architecture decisions, security practice, and the engineering discipline that keeps quality from depending on heroics.\n\nHe leads the design of the company's technical roadmap and reviews the systems ETARNITY ships — its own products and client builds alike.",
+      responsibilities:
+        "Engineering standards, architecture, security practice, and the technical roadmap.",
+      expertise: ["Software Architecture", "Engineering Leadership", "Security Practice", "System Design"],
+      displayOrder: 3,
+    },
+    {
+      name: "Kishor Biswas",
+      slug: "kishor-biswas",
+      position: "Chief Design Officer",
+      positionAbbr: "CDO",
+      cardIntro:
+        "Directs design across ETARNITY — products that look considered and respect the people using them.",
+      department: "LEADERSHIP",
+      isFounder: true,
+      isPublic: true,
+      biography:
+        "Kishor Biswas is the Chief Design Officer of ETARNITY. He directs design across the ecosystem — product interfaces, design systems, and the overall visual language of what the company builds.\n\nHis focus is interfaces that respect people: clear hierarchy, honest states, and accessibility treated as a requirement rather than a checklist item.",
+      responsibilities:
+        "Design direction, design systems, and interface quality across ETARNITY products.",
+      expertise: ["Product Design", "Design Systems", "Interaction Design", "Accessibility"],
+      displayOrder: 4,
+    },
+    {
+      name: "Hasib Hossain",
+      slug: "hasib-hossain",
+      position: "Chief Strategy Officer",
+      positionAbbr: "CSO",
+      cardIntro:
+        "Shapes where ETARNITY goes next — positioning, partnerships, and the ecosystem's long-term plan.",
+      department: "LEADERSHIP",
+      isFounder: true,
+      isPublic: true,
+      biography:
+        "Hasib Hossain is the Chief Strategy Officer of ETARNITY. He shapes the company's long-term direction: which problems to pursue, how the ecosystem's businesses fit together, and where to invest next.\n\nHe works closely with the CEO on positioning and partnerships, turning the company's ambitions into a sequenced, realistic plan.",
+      responsibilities: "Long-term strategy, positioning, and partnership development.",
+      expertise: ["Strategy", "Market Analysis", "Positioning", "Partnerships"],
+      displayOrder: 5,
+    },
+    /* Fictional demo people — hidden from the public site (isPublic: false)
+     * but retained as article authors. */
     {
       name: "Ayesha Rahman",
       slug: "ayesha-rahman",
       position: "Founder & Chief Executive Officer",
       department: "LEADERSHIP",
       isFounder: true,
+      isPublic: false,
       biography:
         "Ayesha founded ETARNITY in 2025 with a simple conviction: that a team from Dhaka can build technology to an international standard — and prove it one shipped product at a time.\n\nShe leads company strategy, client partnerships, and the ecosystem's direction: deciding what ETARNITY builds, what it declines, and how the businesses under it grow together.",
       responsibilities:
@@ -261,6 +357,7 @@ async function main() {
       position: "Founder & Chief Technology Officer",
       department: "ENGINEERING",
       isFounder: true,
+      isPublic: false,
       biography:
         "Tanvir is the engineering half of ETARNITY's founding team. He owns the technical bar: architecture reviews, security practice, and the engineering culture that keeps quality from depending on heroics.\n\nHe leads the studio's most demanding builds and directs the Etar AI initiative's applied research.",
       responsibilities: "Engineering standards, architecture, security practice, and the Etar AI initiative.",
@@ -273,6 +370,7 @@ async function main() {
       position: "Lead Product Designer",
       department: "DESIGN",
       isFounder: false,
+      isPublic: false,
       biography:
         "Nabila leads product design across the ecosystem — from the studio's client work to ETARNITY's own platforms.\n\nHer work centers on interfaces that respect the user: clear hierarchy, honest states, and accessibility treated as a requirement rather than a checklist item.",
       responsibilities: "Product design, design systems, and interface quality across ETARNITY products.",
@@ -285,6 +383,7 @@ async function main() {
       position: "Senior Software Engineer",
       department: "ENGINEERING",
       isFounder: false,
+      isPublic: false,
       biography:
         "Rafi builds the systems behind the interfaces — APIs, data models, and the infrastructure that keeps them running.\n\nHe is a core engineer on the corporate platform and a quiet defender of boring, reliable infrastructure.",
       responsibilities: "Backend engineering, infrastructure, and platform reliability.",
@@ -297,6 +396,7 @@ async function main() {
       position: "Growth & Operations Lead",
       department: "OPERATIONS",
       isFounder: false,
+      isPublic: false,
       biography:
         "Samira keeps the company running and growing — operations, communications, and the growth motion behind the ecosystem's products.\n\nShe also runs the hiring process, which means the careers page and every application route passes through her first.",
       responsibilities: "Operations, communications, growth, and hiring.",
@@ -311,9 +411,11 @@ async function main() {
         name: p.name,
         slug: p.slug,
         position: p.position,
+        positionAbbr: p.positionAbbr ?? null,
+        cardIntro: p.cardIntro ?? null,
         department: p.department,
         isFounder: p.isFounder,
-        isPublic: true,
+        isPublic: p.isPublic,
         biography: p.biography,
         responsibilities: p.responsibilities,
         expertise: JSON.stringify(p.expertise),
@@ -324,6 +426,83 @@ async function main() {
     personIds[p.slug] = row.id;
   }
   console.log("  ✓ people");
+
+  /* ---------- homepage problem pairs ---------- */
+  const problemPairs: {
+    problemTitle: string;
+    problemDesc: string;
+    solutionTitle: string;
+    solutionDesc: string;
+    displayOrder: number;
+  }[] = [
+    {
+      problemTitle: "Manual processes that don't scale",
+      problemDesc:
+        "Daily operations still run on spreadsheets, chat threads, and repeated hand-offs — work that only grows with headcount.",
+      solutionTitle: "Practical process software",
+      solutionDesc:
+        "We map the workflow as it actually runs, then build focused tools that remove the highest-friction manual steps first.",
+      displayOrder: 1,
+    },
+    {
+      problemTitle: "Products people abandon",
+      problemDesc:
+        "Powerful features don't help when the interface gets in the way — unclear flows quietly cost teams time, trust, and users.",
+      solutionTitle: "Thoughtful product design",
+      solutionDesc:
+        "We design around real user tasks — clear hierarchy, honest states, and interfaces that respect attention — then verify them with the people who use them.",
+      displayOrder: 2,
+    },
+    {
+      problemTitle: "Systems that stall after launch",
+      problemDesc:
+        "Many digital products ship once and then drift: nobody owns quality, security, or what comes next, and the codebase slowly works against the business.",
+      solutionTitle: "Engineering that stays accountable",
+      solutionDesc:
+        "We build maintainable systems and stay responsible after release — monitoring, iteration, and a technical bar that doesn't decay.",
+      displayOrder: 3,
+    },
+    {
+      problemTitle: "Invisible where it matters",
+      problemDesc:
+        "Good work that can't be found: unclear positioning and unmeasured marketing spend instead of an evidence-driven digital presence.",
+      solutionTitle: "Data-informed presence",
+      solutionDesc:
+        "We ground digital marketing in measurement — analytics, search, and content decisions driven by evidence rather than instinct.",
+      displayOrder: 4,
+    },
+  ];
+  for (const pair of problemPairs) {
+    await db.problemPair.create({ data: { ...pair, isActive: true } });
+  }
+  console.log("  ✓ problem pairs");
+
+  /* ---------- default founder availability (BST week: Sun–Thu 10:00–17:00) ---------- */
+  const founderSlugs = [
+    "abu-nayem",
+    "fahim-shaikh",
+    "abrar-hasan",
+    "kishor-biswas",
+    "hasib-hossain",
+  ];
+  for (const slug of founderSlugs) {
+    const personId = personIds[slug];
+    if (!personId) continue;
+    for (let dayOfWeek = 0; dayOfWeek <= 4; dayOfWeek++) {
+      await db.availabilityRule.create({
+        data: {
+          personId,
+          dayOfWeek,
+          startMinute: 600,
+          endMinute: 1020,
+          slotMinutes: 30,
+          bufferMinutes: 15,
+          isActive: true,
+        },
+      });
+    }
+  }
+  console.log("  ✓ founder availability");
 
   /* ---------- projects ---------- */
   await db.project.create({

@@ -104,6 +104,14 @@ export interface Person {
   name: string;
   slug: string;
   position: string;
+  /** Short badge, e.g. "CEO" — shown on founder cards when present. */
+  positionAbbr: string | null;
+  /** 2–3 line founder-card intro. */
+  cardIntro: string | null;
+  /** Public business email — only shown publicly when provided. */
+  contactEmail: string | null;
+  /** Published location — only shown publicly when provided. */
+  location: string | null;
   biography: string | null;
   department: string | null;
   responsibilities: string | null;
@@ -233,6 +241,77 @@ export interface DashboardStats {
   totalInquiries: number;
   mediaCount: number;
   recentActivity: AuditEntry[];
+}
+
+/* ---------- Homepage: Problem Solving ---------- */
+
+export interface ProblemPair {
+  id: number;
+  problemTitle: string;
+  problemDesc: string;
+  solutionTitle: string;
+  solutionDesc: string;
+  displayOrder: number;
+  isActive: boolean;
+}
+
+/* ---------- Founder meeting booking ---------- */
+
+/** One weekday's availability configuration (0 = Sunday … 6 = Saturday, BST week). */
+export interface FounderAvailabilityRule {
+  dayOfWeek: number;
+  startMinute: number;
+  endMinute: number;
+  slotMinutes: number;
+  bufferMinutes: number;
+  isActive: boolean;
+}
+
+export interface FounderBlockedDate {
+  id: number;
+  date: string; // "YYYY-MM-DD" (BST)
+  note: string | null;
+}
+
+export interface AvailabilityDayResult {
+  founderSlug: string;
+  date: string; // "YYYY-MM-DD" (BST)
+  timezone: string;
+  notConfigured: boolean;
+  slots: { minute: number; label: string; available: boolean }[];
+}
+
+export interface AvailabilityMonthResult {
+  founderSlug: string;
+  month: string; // "YYYY-MM"
+  timezone: string;
+  dates: string[]; // "YYYY-MM-DD" dates with ≥1 bookable slot
+}
+
+export interface BookingResult {
+  reference: string;
+  founderName: string;
+  founderSlug: string;
+  date: string;
+  startMinute: number;
+  label: string;
+  durationMinutes: number;
+}
+
+export interface AdminBooking {
+  id: number;
+  personId: number;
+  founderName: string;
+  founderSlug: string;
+  date: string;
+  startMinute: number;
+  label: string;
+  durationMinutes: number;
+  name: string;
+  email: string;
+  mobile: string;
+  status: string;
+  createdAt: string;
 }
 
 /* ---------- Contact form ---------- */

@@ -4,6 +4,7 @@ import * as React from "react";
 import {
   Building,
   Building2,
+  CalendarDays,
   ExternalLink,
   FolderKanban,
   Images,
@@ -13,6 +14,7 @@ import {
   LogOut,
   Menu,
   Newspaper,
+  Puzzle,
   UserCog,
   Users,
 } from "lucide-react";
@@ -28,7 +30,9 @@ import { cn } from "@/lib/utils";
 const OverviewSection = React.lazy(() => import("./overview"));
 const BusinessesSection = React.lazy(() => import("./businesses"));
 const ProjectsSection = React.lazy(() => import("./projects"));
+const ProblemsSection = React.lazy(() => import("./problems"));
 const PeopleSection = React.lazy(() => import("./people"));
+const MeetingsSection = React.lazy(() => import("./meetings"));
 const ArticlesSection = React.lazy(() => import("./articles"));
 const MediaSection = React.lazy(() => import("./media"));
 const InquiriesSection = React.lazy(() => import("./inquiries"));
@@ -80,7 +84,17 @@ function SidebarNav({
       path: "/admin/projects",
       icon: <FolderKanban className="size-4" />,
     },
+    {
+      label: "Problem Solving",
+      path: "/admin/problems",
+      icon: <Puzzle className="size-4" />,
+    },
     { label: "People", path: "/admin/people", icon: <Users className="size-4" /> },
+    {
+      label: "Meetings",
+      path: "/admin/meetings",
+      icon: <CalendarDays className="size-4" />,
+    },
     {
       label: "Articles",
       path: "/admin/articles",
@@ -210,8 +224,12 @@ function Section({ section, user }: { section: string; user: AdminUser }) {
       return <BusinessesSection />;
     case "projects":
       return <ProjectsSection />;
+    case "problems":
+      return <ProblemsSection />;
     case "people":
       return <PeopleSection />;
+    case "meetings":
+      return <MeetingsSection />;
     case "articles":
       return <ArticlesSection />;
     case "media":

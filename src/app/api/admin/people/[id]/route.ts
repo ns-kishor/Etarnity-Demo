@@ -37,6 +37,10 @@ export async function PUT(
       name?: string;
       slug?: string;
       position?: string;
+      positionAbbr?: string | null;
+      cardIntro?: string | null;
+      contactEmail?: string | null;
+      location?: string | null;
       biography?: string | null;
       department?: string | null;
       responsibilities?: string | null;
@@ -51,6 +55,10 @@ export async function PUT(
     if (has(raw, "name")) data.name = body.name;
     if (has(raw, "slug")) data.slug = body.slug;
     if (has(raw, "position")) data.position = body.position;
+    if (has(raw, "positionAbbr")) data.positionAbbr = body.positionAbbr || null;
+    if (has(raw, "cardIntro")) data.cardIntro = body.cardIntro || null;
+    if (has(raw, "contactEmail")) data.contactEmail = body.contactEmail || null;
+    if (has(raw, "location")) data.location = body.location || null;
     if (has(raw, "biography")) data.biography = body.biography ?? null;
     if (has(raw, "department")) data.department = body.department ?? null;
     if (has(raw, "responsibilities")) {

@@ -9,16 +9,14 @@ import { PageHeader } from "../page-header";
 import { Section } from "../section";
 import { Reveal } from "../reveal";
 import { EmptyState, ErrorState, LoadingState } from "../states";
+import { FounderCard, initialsOf } from "../founder-card";
 
-/** Initials for monogram tiles — first letter of the first + last word. */
-export function initialsOf(name: string): string {
-  const words = name.trim().split(/\s+/).filter(Boolean);
-  if (words.length === 0) return "E";
-  if (words.length === 1) return words[0].charAt(0).toUpperCase();
-  return (
-    words[0].charAt(0).toUpperCase() + words[words.length - 1].charAt(0).toUpperCase()
-  );
-}
+/*
+ * `initialsOf` now lives in founder-card.tsx (next to the monogram tiles that
+ * use it) and is re-exported here because article-detail.tsx and
+ * person-detail.tsx import it from "./people".
+ */
+export { initialsOf } from "../founder-card";
 
 /**
  * Portrait square: photo when available, otherwise a graphite-gradient tile
@@ -117,40 +115,23 @@ export default function PeoplePage() {
         <>
           {founders.length > 0 ? (
             <Section eyebrow="Leadership" title="Founders." className="py-14 md:py-20">
-              <Reveal>
-                <div className="grid gap-4 md:grid-cols-2">
-                  {founders.map((person) => (
-                    <Link
-                      key={person.id}
-                      to={`/people/${person.slug}`}
-                      className="group flex items-start gap-5 rounded-xl border border-hairline bg-white p-6 transition hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(21,23,27,0.07)]"
-                    >
-                      <Portrait person={person} size={64} />
-                      <div className="min-w-0">
-                        <div className="flex flex-wrap items-center gap-2">
-                          <h3 className="text-[15px] font-semibold text-graphite">
-                            {person.name}
-                          </h3>
-                          <span className="rounded-full border border-electric/25 px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.2em] text-electric">
-                            Founder
-                          </span>
-                        </div>
-                        <p className="mt-0.5 text-sm text-ink-soft">
-                          {person.position}
-                        </p>
-                        {person.biography ? (
-                          <p className="mt-2 text-[13px] leading-relaxed text-ink-soft line-clamp-2">
-                            {person.biography}
-                          </p>
-                        ) : null}
-                        <p className="mt-3 text-xs font-medium text-electric opacity-70 transition group-hover:opacity-100">
-                          View Profile →
-                        </p>
-                      </div>
-                    </Link>
-                  ))}
-                </div>
-              </Reveal>
+              {/*
+               * Two editorial 3:4 portrait cards per row on md+ — with five
+               * founders the fifth naturally sits alone, aligned left. On
+               * mobile the single column is capped at ~420px and centered so
+               * the tall cards don't dominate the page.
+               */}
+              <div className="grid gap-6 md:grid-cols-2">
+                {founders.map((person, index) => (
+                  <Reveal
+                    key={person.id}
+                    delay={index * 0.06}
+                    className="mx-auto w-full max-w-[420px] md:max-w-none"
+                  >
+                    <FounderCard person={person} />
+                  </Reveal>
+                ))}
+              </div>
             </Section>
           ) : null}
 

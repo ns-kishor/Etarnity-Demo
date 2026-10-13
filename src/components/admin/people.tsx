@@ -10,6 +10,7 @@ import {
   DeleteButton,
   Field,
   iconButtonClass,
+  isValidEmail,
   isValidSlug,
   MediaPickerField,
   slugify,
@@ -56,6 +57,10 @@ interface PersonFormState {
   name: string;
   slug: string;
   position: string;
+  positionAbbr: string;
+  cardIntro: string;
+  contactEmail: string;
+  location: string;
   department: string;
   biography: string;
   responsibilities: string;
@@ -132,6 +137,10 @@ function PersonDialog({
     name: item?.name ?? "",
     slug: item?.slug ?? "",
     position: item?.position ?? "",
+    positionAbbr: item?.positionAbbr ?? "",
+    cardIntro: item?.cardIntro ?? "",
+    contactEmail: item?.contactEmail ?? "",
+    location: item?.location ?? "",
     department: item?.department ?? "",
     biography: item?.biography ?? "",
     responsibilities: item?.responsibilities ?? "",
@@ -163,6 +172,18 @@ function PersonDialog({
     if (form.position.trim().length < 2) {
       next.position = "Position must be at least 2 characters.";
     }
+    if (form.positionAbbr.trim().length > 20) {
+      next.positionAbbr = "Position abbreviation must be at most 20 characters.";
+    }
+    if (form.cardIntro.trim().length > 500) {
+      next.cardIntro = "Card intro must be at most 500 characters.";
+    }
+    if (form.contactEmail.trim() !== "" && !isValidEmail(form.contactEmail.trim())) {
+      next.contactEmail = "Enter a valid email address (or leave it empty).";
+    }
+    if (form.location.trim().length > 120) {
+      next.location = "Location must be at most 120 characters.";
+    }
     if (form.displayOrder !== "" && !Number.isInteger(Number(form.displayOrder))) {
       next.displayOrder = "Display order must be a whole number.";
     }
@@ -185,6 +206,10 @@ function PersonDialog({
         name: form.name.trim(),
         slug: form.slug,
         position: form.position.trim(),
+        positionAbbr: form.positionAbbr.trim(),
+        cardIntro: form.cardIntro.trim(),
+        contactEmail: form.contactEmail.trim(),
+        location: form.location.trim(),
         department: form.department === "" ? null : form.department,
         biography: form.biography.trim() === "" ? null : form.biography,
         responsibilities:
@@ -287,6 +312,46 @@ function PersonDialog({
             </SelectContent>
           </Select>
         </Field>
+        <Field
+          label="Position Abbreviation"
+          error={errors.positionAbbr}
+          hint="Short badge on the founder card."
+        >
+          <Input
+            value={form.positionAbbr}
+            onChange={(e) => setForm({ ...form, positionAbbr: e.target.value })}
+            placeholder="CEO"
+            maxLength={20}
+            className="h-10 border-hairline focus-visible:ring-electric"
+          />
+        </Field>
+        <Field
+          label="Public Contact Email"
+          error={errors.contactEmail}
+          hint="Only shown on the profile if provided."
+        >
+          <Input
+            type="email"
+            value={form.contactEmail}
+            onChange={(e) => setForm({ ...form, contactEmail: e.target.value })}
+            placeholder="name@etarnity.com"
+            className="h-10 border-hairline focus-visible:ring-electric"
+          />
+        </Field>
+        <Field
+          label="Card Intro"
+          error={errors.cardIntro}
+          hint="Shown on the founder card — 2–3 lines."
+          className="sm:col-span-2"
+        >
+          <Textarea
+            value={form.cardIntro}
+            onChange={(e) => setForm({ ...form, cardIntro: e.target.value })}
+            rows={3}
+            maxLength={500}
+            className="border-hairline focus-visible:ring-electric"
+          />
+        </Field>
         <Field label="Biography" hint="Optional" className="sm:col-span-2">
           <Textarea
             value={form.biography}
@@ -326,6 +391,19 @@ function PersonDialog({
               setForm({ ...form, displayOrder: e.target.value });
             }}
             placeholder="0"
+            className="h-10 border-hairline focus-visible:ring-electric"
+          />
+        </Field>
+        <Field
+          label="Published Location"
+          error={errors.location}
+          hint="Only shown on the profile if provided."
+        >
+          <Input
+            value={form.location}
+            onChange={(e) => setForm({ ...form, location: e.target.value })}
+            placeholder="Dhaka, Bangladesh"
+            maxLength={120}
             className="h-10 border-hairline focus-visible:ring-electric"
           />
         </Field>
@@ -464,12 +542,19 @@ export default function PeopleSection() {
                 </Td>
                 <Td className="text-center">
                   {person.isFounder ? (
-                    <Badge
-                      variant="outline"
-                      className="rounded-full border-electric/25 bg-electric/[0.06] font-mono text-[9px] uppercase tracking-[0.15em] text-electric"
-                    >
-                      Founder
-                    </Badge>
+                    <span className="inline-flex flex-col items-center gap-1">
+                      <Badge
+                        variant="outline"
+                        className="rounded-full border-electric/25 bg-electric/[0.06] font-mono text-[9px] uppercase tracking-[0.15em] text-electric"
+                      >
+                        Founder
+                      </Badge>
+                      {person.positionAbbr ? (
+                        <span className="font-mono text-[10px] uppercase tracking-[0.15em] text-ink-soft">
+                          {person.positionAbbr}
+                        </span>
+                      ) : null}
+                    </span>
                   ) : (
                     <span className="text-ink-soft">—</span>
                   )}

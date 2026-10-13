@@ -1,0 +1,765 @@
+     1→/**
+     2→ * ETARNITY — database seed.
+     3→ * Run: bun prisma/seed.ts
+     4→ *
+     5→ * Seeds roles, admin users, company profile, principles, milestones,
+     6→ * businesses, projects, people, articles, technology areas, job positions,
+     7→ * sample inquiries, and links generated imagery as MediaItems.
+     8→ *
+     9→ * NOTE: All content is honest sample data — statuses are labeled truthfully
+    10→ * (Active / In Development / Planned / Experiment) and everything is editable
+    11→ * through the admin panel.
+    12→ */
+    13→import { db } from "../src/lib/db";
+    14→import { hashPassword } from "../src/lib/password";
+    15→import { readdirSync, existsSync, statSync } from "fs";
+    16→import path from "path";
+    17→
+    18→const UPLOAD_DIR = path.join(process.cwd(), "db", "uploads");
+    19→
+    20→async function registerMedia(
+    21→  fileName: string,
+    22→  altText: string
+    23→): Promise<number | null> {
+    24→  const full = path.join(UPLOAD_DIR, fileName);
+    25→  if (!existsSync(full)) {
+    26→    console.warn(`  ! missing media file: ${fileName} (skipped)`);
+    27→    return null;
+    28→  }
+    29→  const stat = statSync(full);
+    30→  const row = await db.mediaItem.create({
+    31→    data: {
+    32→      storageKey: fileName,
+    33→      fileName,
+    34→      mimeType: "image/png",
+    35→      size: stat.size,
+    36→      altText,
+    37→    },
+    38→  });
+    39→  return row.id;
+    40→}
+    41→
+    42→async function main() {
+    43→  console.log("Seeding ETARNITY database…");
+    44→
+    45→  /* ---------- wipe (FK-safe order) ---------- */
+    46→  await db.auditLog.deleteMany();
+    47→  await db.session.deleteMany();
+    48→  await db.projectAsset.deleteMany();
+    49→  await db.mediaItem.deleteMany();
+    50→  await db.contactInquiry.deleteMany();
+    51→  await db.article.deleteMany();
+    52→  await db.person.deleteMany();
+    53→  await db.project.deleteMany();
+    54→  await db.business.deleteMany();
+    55→  await db.jobPosition.deleteMany();
+    56→  await db.technologyArea.deleteMany();
+    57→  await db.milestone.deleteMany();
+    58→  await db.principle.deleteMany();
+    59→  await db.user.deleteMany();
+    60→  await db.role.deleteMany();
+    61→  await db.siteSetting.deleteMany();
+    62→  await db.companyProfile.deleteMany();
+    63→
+    64→  /* ---------- roles & users ---------- */
+    65→  const superRole = await db.role.create({
+    66→    data: { name: "SUPER_ADMIN", description: "Full system access" },
+    67→  });
+    68→  const contentRole = await db.role.create({
+    69→    data: { name: "CONTENT_MANAGER", description: "Manage all website content" },
+    70→  });
+    71→  await db.role.create({
+    72→    data: { name: "BUSINESS_MANAGER", description: "Manage assigned business profiles" },
+    73→  });
+    74→  await db.role.create({
+    75→    data: { name: "VIEWER", description: "Read-only access to admin data" },
+    76→  });
+    77→
+    78→  await db.user.create({
+    79→    data: {
+    80→      name: "ETARNITY Admin",
+    81→      email: "admin@etarnity.com",
+    82→      passwordHash: hashPassword("Etarnity@2025!"),
+    83→      roleId: superRole.id,
+    84→    },
+    85→  });
+    86→  await db.user.create({
+    87→    data: {
+    88→      name: "Content Manager",
+    89→      email: "content@etarnity.com",
+    90→      passwordHash: hashPassword("Etarnity@2025!"),
+    91→      roleId: contentRole.id,
+    92→    },
+    93→  });
+    94→  console.log("  ✓ roles & users");
+    95→
+    96→  /* ---------- company profile ---------- */
+    97→  await db.companyProfile.create({
+    98→    data: {
+    99→      id: 1,
+   100→      name: "ETARNITY",
+   101→      tagline: "Building What Comes Next.",
+   102→      overview:
+   103→        "ETARNITY is a technology company that designs, builds, and operates digital products, platforms, and businesses. Founded in Dhaka, Bangladesh and built for an international market, we combine software engineering, product design, and applied intelligence to solve meaningful problems.\n\nWe exist because good technology is rarely the bottleneck — good execution is. ETARNITY was founded to prove that a company from Dhaka can engineer at the standard of the best teams anywhere: precise, reliable, and honest about what it has and hasn't built.\n\nOur approach is deliberately long-term. We take on client engineering work to stay sharp, we build internal products to compound what we learn, and we grow the ecosystem one honest, working system at a time.",
+   104→      mission:
+   105→        "To build technology that solves meaningful problems — engineered with precision, designed with clarity, and delivered with integrity.",
+   106→      vision:
+   107→        "To grow from a focused engineering studio into a technology group operating a portfolio of digital products and platforms serving users internationally.",
+   108→      foundingYear: 2025,
+   109→      headquarters: "Dhaka, Bangladesh",
+   110→      operatingStatus: "Operating — early stage",
+   111→      contactEmail: "hello@etarnity.com",
+   112→    },
+   113→  });
+   114→  console.log("  ✓ company profile");
+   115→
+   116→  /* ---------- principles ---------- */
+   117→  const principles: [string, string][] = [
+   118→    ["Engineering Excellence", "We treat quality as an engineering discipline — measured, reviewed, and continuously improved, not hoped for."],
+   119→    ["Responsible Innovation", "We build with awareness of consequence: for users, for clients, and for the systems we operate."],
+   120→    ["User-Centered Design", "Every interface we ship is shaped by the people who will actually use it, not by what was easiest to build."],
+   121→    ["Security & Reliability", "We design for failure, protect by default, and treat reliability as a feature — not an afterthought."],
+   122→    ["Continuous Learning", "We invest in our own capability as deliberately as we invest in our products."],
+   123→    ["Long-Term Value", "We optimize for outcomes that still matter in five years, not just five weeks."],
+   124→  ];
+   125→  for (let i = 0; i < principles.length; i++) {
+   126→    await db.principle.create({
+   127→      data: {
+   128→        title: principles[i][0],
+   129→        description: principles[i][1],
+   130→        displayOrder: i,
+   131→      },
+   132→    });
+   133→  }
+   134→  console.log("  ✓ principles");
+   135→
+   136→  /* ---------- milestones ---------- */
+   137→  const milestones: [string, string, string][] = [
+   138→    ["Q1 2025", "Concept & Foundation", "ETARNITY is founded in Dhaka with a focus on software engineering, design, and digital products."],
+   139→    ["Q2 2025", "First Engagements", "Delivery of the first client engineering and design engagements — the studio earns its first references."],
+   140→    ["Q3 2025", "Internal Initiatives", "Development begins on ETARNITY's first internal products and platforms."],
+   141→    ["Q4 2025", "Digital Headquarters", "Launch of the corporate platform you are viewing — with a managed content system powering every public page."],
+   142→  ];
+   143→  for (let i = 0; i < milestones.length; i++) {
+   144→    await db.milestone.create({
+   145→      data: {
+   146→        year: milestones[i][0],
+   147→        title: milestones[i][1],
+   148→        description: milestones[i][2],
+   149→        displayOrder: i,
+   150→      },
+   151→    });
+   152→  }
+   153→  console.log("  ✓ milestones");
+   154→
+   155→  /* ---------- media ---------- */
+   156→  const corporateCover = await registerMedia("project-corporate.png", "Dark corporate dashboard interface — ETARNITY corporate platform");
+   157→  const atlasCover = await registerMedia("project-atlas.png", "Design system component cards — Atlas Design System");
+   158→  const meridianCover = await registerMedia("project-meridian.png", "Minimal e-commerce storefront presentation — Meridian Commerce");
+   159→  const pulseCover = await registerMedia("project-pulse.png", "Real-time analytics visualization with glowing line charts — Pulse Analytics");
+   160→  const articleIntro = await registerMedia("article-introducing.png", "Chrome sphere with elliptical orbit ring — ETARNITY brand visual");
+   161→  const articleEng = await registerMedia("article-engineering.png", "White technical line drawings on graphite — engineering blueprint");
+   162→  const articleAi = await registerMedia("article-ai.png", "Constellation of connected nodes, one glowing — applied AI");
+   163→  const articleInfra = await registerMedia("article-infrastructure.png", "Dark server racks with status lights — infrastructure");
+   164→  console.log("  ✓ media");
+   165→
+   166→  /* ---------- businesses ---------- */
+   167→  await db.business.create({
+   168→    data: {
+   169→      name: "ETARNITY Studio",
+   170→      slug: "etarnity-studio",
+   171→      summary:
+   172→        "Our digital product studio — web platforms, applications, and design systems, engineered end-to-end.",
+   173→      description:
+   174→        "ETARNITY Studio is the engine room of the company: the team that designs and builds every client-facing and internal product we ship.\n\nThe studio works across the full lifecycle — discovery, interface design, engineering, launch, and operation. It is also where our standards live: every project that leaves the studio carries the same review discipline, accessibility bar, and reliability expectations.",
+   175→      category: "Product Design & Engineering",
+   176→      relationshipType: "OWNED",
+   177→      operationalStatus: "ACTIVE",
+   178→      isPublished: true,
+   179→      isFeatured: true,
+   180→      displayOrder: 1,
+   181→    },
+   182→  });
+   183→  await db.business.create({
+   184→    data: {
+   185→      name: "Etar AI",
+   186→      slug: "etar-ai",
+   187→      summary:
+   188→        "Applied intelligence research and automation tooling — currently in active development.",
+   189→      description:
+   190→        "Etar AI is ETARNITY's applied intelligence initiative: practical automation and AI-assisted tooling built around real workflows, not demos.\n\nThe initiative is in active development. We publish it here because we believe in being transparent about what is operating versus what is being built — and because its early outputs already support internal workflows across the studio.",
+   191→      category: "Applied AI & Automation",
+   192→      relationshipType: "OWNED",
+   193→      operationalStatus: "IN_DEVELOPMENT",
+   194→      isPublished: true,
+   195→      isFeatured: true,
+   196→      displayOrder: 2,
+   197→    },
+   198→  });
+   199→  await db.business.create({
+   200→    data: {
+   201→      name: "Signalpath",
+   202→      slug: "signalpath",
+   203→      summary:
+   204→        "Growth analytics and marketing automation infrastructure for digital businesses.",
+   205→      description:
+   206→        "Signalpath is a marketing technology initiative — analytics and automation infrastructure designed to help digital businesses understand and grow their audiences.\n\nIt is in development inside the ETARNITY ecosystem, shaped by the studio's client work. Status updates will be published as the platform matures.",
+   207→      category: "Marketing Technology",
+   208→      relationshipType: "OWNED",
+   209→      operationalStatus: "IN_DEVELOPMENT",
+   210→      isPublished: true,
+   211→      isFeatured: false,
+   212→      displayOrder: 3,
+   213→    },
+   214→  });
+   215→  await db.business.create({
+   216→    data: {
+   217→      name: "Northcell",
+   218→      slug: "northcell",
+   219→      summary:
+   220→        "A planned suite of cloud and infrastructure tooling — a long-term initiative, honestly labeled.",
+   221→      description:
+   222→        "Northcell is a planned initiative: a suite of cloud and infrastructure tooling that extends the ecosystem's technical depth.\n\nWe deliberately mark it as planned rather than operating. When development begins in earnest, this page — and the public status — will say so.",
+   223→      category: "Cloud & Infrastructure",
+   224→      relationshipType: "OWNED",
+   225→      operationalStatus: "PLANNED",
+   226→      isPublished: true,
+   227→      isFeatured: false,
+   228→      displayOrder: 4,
+   229→    },
+   230→  });
+   231→  console.log("  ✓ businesses");
+   232→
+   233→  /* ---------- people ---------- */
+   234→  const people: {
+   235→    name: string;
+   236→    slug: string;
+   237→    position: string;
+   238→    department: string;
+   239→    isFounder: boolean;
+   240→    biography: string;
+   241→    responsibilities: string;
+   242→    expertise: string[];
+   243→    displayOrder: number;
+   244→  }[] = [
+   245→    {
+   246→      name: "Ayesha Rahman",
+   247→      slug: "ayesha-rahman",
+   248→      position: "Founder & Chief Executive Officer",
+   249→      department: "LEADERSHIP",
+   250→      isFounder: true,
+   251→      biography:
+   252→        "Ayesha founded ETARNITY in 2025 with a simple conviction: that a team from Dhaka can build technology to an international standard — and prove it one shipped product at a time.\n\nShe leads company strategy, client partnerships, and the ecosystem's direction: deciding what ETARNITY builds, what it declines, and how the businesses under it grow together.",
+   253→      responsibilities:
+   254→        "Company strategy, partnerships, ecosystem direction, and final say on what ships under the ETARNITY name.",
+   255→      expertise: ["Strategy", "Corporate Development", "Product Direction", "Client Partnerships"],
+   256→      displayOrder: 1,
+   257→    },
+   258→    {
+   259→      name: "Tanvir Hasan",
+   260→      slug: "tanvir-hasan",
+   261→      position: "Founder & Chief Technology Officer",
+   262→      department: "ENGINEERING",
+   263→      isFounder: true,
+   264→      biography:
+   265→        "Tanvir is the engineering half of ETARNITY's founding team. He owns the technical bar: architecture reviews, security practice, and the engineering culture that keeps quality from depending on heroics.\n\nHe leads the studio's most demanding builds and directs the Etar AI initiative's applied research.",
+   266→      responsibilities: "Engineering standards, architecture, security practice, and the Etar AI initiative.",
+   267→      expertise: ["Software Architecture", "TypeScript", "Applied AI", "Security Engineering"],
+   268→      displayOrder: 2,
+   269→    },
+   270→    {
+   271→      name: "Nabila Karim",
+   272→      slug: "nabila-karim",
+   273→      position: "Lead Product Designer",
+   274→      department: "DESIGN",
+   275→      isFounder: false,
+   276→      biography:
+   277→        "Nabila leads product design across the ecosystem — from the studio's client work to ETARNITY's own platforms.\n\nHer work centers on interfaces that respect the user: clear hierarchy, honest states, and accessibility treated as a requirement rather than a checklist item.",
+   278→      responsibilities: "Product design, design systems, and interface quality across ETARNITY products.",
+   279→      expertise: ["Product Design", "Design Systems", "Accessibility", "Interaction Design"],
+   280→      displayOrder: 3,
+   281→    },
+   282→    {
+   283→      name: "Rafi Ahmed",
+   284→      slug: "rafi-ahmed",
+   285→      position: "Senior Software Engineer",
+   286→      department: "ENGINEERING",
+   287→      isFounder: false,
+   288→      biography:
+   289→        "Rafi builds the systems behind the interfaces — APIs, data models, and the infrastructure that keeps them running.\n\nHe is a core engineer on the corporate platform and a quiet defender of boring, reliable infrastructure.",
+   290→      responsibilities: "Backend engineering, infrastructure, and platform reliability.",
+   291→      expertise: ["Backend Engineering", "Databases", "DevOps", "TypeScript"],
+   292→      displayOrder: 4,
+   293→    },
+   294→    {
+   295→      name: "Samira Alam",
+   296→      slug: "samira-alam",
+   297→      position: "Growth & Operations Lead",
+   298→      department: "OPERATIONS",
+   299→      isFounder: false,
+   300→      biography:
+   301→        "Samira keeps the company running and growing — operations, communications, and the growth motion behind the ecosystem's products.\n\nShe also runs the hiring process, which means the careers page and every application route passes through her first.",
+   302→      responsibilities: "Operations, communications, growth, and hiring.",
+   303→      expertise: ["Operations", "Growth", "Communications", "Recruiting"],
+   304→      displayOrder: 5,
+   305→    },
+   306→  ];
+   307→  const personIds: Record<string, number> = {};
+   308→  for (const p of people) {
+   309→    const row = await db.person.create({
+   310→      data: {
+   311→        name: p.name,
+   312→        slug: p.slug,
+   313→        position: p.position,
+   314→        department: p.department,
+   315→        isFounder: p.isFounder,
+   316→        isPublic: true,
+   317→        biography: p.biography,
+   318→        responsibilities: p.responsibilities,
+   319→        expertise: JSON.stringify(p.expertise),
+   320→        links: JSON.stringify([]),
+   321→        displayOrder: p.displayOrder,
+   322→      },
+   323→    });
+   324→    personIds[p.slug] = row.id;
+   325→  }
+   326→  console.log("  ✓ people");
+   327→
+   328→  /* ---------- projects ---------- */
+   329→  await db.project.create({
+   330→    data: {
+   331→      title: "ETARNITY Corporate Platform",
+   332→      slug: "etarnity-corporate-platform",
+   333→      summary:
+   334→        "The platform you are viewing — ETARNITY's digital headquarters, with a managed content system powering every public page.",
+   335→      problem:
+   336→        "A company that builds technology is judged by its own digital presence first. ETARNITY needed a corporate platform that could present the ecosystem honestly — distinguishing what operates from what is being built — while staying fast, accessible, and maintainable by a small team.",
+   337→      solution:
+   338→        "A single-page application architecture with a fully managed backend: every business, project, person, and article on this site is a database record — created and edited through a role-based admin panel, never by editing code.",
+   339→      process:
+   340→        "Design and engineering ran together from week one: a shared design system, review checkpoints at every stage, and an editorial pass on all copy before publication. The 3D hero was engineered to be a signature element — not decoration — with graceful fallbacks for any device that cannot render it.",
+   341→      outcomes:
+   342→        "The platform you are reading is the outcome. It ships with a working CMS, role-based permissions, media management, and a public site that renders entirely from database content. It is also the first production user of the Atlas Design System.",
+   343→      stack: JSON.stringify(["Next.js", "React", "TypeScript", "Tailwind CSS", "Prisma", "SQLite", "Three.js", "Framer Motion"]),
+   344→      category: "Web Applications",
+   345→      ownershipType: "INTERNAL_PRODUCT",
+   346→      projectStatus: "LIVE",
+   347→      isPublished: true,
+   348→      isFeatured: true,
+   349→      displayOrder: 1,
+   350→      coverMediaId: corporateCover,
+   351→    },
+   352→  });
+   353→  await db.project.create({
+   354→    data: {
+   355→      title: "Atlas Design System",
+   356→      slug: "atlas-design-system",
+   357→      summary:
+   358→        "ETARNITY's internal design system — the shared component language and quality bar behind every product we ship.",
+   359→      problem:
+   360→        "Small teams ship inconsistently without a shared system. Every product starting from scratch means wasted effort and interfaces that feel like different companies built them.",
+   361→      solution:
+   362→        "Atlas: a versioned library of components, tokens, and documentation that encodes ETARNITY's design decisions — typography, spacing, states, accessibility rules — once, so every product inherits them.",
+   363→      process:
+   364→        "Atlas grows opportunistically: components are extracted from real product work rather than invented speculatively. The corporate platform is its first production consumer.",
+   365→      outcomes:
+   366→        "In active development. The first components are live in production on this platform; the library expands as the ecosystem's products grow.",
+   367→      stack: JSON.stringify(["TypeScript", "React", "Radix UI", "Tailwind CSS", "Figma"]),
+   368→      category: "Internal Products",
+   369→      ownershipType: "INTERNAL_PRODUCT",
+   370→      projectStatus: "IN_DEVELOPMENT",
+   371→      isPublished: true,
+   372→      isFeatured: true,
+   373→      displayOrder: 2,
+   374→      coverMediaId: atlasCover,
+   375→    },
+   376→  });
+   377→  await db.project.create({
+   378→    data: {
+   379→      title: "Meridian Commerce",
+   380→      slug: "meridian-commerce",
+   381→      summary:
+   382→        "A demonstration commerce experience — built to showcase ETARNITY Studio's engineering and design range on a realistic storefront problem.",
+   383→      problem:
+   384→        "Commerce interfaces concentrate every hard problem at once: performance, trust, hierarchy, and conversion pressure. It is the perfect demonstration surface.",
+   385→      solution:
+   386→        "Meridian is a fully engineered demonstration storefront: catalog browsing, product pages, and a checkout flow — with the same performance and accessibility bar we apply to client work.",
+   387→      process:
+   388→        "Built as a studio demonstration project: real architecture, real componentry, no shortcuts — but clearly labeled as a demonstration rather than an operating business.",
+   389→      outcomes:
+   390→        "A complete demonstration build. We present it as exactly that — evidence of capability, not an operating store.",
+   391→      stack: JSON.stringify(["Next.js", "TypeScript", "Tailwind CSS", "React", "Edge Runtime"]),
+   392→      category: "Web Applications",
+   393→      ownershipType: "DEMONSTRATION",
+   394→      projectStatus: "LIVE",
+   395→      isPublished: true,
+   396→      isFeatured: true,
+   397→      displayOrder: 3,
+   398→      coverMediaId: meridianCover,
+   399→    },
+   400→  });
+   401→  await db.project.create({
+   402→    data: {
+   403→      title: "Pulse Analytics",
+   404→      slug: "pulse-analytics",
+   405→      summary:
+   406→        "An experimental real-time analytics interface — streaming data visualization and anomaly hints, exploring what applied AI can honestly do.",
+   407→      problem:
+   408→        "Dashboards usually show you everything and tell you nothing. Pulse asks the opposite question: what is the minimum interface that tells you something is wrong?",
+   409→      solution:
+   410→        "A prototype streaming pipeline with a deliberately minimal interface: live metrics, threshold anomalies, and pattern hints from a lightweight anomaly model — no dashboards for their own sake.",
+   411→      process:
+   412→        "An Etar AI initiative experiment. We label it experimental because it is: the findings feed internal tooling first, productization decisions come later.",
+   413→      outcomes:
+   414→        "Experimental prototype. Active development, internal use first; public outcomes will be published honestly as they exist.",
+   415→      stack: JSON.stringify(["TypeScript", "React", "WebSockets", "Python", "Time-series Storage"]),
+   416→      category: "AI & Automation",
+   417→      ownershipType: "EXPERIMENT",
+   418→      projectStatus: "IN_DEVELOPMENT",
+   419→      isPublished: true,
+   420→      isFeatured: true,
+   421→      displayOrder: 4,
+   422→      coverMediaId: pulseCover,
+   423→    },
+   424→  });
+   425→  console.log("  ✓ projects");
+   426→
+   427→  /* ---------- technology areas ---------- */
+   428→  const techAreas: {
+   429→    key: string;
+   430→    title: string;
+   431→    description: string;
+   432→    items: [string, string][];
+   433→  }[] = [
+   434→    {
+   435→      key: "engineering",
+   436→      title: "Engineering",
+   437→      description: "How we write software — the standards every ETARNITY codebase shares.",
+   438→      items: [
+   439→        ["Review discipline", "Nothing ships unreviewed. Every codebase — client or internal — passes the same review bar, because quality cannot be retrofitted."],
+   440→        ["Type safety end-to-end", "TypeScript from interface to database. Types are documentation that cannot rot."],
+   441→        ["Testing where it matters", "Tests focused on critical paths and regressions, chosen for signal rather than coverage theater."],
+   442→        ["Boring, reliable choices", "We pick proven technology for production and save novelty for experiments, where it belongs."],
+   443→      ],
+   444→    },
+   445→    {
+   446→      key: "software",
+   447→      title: "Software & Applications",
+   448→      description: "What we build: the product surfaces and the systems behind them.",
+   449→      items: [
+   450→        ["Web applications", "The studio's core craft — full lifecycle, from discovery through launch and operation."],
+   451→        ["Backend systems & APIs", "The systems behind interfaces: data models, APIs, integrations, and the discipline to keep them simple."],
+   452→        ["Digital platforms", "Multi-tenant and content-managed platforms — like the one you are reading — built to be operated by small teams."],
+   453→        ["Design systems", "Shared component languages (Atlas) that keep every product consistent without slowing it down."],
+   454→      ],
+   455→    },
+   456→    {
+   457→      key: "ai",
+   458→      title: "AI & Automation",
+   459→      description: "Applied intelligence — practical systems, honestly labeled.",
+   460→      items: [
+   461→        ["Applied, not speculative", "We automate real workflows with measurable outcomes. If it needs a demo to justify itself, it isn't ready."],
+   462→        ["Assistive tooling", "AI that helps people work — drafting, classifying, summarizing — with humans making final calls."],
+   463→        ["The Etar AI initiative", "Our applied research arm, currently in active development. Its first outputs support internal workflows."],
+   464→        ["Experiments, labeled", "Prototypes like Pulse Analytics are labeled experiments — because pretending research is product helps no one."],
+   465→      ],
+   466→    },
+   467→    {
+   468→      key: "security",
+   469→      title: "Security",
+   470→      description: "Protection as a default posture, not a feature list.",
+   471→      items: [
+   472→        ["Secure by default", "Hashed credentials, validated inputs, least-privilege access — the non-negotiables in every system we ship."],
+   473→        ["Honest boundaries", "We implement sound practices and say clearly what we do not claim: no invented certifications, no guarantees."],
+   474→        ["Dependency hygiene", "Minimal, maintained dependencies with known provenance — the supply chain is part of the attack surface."],
+   475→        ["Safe file handling", "Upload validation, type checks, and isolated storage on every system that accepts files."],
+   476→      ],
+   477→    },
+   478→    {
+   479→      key: "infrastructure",
+   480→      title: "Infrastructure & Cloud",
+   481→      description: "Running what we build — deliberately unexciting, deliberately reliable.",
+   482→      items: [
+   483→        ["Reproducible deployments", "Versioned, scripted, and boring. Deployments should be routine, not events."],
+   484→        ["Observability first", "Logs, errors, and health checks wired in from day one — you cannot operate what you cannot see."],
+   485→        ["Sensible hosting", "Modern platforms and containers, chosen per workload, with costs reviewed like any engineering decision."],
+   486→        ["Backups & recovery", "Every production system has a recovery story that has actually been tested."],
+   487→      ],
+   488→    },
+   489→    {
+   490→      key: "design",
+   491→      title: "Design & Product Engineering",
+   492→      description: "Interfaces engineered with the same rigor as the systems behind them.",
+   493→      items: [
+   494→        ["User-centered by default", "Design starts from the people using it — their context, their vocabulary, their constraints."],
+   495→        ["Accessibility as requirement", "Keyboard paths, contrast, semantics, and reduced-motion support are baseline, not polish."],
+   496→        ["Prototype fast, decide slowly", "We explore quickly in code and design, but shipping decisions get real consideration."],
+   497→        ["Design and engineering, one team", "Designers who understand constraints, engineers who care about interfaces — the gap is where quality dies."],
+   498→      ],
+   499→    },
+   500→    {
+   501→      key: "research",
+   502→      title: "Research & Innovation",
+   503→      description: "Experiments and prototypes — status labeled, honestly.",
+   504→      items: [
+   505→        ["Pulse Analytics — Status: active experiment", "Real-time streaming analytics with anomaly hints. Internal prototype, informing productization decisions."],
+   506→        ["Etar AI workflows — Status: in development", "Applied automation for internal studio workflows. Early outputs in daily internal use."],
+   507→        ["Atlas extraction — Status: ongoing", "Components extracted from production work into the shared design system, one real use at a time."],
+   508→        ["Northcell — Status: planned", "Cloud tooling initiative. Deliberately labeled planned until real development begins."],
+   509→      ],
+   510→    },
+   511→  ];
+   512→  for (let i = 0; i < techAreas.length; i++) {
+   513→    const a = techAreas[i];
+   514→    await db.technologyArea.create({
+   515→      data: {
+   516→        key: a.key,
+   517→        title: a.title,
+   518→        description: a.description,
+   519→        items: JSON.stringify(
+   520→          a.items.map(([title, description]) => ({ title, description }))
+   521→        ),
+   522→        displayOrder: i,
+   523→      },
+   524→    });
+   525→  }
+   526→  console.log("  ✓ technology areas");
+   527→
+   528→  /* ---------- articles ---------- */
+   529→  await db.article.create({
+   530→    data: {
+   531→      title: "Introducing ETARNITY",
+   532→      slug: "introducing-etarnity",
+   533→      summary:
+   534→        "Why we started a technology company in Dhaka — and what we intend to build.",
+   535→      category: "Company Announcement",
+   536→      status: "PUBLISHED",
+   537→      publishedAt: new Date("2025-10-20T09:00:00+06:00"),
+   538→      isFeatured: true,
+   539→      authorId: personIds["ayesha-rahman"],
+   540→      coverMediaId: articleIntro,
+   541→      body: `ETARNITY exists because of a conviction the two of us have shared for years: that a team from Dhaka can engineer at the standard of the best teams anywhere in the world — and that the way to prove it is not to say it, but to ship it.
+   542→
+   543→## What we are building
+   544→
+   545→ETARNITY is a technology company. Not an agency that resells hours, and not a marketplace — a company that designs, builds, and operates digital products and platforms.
+   546→
+   547→That word *operates* matters. Building something is table stakes. We want to run what we build: keep it secure, keep it fast, keep improving it, and let it compound.
+   548→
+   549→## Why honesty is a strategy
+   550→
+   551→You will notice this website says *in development* and *planned* in several places. That is deliberate.
+   552→
+   553→We could have launched with a bigger story — more logos, more claims, more certainty. But every inflated claim becomes a debt you repay with credibility later. We would rather show you a small, real portfolio that grows than a large, fictional one that shrinks.
+   554→
+   555→## The plan
+   556→
+   557→The plan is patience. Client engineering work keeps us sharp and funded. Internal products — like the platform you are reading, and the experiments behind it — compound what we learn. The ecosystem grows one honest, working system at a time.
+   558→
+   559→> The ambition is global. The information is honest. The technology is reliable.
+   560→
+   561→We are just getting started. If you are building something meaningful and want engineering that respects it — [talk to us](/contact).`,
+   562→    },
+   563→  });
+   564→  await db.article.create({
+   565→    data: {
+   566→      title: "Engineering for the Long Term",
+   567→      slug: "engineering-for-the-long-term",
+   568→      summary:
+   569→        "Most technical debt isn't from bad engineering — it's from treating decisions as temporary. Notes on building systems that survive their authors.",
+   570→      category: "Engineering",
+   571→      status: "PUBLISHED",
+   572→      publishedAt: new Date("2025-10-28T09:00:00+06:00"),
+   573→      isFeatured: false,
+   574→      authorId: personIds["tanvir-hasan"],
+   575→      coverMediaId: articleEng,
+   576→      body: `Every codebase tells the truth eventually. Not the architecture diagrams — the code. Diagrams are what we hoped; the code is what we built.
+   577→
+   578→## Decisions are the unit of engineering
+   579→
+   580→Most teams think in files and sprints. The teams that last think in *decisions*: the ones you'll have to live with, and the ones you can cheaply reverse.
+   581→
+   582→- **Reversible decisions** should be made fast. Pick, try, learn.
+   583→- **Irreversible decisions** deserve slowness. Data models, public contracts, security boundaries.
+   584→
+   585→Confusing the two is how good teams die slow: agonizing over reversible things while strolling into irreversible ones.
+   586→
+   587→## What "long-term" actually costs
+   588→
+   589→Long-term engineering is not about predicting the future. It is about leaving room for the version of you that knows more:
+   590→
+   591→1. **Types at the boundaries.** Where systems meet — APIs, databases, external services — types prevent entire categories of silent failure.
+   592→2. **Boring technology in production.** Save the novelty budget for experiments, where failure is a feature.
+   593→3. **Small blast radius.** The question isn't *if* something breaks, it's *how much it takes with it*.
+   594→4. **Documentation as you go.** Not documents — documentation. Comments that explain *why*, in the place you'll need it.
+   595→
+   596→## The uncomfortable part
+   597→
+   598→The hardest part of long-term engineering isn't technical. It's declining things — features, shortcuts, migrations that would be easier today and worse forever.
+   599→
+   600→Every system we run at ETARNITY is built this way, including this website. It's slower to start this way. It's much faster to still be shipping three years from now.`,
+   601→    },
+   602→  });
+   603→  await db.article.create({
+   604→    data: {
+   605→      title: "Applied AI Without the Hype",
+   606→      slug: "applied-ai-without-the-hype",
+   607→      summary:
+   608→        "Where machine assistance genuinely earns its place in production workflows — and where we deliberately don't use it.",
+   609→      category: "AI & Automation",
+   610→      status: "PUBLISHED",
+   611→      publishedAt: new Date("2025-11-05T09:00:00+06:00"),
+   612→      isFeatured: false,
+   613→      authorId: personIds["tanvir-hasan"],
+   614→      coverMediaId: articleAi,
+   615→      body: `We run an applied AI initiative, which means we spend a lot of time explaining what we *don't* use AI for.
+   616→
+   617→## The honest hierarchy of AI usefulness
+   618→
+   619→In production systems, usefulness runs inverse to glamour:
+   620→
+   621→1. **Classification and routing** — sorting inquiries, tagging content, routing requests. Unglamorous, measurable, immediately valuable.
+   622→2. **Summarization and drafting** — first drafts and recaps that a human edits and approves. The human stays in the loop because the human *should*.
+   623→3. **Anomaly detection** — "something changed, look here" — not oracles, but good attention directors.
+   624→4. **Generation at the edge** — where mistakes are cheap, visible, and correctable.
+   625→
+   626→Notice what's missing: fully autonomous decisions in high-stakes paths. Not because the technology can't, but because the failure modes are asymmetric.
+   627→
+   628→## What we actually built
+   629→
+   630→Inside the studio, our first applied systems do exactly what the hierarchy suggests: routing, drafting, and anomaly hints. Pulse Analytics — our experimental streaming dashboard — is a research vehicle for the third category.
+   631→
+   632→## The test we apply
+   633→
+   634→> If a human can't verify the output in less time than doing the task, the automation isn't helping.
+   635→
+   636→That test kills most demo-ware. What survives is boring, reliable, and quietly changes how a team spends its day. That's the goal — applied intelligence that earns its electricity.`,
+   637→    },
+   638→  });
+   639→  await db.article.create({
+   640→    data: {
+   641→      title: "The Case for Boring Infrastructure",
+   642→      slug: "the-case-for-boring-infrastructure",
+   643→      summary:
+   644→        "The most reliable systems we run are also the least interesting ones. On deployment scripts, tested backups, and the joy of nothing happening.",
+   645→      category: "Infrastructure",
+   646→      status: "PUBLISHED",
+   647→      publishedAt: new Date("2025-11-12T09:00:00+06:00"),
+   648→      isFeatured: false,
+   649→      authorId: personIds["rafi-ahmed"],
+   650→      coverMediaId: articleInfra,
+   651→      body: `The best compliment an infrastructure can receive is that nobody thinks about it. Nobody writes blog posts about the deploy that worked, the backup that restored, the certificate that renewed. This is a blog post about those things.
+   652→
+   653→## Boring is a feature
+   654→
+   655→When we say boring infrastructure, we mean:
+   656→
+   657→- **Scripted deployments** — identical every time, versioned in git, executable by anyone on the team (and by a machine).
+   658→- **Tested recovery** — a backup nobody has restored is a hope, not a backup. We rehearse restores.
+   659→- **Logs you can find** — when something breaks at 2 a.m., grep-ability is a UX feature.
+   660→- **The dependency minimum** — every dependency is a promise someone else has to keep. We take on few, deliberately.
+   661→
+   662→## The economics of dull
+   663→
+   664→Exciting infrastructure has a hidden cost: it consumes the attention of your best engineer, permanently. The boring stack has a flat retainer and no opinion about your weekends.
+   665→
+   666→There is a time for exciting infrastructure — scale, regulation, or genuine novel constraints. None of those apply to most products, including most of ours.
+   667→
+   668→## What this looks like at ETARNITY
+   669→
+   670→The platform you're reading runs on a deliberately dull stack: a standard runtime, a relational database, scripted migrations, and health checks that page us before users notice. The 3D hero uses more novelty budget than the entire deployment pipeline.
+   671→
+   672→> Reliability isn't the absence of failure. It's the presence of a plan when failure happens.
+   673→
+   674→Boring infrastructure is that plan, pre-paid.`,
+   675→    },
+   676→  });
+   677→  console.log("  ✓ articles");
+   678→
+   679→  /* ---------- job positions ---------- */
+   680→  await db.jobPosition.create({
+   681→    data: {
+   682→      title: "Senior Frontend Engineer",
+   683→      department: "Engineering",
+   684→      location: "Dhaka / Remote",
+   685→      type: "Full-time",
+   686→      description:
+   687→        "Own significant surfaces of ETARNITY's products — from the corporate platform to client builds. You will set frontend quality standards alongside the founding team, work directly with design, and ship to real users from week one.\n\nThis is a hands-on senior role in a small team: your decisions will be visible in the product and your code in production.",
+   688→      requirements: JSON.stringify([
+   689→        "5+ years building production web applications",
+   690→        "Deep TypeScript and modern React experience",
+   691→        "Strong CSS fundamentals and an eye for interface detail",
+   692→        "Comfortable owning features end-to-end, from design review to production monitoring",
+   693→        "Clear written communication — we work async and document deliberately",
+   694→      ]),
+   695→      isOpen: true,
+   696→      displayOrder: 1,
+   697→    },
+   698→  });
+   699→  await db.jobPosition.create({
+   700→    data: {
+   701→      title: "Product Designer",
+   702→      department: "Design",
+   703→      location: "Dhaka / Remote",
+   704→      type: "Full-time",
+   705→      description:
+   706→        "Shape the interfaces of the ETARNITY ecosystem. You will work across product surfaces — from marketing pages to application interfaces — with a team that treats design as engineering, not decoration.\n\nYou should care about accessibility without being asked, and about shipping as much as about pixel-perfection.",
+   707→      requirements: JSON.stringify([
+   708→        "4+ years of product/interface design experience",
+   709→        "A portfolio showing shipped work and the thinking behind it",
+   710→        "Fluency in modern design tooling (Figma) and design systems",
+   711→        "Practical understanding of HTML/CSS capabilities and constraints",
+   712→        "Interest in working directly with engineers in a small team",
+   713→      ]),
+   714→      isOpen: true,
+   715→      displayOrder: 2,
+   716→    },
+   717→  });
+   718→  console.log("  ✓ job positions");
+   719→
+   720→  /* ---------- sample inquiries ---------- */
+   721→  await db.contactInquiry.create({
+   722→    data: {
+   723→      name: "Daniel Fischer",
+   724→      email: "d.fischer@example.com",
+   725→      organization: "Fischer Logistics",
+   726→      inquiryType: "BUSINESS",
+   727→      subject: "Platform rebuild — logistics dashboard",
+   728→      message:
+   729→        "We reviewed your corporate platform and would like to discuss a rebuild of our internal logistics dashboard. Current stack is legacy PHP and the team cannot move fast enough. Could we schedule a call to scope the work?",
+   730→      status: "NEW",
+   731→    },
+   732→  });
+   733→  await db.contactInquiry.create({
+   734→    data: {
+   735→      name: "Priya Nair",
+   736→      email: "priya@example.io",
+   737→      organization: "Scalecart",
+   738→      inquiryType: "PARTNERSHIP",
+   739→      subject: "Integration partnership inquiry",
+   740→      message:
+   741→        "We operate a commerce platform in South Asia and are exploring engineering partners for white-label storefront builds. Interested in discussing a partnership model and seeing more of your commerce work.",
+   742→      status: "IN_PROGRESS",
+   743→    },
+   744→  });
+   745→  console.log("  ✓ sample inquiries");
+   746→
+   747→  /* ---------- settings ---------- */
+   748→  await db.siteSetting.create({
+   749→    data: { key: "footer.description", value: "ETARNITY is a technology company building products, digital platforms, and digital businesses — founded in Dhaka, Bangladesh." },
+   750→  });
+   751→
+   752→  console.log("\nSeed complete.");
+   753→  console.log("  Admin login: admin@etarnity.com / Etarnity@2025!");
+   754→  console.log("  Content manager: content@etarnity.com / Etarnity@2025!");
+   755→  const files = existsSync(UPLOAD_DIR) ? readdirSync(UPLOAD_DIR).length : 0;
+   756→  console.log(`  Media files in db/uploads: ${files}`);
+   757→}
+   758→
+   759→main()
+   760→  .catch((e) => {
+   761→    console.error(e);
+   762→    process.exit(1);
+   763→  })
+   764→  .finally(() => db.$disconnect());
+   765→

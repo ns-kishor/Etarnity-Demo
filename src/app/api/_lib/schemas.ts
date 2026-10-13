@@ -261,6 +261,20 @@ export const personCreateSchema = z.object({
   name: str("Name", 2, 120),
   slug: slugField,
   position: str("Position", 2, 120),
+  positionAbbr: z
+    .string()
+    .trim()
+    .max(20, "Position abbreviation must be at most 20 characters.")
+    .nullish(),
+  cardIntro: text("Card intro", 500),
+  contactEmail: z
+    .union([z.email("Please provide a valid email address."), z.literal("")])
+    .nullish(),
+  location: z
+    .string()
+    .trim()
+    .max(120, "Location must be at most 120 characters.")
+    .nullish(),
   biography: text("Biography", 20000),
   department: text("Department", 120),
   responsibilities: text("Responsibilities", 20000),
@@ -276,6 +290,20 @@ export const personUpdateSchema = z.object({
   name: str("Name", 2, 120).optional(),
   slug: slugField.optional(),
   position: str("Position", 2, 120).optional(),
+  positionAbbr: z
+    .string()
+    .trim()
+    .max(20, "Position abbreviation must be at most 20 characters.")
+    .nullish(),
+  cardIntro: text("Card intro", 500),
+  contactEmail: z
+    .union([z.email("Please provide a valid email address."), z.literal("")])
+    .nullish(),
+  location: z
+    .string()
+    .trim()
+    .max(120, "Location must be at most 120 characters.")
+    .nullish(),
   biography: text("Biography", 20000),
   department: text("Department", 120),
   responsibilities: text("Responsibilities", 20000),
@@ -322,6 +350,142 @@ export const articleUpdateSchema = z.object({
   isFeatured: z.boolean().optional(),
   authorId: refId,
   coverMediaId: refId,
+});
+
+/* ---------- homepage problem pairs ---------- */
+
+export const problemCreateSchema = z.object({
+  problemTitle: str("Problem title", 2, 200),
+  problemDesc: str("Problem description", 5, 1000),
+  solutionTitle: str("Solution title", 2, 200),
+  solutionDesc: str("Solution description", 5, 1000),
+  displayOrder: intField.default(0),
+  isActive: z.boolean().default(true),
+});
+
+export const problemUpdateSchema = z.object({
+  problemTitle: str("Problem title", 2, 200).optional(),
+  problemDesc: str("Problem description", 5, 1000).optional(),
+  solutionTitle: str("Solution title", 2, 200).optional(),
+  solutionDesc: str("Solution description", 5, 1000).optional(),
+  displayOrder: intField.optional(),
+  isActive: z.boolean().optional(),
+});
+
+/* ---------- founder availability & booking ---------- */
+
+/** One weekday entry of the availability editor (0 = Sunday … 6 = Saturday). */
+const availabilityRuleEntry = z
+  .object({
+    dayOfWeek: z
+      .coerce.number({ error: "Day of week must be a number." })
+      .int("Day of week must be a whole number.")
+      .min(0, "Day of week must be between 0 (Sunday) and 6 (Saturday).")
+      .max(6, "Day of week must be between 0 (Sunday) and 6 (Saturday)."),
+    startMinute: z
+      .coerce.number({ error: "Start time must be a number." })
+      .int("Start time must be a whole number.")
+      .min(0, "Start time must be at least 0.")
+      .max(1440, "Start time must be at most 1440."),
+    endMinute: z
+      .coerce.number({ error: "End time must be a number." })
+      .int("End time must be a whole number.")
+      .min(0, "End time must be at least 0.")
+      .max(1440, "End time must be at most 1440."),
+    slotMinutes: z
+      .coerce.number({ error: "Slot length must be a number." })
+      .int("Slot length must be a whole number.")
+      .min(5, "Slot length must be at least 5 minutes.")
+      .max(120, "Slot length must be at most 120 minutes."),
+    bufferMinutes: z
+      .coerce.number({ error: "Buffer must be a number." })
+      .int("Buffer must be a whole number.")
+      .min(0, "Buffer must be at least 0 minutes.")
+      .max(60, "Buffer must be at most 60 minutes."),
+    isActive: z.boolean({ error: "Active must be a boolean." }),
+  })
+  .superRefine((entry, ctx) => {
+    if (entry.startMinute >= entry.endMinute) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["startMinute"],
+        message: "Start time must be before end time.",
+      });
+    }
+    if (entry.endMinute - entry.startMinute < entry.slotMinutes) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["slotMinutes"],
+        message: "The time window must fit at least one slot.",
+      });
+    }
+  });
+
+export const availabilityPutSchema = z
+  .object({
+    personId: z
+      .coerce.number({ error: "Person id must be a number." })
+      .int("Person id must be a whole number."),
+    rules: z
+      .array(availabilityRuleEntry)
+      .length(7, "Exactly 7 day rules are required (Sunday through Saturday)."),
+  })
+  .superRefine((data, ctx) => {
+    const days = data.rules.map((r) => r.dayOfWeek).sort((a, b) => a - b);
+    for (let i = 0; i < days.length; i++) {
+      if (days[i] !== i) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["rules"],
+          message: "Rules must contain exactly one entry for each day of the week (0–6).",
+        });
+        return;
+      }
+    }
+  });
+
+export const blockedDateCreateSchema = z.object({
+  personId: z
+    .coerce.number({ error: "Person id must be a number." })
+    .int("Person id must be a whole number."),
+  date: z
+    .string()
+    .regex(/^\d{4}-\d{2}-\d{2}$/, "Date must be in YYYY-MM-DD format."),
+  note: text("Note", 300),
+});
+
+export const bookingCreateSchema = z.object({
+  founderSlug: slugField,
+  date: z
+    .string()
+    .regex(/^\d{4}-\d{2}-\d{2}$/, "Date must be in YYYY-MM-DD format."),
+  startMinute: z
+    .coerce.number({ error: "Start time must be a number." })
+    .int("Start time must be a whole number.")
+    .min(0, "Start time must be between 0 and 1439.")
+    .max(1439, "Start time must be between 0 and 1439."),
+  name: z
+    .string()
+    .trim()
+    .min(2, "Name must be at least 2 characters.")
+    .max(120, "Name must be at most 120 characters."),
+  email: z.email("Please provide a valid email address."),
+  mobile: z
+    .string()
+    .trim()
+    .refine(
+      (v) => {
+        if (!/^\+?[0-9][0-9\s\-()]{6,24}$/.test(v)) return false;
+        return v.replace(/\D/g, "").length >= 7;
+      },
+      { message: "Please provide a valid mobile number (at least 7 digits)." }
+    ),
+});
+
+export const bookingPatchSchema = z.object({
+  status: z.literal("CANCELLED", {
+    error: "Only the CANCELLED status is supported.",
+  }),
 });
 
 /* ---------- media / inquiries ---------- */
