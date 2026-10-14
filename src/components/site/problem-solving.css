@@ -1,0 +1,100 @@
+/* ------------------------------------------------------------------ */
+/* ProblemSolvingSection — local styles. Everything is prefixed `ps-`. */
+/*                                                                     */
+/* The pinned stage is INERT until the scroll driver sets              */
+/* data-pin="on" on the section (useLayoutEffect — never under         */
+/* prefers-reduced-motion, never without JS, and never when the        */
+/* window is too short to hold a pair row). Until then these rules     */
+/* match nothing and the section renders as a plain flowing list.      */
+/* ------------------------------------------------------------------ */
+
+/* Elements that exist only for the pinned stage. */
+.ps-grid-inner,
+.ps-indicator {
+  display: none;
+}
+
+/* While pinned, the blueprint grid follows the sticky window instead
+   of the (very tall) runway, and the pair indicator appears. */
+.ps-section[data-pin="on"] .ps-grid-outer {
+  display: none;
+}
+
+.ps-section[data-pin="on"] .ps-grid-inner {
+  display: block;
+}
+
+.ps-section[data-pin="on"] .ps-indicator {
+  display: flex;
+}
+
+/* The stage: one full-viewport sticky window. It sits under the site
+   navbar (sticky, z-50, 72px at md+), so .ps-body's padding-top
+   clears it. */
+.ps-section[data-pin="on"] .ps-stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Body: fills the stage; tighter vertical padding than the flowing
+   section so the pair window gets the space. */
+.ps-section[data-pin="on"] .ps-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  padding-top: 6rem;
+  padding-bottom: 2rem;
+}
+
+/* Pairs column: stretches so the track window can flex. width:100%
+   is required because the column also carries mx-auto (max-w-5xl) —
+   auto cross-axis margins on a flex item disable stretch and would
+   shrink it to fit-content. */
+.ps-section[data-pin="on"] .ps-column {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* The track window: a fixed viewport the pair list slides through.
+   Soft fades stop cards from hard-clipping at the edges; a resting
+   row top (the track's 2rem margin at md+) sits below the 24px top
+   fade, so settled cards never touch the gradient. */
+.ps-section[data-pin="on"] .ps-track-wrap {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0,
+    #000 24px,
+    #000 calc(100% - 56px),
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0,
+    #000 24px,
+    #000 calc(100% - 56px),
+    transparent 100%
+  );
+}
+
+/* The pair list: taken out of flow so the driver can translate it
+   pair-by-pair without touching layout. Its margin-top becomes the
+   resting offset inside the window. */
+.ps-section[data-pin="on"] .ps-track {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}
