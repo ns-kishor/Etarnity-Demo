@@ -77,6 +77,13 @@ function titleForPath(path: string): string {
   return `Page Not Found${TITLE_SUFFIX}`;
 }
 
+/** Every title the router itself may set (used to detect page-level overrides). */
+const ROUTER_TITLES = new Set<string>([
+  HOME_TITLE,
+  ...Object.values(TITLE_MAP).map((t) => `${t}${TITLE_SUFFIX}`),
+  `Page Not Found${TITLE_SUFFIX}`,
+]);
+
 export function useRouter(): Router {
   // Initialized to "/" so the first client render matches the server
   // (SSR has no location.hash); synced to the real hash right after mount.
@@ -99,7 +106,28 @@ export function useRouter(): Router {
 
   React.useEffect(() => {
     const next = titleForPath(path);
-    if (document.title !== next) document.title = next;
+    const apply = () => {
+      if (document.title !== next) document.title = next;
+    };
+    apply();
+    // Next.js may re-apply the SSR <title> metadata once hydration fully
+    // settles, which can clobber the client-side title for deep-linked hash
+    // routes (verified: a fresh load of #/work ended up titled "/"). Re-assert
+    // shortly after — but only reclaim titles the router itself owns, so
+    // page-level titles (e.g. per-article <title>s) are always respected.
+    const reassert = () => {
+      if (document.title === next || ROUTER_TITLES.has(document.title)) {
+        apply();
+      }
+    };
+    const raf = requestAnimationFrame(reassert);
+    const timer = setTimeout(reassert, 600);
+    const timer2 = setTimeout(reassert, 1500);
+    return () => {
+      cancelAnimationFrame(raf);
+      clearTimeout(timer);
+      clearTimeout(timer2);
+    };
   }, [path]);
 
   return { path, segments, navigate };

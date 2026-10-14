@@ -131,7 +131,14 @@ export interface Article {
   status: ArticleStatus;
   publishedAt: string | null;
   isFeatured: boolean;
-  author: { id: number; name: string; slug: string; position: string } | null;
+  author: {
+    id: number;
+    name: string;
+    slug: string;
+    position: string;
+    /** Whether the author has a public profile page (`/people/{slug}`). */
+    isPublic: boolean;
+  } | null;
   cover: MediaRef | null;
 }
 

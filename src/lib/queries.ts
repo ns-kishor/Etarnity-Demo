@@ -284,6 +284,7 @@ type ArticleRow = {
     name: string;
     slug: string;
     position: string;
+    isPublic: boolean;
   } | null;
 };
 
@@ -304,6 +305,7 @@ export function serializeArticle(row: ArticleRow): Article {
           name: row.author.name,
           slug: row.author.slug,
           position: row.author.position,
+          isPublic: row.author.isPublic,
         }
       : null,
     cover: mediaRef(row.coverMedia ?? null),
