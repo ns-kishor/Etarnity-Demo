@@ -1,0 +1,234 @@
+     1→     1→# ETARNITY — Corporate Website Build Log
+     2→     2→
+     3→     3→Shared worklog for all agents. Append your section after each task.
+     4→     4→
+     5→     5→---
+     6→     6→
+     7→     7→Task ID: 1
+     8→     8→Agent: Main orchestrator (Z.ai Code)
+     9→     9→Task: Foundation — design system, typography, content architecture, primitives, header/footer, hero + ETARNITY CORE canvas, stats, contact + API + Prisma, SEO.
+    10→    10→
+    11→    11→Work Log:
+    12→    12→- Searched the web for real ETARNITY data; no public entity found — content uses honest, restrained copy with TODO markers for real data (no fake awards/clients/metrics).
+    13→    13→- Chose visual Direction D refined: deep black (`oklch(0.135 0.005 165)`) + ivory + muted emerald (`oklch(0.66 0.105 163)`) + subtle champagne (`oklch(0.78 0.075 88)`). Dark-only premium corporate identity.
+    14→    14→- Typography: Inter (sans, `--font-inter`), Fraunces variable with opsz (editorial serif, `--font-editorial`, class `font-editorial`), JetBrains Mono (data/labels, `--font-mono-corp`, class `label-mono` / `font-mono`).
+    15→    15→- Rewrote `src/app/globals.css` (full token set + utilities: `.label-mono`, `.hairline`, `.bg-noise`, `.bg-grid-faint`, `.rule-left`, `.scroll-area-corp`, `.text-emerald-corp`, `.text-champagne`, custom scrollbar, reduced-motion).
+    16→    16→- Rewrote `src/app/layout.tsx`: fonts, full corporate SEO metadata, Organization JSON-LD, viewport theme color.
+    17→    17→- Created `public/logo-mark.svg` (custom orbit-E mark) and generated `public/og.jpg` (1344x768 orbital core visual).
+    18→    18→- Created `src/content/site.ts` — THE single source of truth for all copy (typed). Sections import from here: `hero`, `stats`, `whoWeAre`, `mission`, `vision`, `problems`, `businesses`, `ventures`, `industries`, `founders`, `people`, `technology`, `innovation`, `projects`, `impact`, `insights`, `insightCategories`, `news`, `careers`, `presence`, `contact`, `footer`, `site`, `navigation`.
+    19→    19→- Created `src/components/primitives/corporate.tsx`: `Reveal` (scroll reveal w/ direction/distance/blur, respects reduced motion), `Stagger`/`StaggerItem`, `Counter` (rAF count-up), `SectionShell` (section wrapper w/ consistent container: max-w-[1280px] px-6 md:px-10 lg:px-14), `SectionHeading` (mono index champagne + kicker emerald + display title + lead), `Wordmark`.
+    20→    20→- Created `src/components/layout/site-header.tsx` (fixed glass nav, scroll progress hairline, active section tracking, full-screen Menu overlay from `navigation.menuGroups`, escape/scroll-lock).
+    21→    21→- Created `src/components/layout/site-footer.tsx` (5 link columns from `footer.columns`, giant ETARNITY signature, statement, legal).
+    22→    22→- Created `src/components/sections/hero-visual.tsx` — the ETARNITY CORE: bespoke canvas 2D + manual 3D projection; nucleus + 5 inclined orbit rings + depth-shaded polylines + nodes with halos + dynamic inter-node connections + ambient dust + cursor parallax + scroll drift; DPR-capped, pauses offscreen/hidden, reduced-motion static frame.
+    23→    23→- Created `src/components/sections/hero.tsx` (kicker, masked line-reveal headline with italic serif second line, CTAs, mono meta baseline, scroll cue, cinematic scroll exit).
+    24→    24→- Created `src/components/sections/stats.tsx` (scale signals grid with Counter; serves as the canonical section exemplar).
+    25→    25→- Created `src/components/sections/contact.tsx` (split layout: SectionHeading + channels; form with name/email/org/category Select/message; submit states; success panel; toast).
+    26→    26→- Prisma schema extended: `ContactSubmission` (+ future-ready `Business`, `FounderProfile`, `Project`, `Article`, `JobOpening`); pushed with `bun run db:push`.
+    27→    27→- Created `src/app/api/contact/route.ts` (zod validation, POST persists to SQLite, GET health).
+    28→    28→- `src/app/page.tsx` interim: header + hero + stats + contact + footer inside `min-h-screen flex-col` wrapper (footer `mt-auto`).
+    29→    29→- Added `src/app/sitemap.ts`, `src/app/robots.ts`.
+    30→    30→- Dev server verified: GET / 200, fonts render, no compile errors.
+    31→    31→
+    32→    32→Stage Summary:
+    33→    33→- Design language locked: see globals.css + primitives/corporate.tsx. ALL sections MUST use SectionShell/SectionHeading/Reveal (or Stagger) and import copy from `@/content/site`.
+    34→    34→- Section exemplar to follow: `src/components/sections/stats.tsx` (structure) and `contact.tsx` (form/interaction).
+    35→    35→- Next: parallel section builds (Tasks 8-a..8-e), then integration in page.tsx (Task 9).
+    36→    36→- Animation rules: subtle (12-28px movement), once:true reveals, no bounce, no glassmorphism cards, hover states via border-color/bg shifts. Icons: lucide-react only, size 4 (16px), stroke 1.5 default.
+    37→    37→- Colors: emerald via `text-emerald-corp`/`bg-emerald-corp`, champagne sparse (indices, key nodes). No blue/indigo anywhere.
+    38→    38→
+    39→    39→---
+    40→    40→
+    41→    41→Task ID: 8-b
+    42→    42→Agent: frontend-styling-expert
+    43→    43→Task: Business ecosystem sections — Businesses (portfolio grid), Ventures & Investments (four modes), Industries (ecosystem map), Impact (commitments + honest closing).
+    44→    44→
+    45→    45→Work Log:
+    46→    46→- Read worklog, primitives (corporate.tsx), content module (site.ts), stats exemplar and globals.css before writing; confirmed tokens (emerald-corp/champagne/ivory), .label-mono, hairline-grid technique and section rhythm (py-20 md:py-28).
+    47→    47→- Created `src/components/sections/businesses.tsx`: SectionShell id="businesses" + SectionHeading (index 06, inline framing strings per spec). Hairline grid (md:grid-cols-2, gap-px bg-border/60, cells bg-background) via Stagger/StaggerItem(as="article"). Cell anatomy: 12x12 bordered monogram (font-editorial, emerald, distinctive initial: T/D/M/L) + status pill with dot (Operating=emerald, Building=champagne, Early-stage=muted fallback), name (text-2xl ivory), industry (.label-mono), description, PURPOSE row (emerald mono label + italic quoted purpose in typographic quotes), footer mt-auto: relationship (mono /70) left + category tag (mono champagne) right. Conditional anchor only when url is non-null (all current urls are null → no dead links).
+    48→    48→- Created `src/components/sections/ventures.tsx`: SectionHeading from `ventures` content (index 07). Four bordered panels (border border-border/60 rounded-sm, grid gap-4 md:grid-cols-2, p-6 md:p-7) instead of hairline grid per simplified spec; "Building" (id==="building") highlighted: border-emerald-corp/25 + bg-emerald-corp/[0.04] + "Focus today" emerald marker. Champagne mono mode numbers; per-item lists with Plus (highlighted) / ArrowUpRight (others) icons h-3.5 w-3.5 emerald, hairline top rule on lists. Hover: border-emerald-corp/40 + bg shift only.
+    49→    49→- Created `src/components/sections/industries.tsx`: SectionHeading (index 08, inline framing). Ecosystem map: grid-cols-2 md:grid-cols-4 gap-px hairline grid, 8 cells bg-background p-5 hover:bg-card/50; stage marker row (dot + mono uppercase stage text: Operating=emerald, Building=champagne, Exploring=muted), name min-h-14 for alignment, 12.5px description. Below: legend row (three stage dots + mono notes) + closing italic font-editorial line "One ecosystem — each industry strengthens the others." in a border-t footer row.
+    50→    50→- Created `src/components/sections/impact.tsx`: SectionHeading (serifTitle) from `impact` content (index 15). Six quiet panels (border border-border/60 rounded-sm p-6, md:2 / lg:3 cols, gap-4) each with one emerald lucide icon (Building2, Users, Compass, Network, Shield, Sprout mapped per area, h-4 w-4, aria-hidden), 15px title, 13.5px body. Closing statement block (border-t, py-8, md:flex baseline): mono champagne kicker "OUR STANDARD" + the honest "no numbers before they're real" line.
+    51→    51→- Verified: `bunx eslint` on all 4 files → exit 0; `bunx tsc --noEmit` → no errors in these files (remaining project errors are pre-existing in examples/, skills/, layout.tsx).
+    52→    52→- Did NOT touch page.tsx / globals.css / layout.tsx / primitives / header / footer / other agents' files.
+    53→    53→
+    54→    54→Stage Summary:
+    55→    55→- Files created: src/components/sections/businesses.tsx (export `Businesses`), src/components/sections/ventures.tsx (export `Ventures`), src/components/sections/industries.tsx (export `Industries`), src/components/sections/impact.tsx (export `Impact`).
+    56→    56→- Section ids: businesses (06), ventures (07), industries (08), impact (15) — indexes align with the content module's numbering; aria-labels set on every SectionShell.
+    57→    57→- All entity/area data strictly from `@/content/site` (`businesses`, `ventures`, `industries`, `impact`); only section framing strings are inline (as permitted by spec).
+    58→    58→- Decisions: business monograms use the distinctive initial after "ETARNITY " (T/D/M/M→L) rather than a repeated "E"; status map includes an "Early-stage" muted fallback for future data; ventures uses bordered-panel grid (spec's simplified option) with the Building panel visually emphasized; icons mapped 1:1 to impact areas with modulo guard.
+    59→    59→- Ready for Task 9 integration: import and place in order Businesses → Ventures → Industries (→ per surrounding plan) → Impact inside page.tsx.
+    60→    60→
+    61→    61→---
+    62→    62→
+    63→    63→Task ID: 8-a
+    64→    64→Agent: frontend-styling-expert
+    65→    65→Task: Company narrative sections — Who We Are, Mission, Vision, Problems.
+    66→    66→
+    67→    67→Work Log:
+    68→    68→- Read worklog, primitives (`corporate.tsx`), `content/site.ts`, stats exemplar, globals.css before writing; reused SectionShell/SectionHeading/Reveal language exactly.
+    69→    69→- `who-we-are.tsx`: SectionHeading (index 02, no lead) → 12-col editorial grid. Left col-span-7: 3 profile paragraphs (first `text-xl md:text-2xl font-light text-ivory/90`, rest `text-[15px] text-muted-foreground`) as sequential Reveals (delay 0.1 + i*0.1). Right col-span-5 with `lg:rule-left lg:pl-10` (left col gets `lg:pr-14`, `lg:gap-0` so the hairline sits asymmetrically editorial): 4 pillars as `ul` → `Reveal as="li"` rows (`border-t border-border/60 py-6`, champagne mono id, ivory title, muted body), staggered 0.18 + i*0.08.
+    70→    70→- `mission.tsx`: manual centered kicker (champagne index 03 + emerald label-mono, mirroring SectionHeading's structure since its title prop is required), then `mission.statement` as the display `h2` (font-editorial light, text-3xl→lg:text-[3.2rem], leading-[1.15]) inside `<Reveal blur>`; lead centered max-w-2xl; 3 focus blocks as md:grid-cols-3 with top hairlines + mono uppercase ivory titles; 4 principles as sm:grid-cols-2 quiet panels (`border border-border/60 rounded-sm p-5`, champagne id, hover border→emerald-corp/40 + bg-card/40); faint emerald radial glow (oklch /0.07, blur-2xl) behind statement, pointer-events-none, section `overflow-hidden`.
+    71→    71→- `vision.tsx`: cinematic peak — centered kicker (04), statement at `text-3xl sm:text-4xl md:text-5xl lg:text-[4.2rem] leading-[1.08]` with `<Reveal blur duration={1.15}>` and py-16 md:py-24 whitespace. "global ecosystem" emphasized via `VisionStatement()` — deterministic indexOf split with plain-statement fallback (SSR/hydration-safe). Supporting paragraph centered. Horizon: `grid md:grid-cols-3 md:divide-x md:divide-border/60` + top hairline, champagne mono Near/Mid/Long labels, mobile rows stack via per-item border-t (first:border-t-0). Backgrounds: masked `bg-grid-faint` overlay (radial mask, fades at edges) + low-center emerald radial glow (oklch 0.42/0.14, blur-3xl); content wrapper `relative` so it paints above positioned overlays.
+    72→    72→- `problems.tsx`: SectionHeading (serifTitle, index 05 + lead). 7 areas as an editorial ledger — `ul` of `Reveal as="li"` rows: `group grid gap-4 md:grid-cols-12 md:items-baseline border-t border-border/60 py-7 md:py-8`; columns 1/3/4/4 = champagne mono id, title (group-hover:text-emerald-corp), body, response block ("Our Response" mono label in text-emerald-corp/70 + text-foreground/80). Row hover: `hover:bg-card/40` + 2px padding settle (`px-4→px-[18px]`, `md:px-6→md:px-[26px]` via `transition-[padding,background-color]`), rows bleed with -mx-4/md:-mx-6, transform-free. Closes with `<div className="hairline" />` in a fade-only Reveal.
+    73→    73→- All copy imported from `@/content/site` (no invented text beyond the brief-specified "Our Response" UI label). Semantic HTML: section/ul/li/h2/h3, ariaLabels set, headings text-balance, leads text-pretty. Icons: none needed.
+    74→    74→- `bunx eslint` on the 4 files: exit 0, zero warnings. `bunx tsc --noEmit`: no errors in these files (remaining project errors pre-exist in examples/, skills/, layout.tsx).
+    75→    75→
+    76→    76→Stage Summary:
+    77→    77→- Files created (exports): `src/components/sections/who-we-are.tsx` → `WhoWeAre`; `src/components/sections/mission.tsx` → `Mission`; `src/components/sections/vision.tsx` → `Vision`; `src/components/sections/problems.tsx` → `Problems`.
+    78→    78→- All four are `"use client"`, use SectionShell (ids: company / mission / vision / problems) with inner `py-20 md:py-28`, and reveal via Reveal only (14–24px movement, small delays) — no Stagger needed since `ul > Reveal as="li"` keeps valid list semantics.
+    79→    79→- Decisions: mission & vision statements rendered as the section `h2` (display treatment + document outline) with manually built centered kickers, because SectionHeading requires a title prop and its left-aligned layout; mono champagne labels standardized at `text-champagne/80` to match the stats/SectionHeading exemplar; decorative radial/mask backgrounds use explicit oklch token values (Tailwind arbitrary values, spaces as underscores).
+    80→    80→- Ready for page.tsx integration (Task 9) in order: hero → stats → WhoWeAre (company) → Mission (mission) → Vision (vision) → Problems (problems) → …
+    81→    81→
+    82→    82→---
+    83→    83→
+    84→    84→Task ID: 8-c
+    85→    85→Agent: frontend-styling-expert
+    86→    86→Task: People sections — Founders, People & Culture, Careers (3 section components, Task 8-c).
+    87→    87→
+    88→    88→Work Log:
+    89→    89→- Read worklog, primitives (corporate.tsx), content module (site.ts), stats.tsx exemplar, globals.css before writing; confirmed shapes: founders[2] (both linkedin null), people.values[6]/org[6], careers.openRoles EMPTY + emptyState + process[3].
+    90→    90→- Created src/components/sections/founders.tsx: SectionShell id="founders" ariaLabel="The people behind ETARNITY" + SectionHeading (index "09", kicker "Founders", inline framing lead; person data from content module). Two panels lg:grid-cols-2 gap-4; each panel IS a Reveal (blur, 24px, duration 1.05, delay i*0.14 — the elegant founder reveal moment) carrying border border-border/60 rounded-sm p-6 md:p-8 flex col→row gap-7/9. Portrait: honest typographic monogram (initialsOf: "Ayaan Rahman"→AR, "Nafis Chowdhury"→NC) font-editorial font-light text-6xl text-emerald-corp on aspect-[4/5] frame with radial emerald tint + bg-card/40, role="img" + aria-label "Portrait placeholder for …", inner "PORTRAIT" mono caption aria-hidden. Body: name, emerald label-mono role, mono focus pills (rounded-full border-border), bio, italic serif blockquote with curly quotes + border-l-2 emerald rule, LinkedIn link ONLY when truthy (rendered null-safe — no fake links).
+    91→    91→- Created src/components/sections/people.tsx: SectionHeading from people.* (serifTitle). Subsection A "HOW WE WORK": champagne label-mono sub-kicker + 6 values via Stagger grid sm:grid-cols-2 lg:grid-cols-3, quiet panels border border-border/60 rounded-sm p-5, hover = border-emerald-corp/40 + bg-card/40 shift. Subsection B "THE ORGANIZATION": champagne sub-kicker + inline intro "A deliberately small structure…" + 6 org rows as system map (Stagger rows: border-t border-border/60 py-4 grid sm:grid-cols-12 items-baseline group hover:bg-card/40; area sm:col-span-4 group-hover:text-emerald-corp; scope sm:col-span-7; ArrowRight h-3.5 w-3.5 text-emerald-corp/60 aria-hidden, sm:justify-self-end, hidden on mobile), closed with bottom hairline. No stock photography, no fake team photos.
+    92→    92→- Created src/components/sections/careers.tsx: SectionHeading from careers.* (serifTitle). openRoles.length === 0 → honest empty state in dashed panel (border-dashed border-border/70 p-8 md:p-10 text-center): label-mono "OPEN ROLES", title/body from emptyState, CTA a[href=#contact] h-11 emerald-bordered bg-emerald-corp/10 hover:bg-emerald-corp/20 with ArrowUpRight h-4 w-4 aria-hidden. Below: "HOW WE HIRE" champagne sub-kicker + 3 process steps (champagne mono step numbers, border-t rules, stacked rows on mobile → md:grid-cols-3). Included a minimal quiet roles-row branch that activates automatically once openRoles has data (no invented data now).
+    93→    93→- Verification: bunx eslint on the 3 files → clean (zero warnings/errors); bunx tsc --noEmit → zero errors in my files (remaining errors are pre-existing in examples/, skills/, src/app/layout.tsx); SSR smoke render (react-dom/server via temp bun script, deleted afterwards) → ids/aria/monograms/quotes/values/org/empty-state/CTA/process all assert true, no linkedin.com output.
+    94→    94→- Design-system compliance: emerald accent via text-emerald-corp + border/bg-emerald-corp utilities; champagne SPARSE (sub-kickers + step numbers only); lucide-react icons h-4/h-3.5; borders border-border/60 with emerald/40 hover shifts; NO scale/rotate hover, no glassmorphism, no blue; semantic headings h2→h3, ul for chips/roles, aria-hidden decoratives; reduced-motion handled by Reveal primitives.
+    95→    95→
+    96→    96→Stage Summary:
+    97→    97→- src/components/sections/founders.tsx — export Founders (section id="founders").
+    98→    98→- src/components/sections/people.tsx — export People (section id="people").
+    99→    99→- src/components/sections/careers.tsx — export Careers (section id="careers").
+   100→   100→- Decisions: org rows use sm:col-span-4/7/1 (scope 8→7, minor spec deviation) so the ArrowRight sits as its own right-aligned grid cell at sm+ instead of wrapping to a second row; arrow hidden below sm. Founder portrait = typographic monogram placeholder (photography later). careers has a dormant open-roles branch (renders nothing today) for future data. Vertical rhythm py-20 md:py-28 with default bordered shells, matching contact.tsx.
+   101→   101→- Ready for Task 9 integration: import { Founders, People, Careers } from "@/components/sections/…"; place per section indices 09/10/18 (founders+people in the company block, careers before presence/contact).
+   102→   102→
+   103→   103→---
+   104→   104→
+   105→   105→Task ID: 8-e
+   106→   106→Agent: frontend-styling-expert
+   107→   107→Task: Build the Insights (knowledge platform), News (corporate timeline) and Presence (honest single-HQ) sections using the shared corporate primitives and content module.
+   108→   108→
+   109→   109→Work Log:
+   110→   110→- Read worklog.md, src/components/primitives/corporate.tsx, src/content/site.ts, stats.tsx exemplar and globals.css before writing anything; only created the 3 assigned files, touched nothing else.
+   111→   111→- Created `src/components/sections/insights.tsx`: SectionHeading index "16" / kicker "Insights" / "How we think." + specified lead; interactive category filter row (real useState) — mono chips for "All" + `insightCategories`, `aria-pressed`, active = emerald border/tint, inactive = border-border muted with color/border hover shift; grid wrapped in `aria-live="polite"`; articles rendered as non-interactive `<article>` records (no fake URLs — no role=link, no cursor-pointer) with mono category/readTime top row, title (group-hover:text-emerald-corp), excerpt, `<time>` mono date footer + decorative ArrowUpRight (h-3.5 w-3.5, aria-hidden); honest mono empty state when a category has no pieces; no pagination.
+   112→   112→- Created `src/components/sections/news.tsx`: SectionHeading index "17" / "ETARNITY updates." + specified lead; timeline ledger (not cards) — each item `Reveal as="article"` with border-t, `md:grid-cols-12` (date + champagne type pill in col-span-3, title/summary in col-span-9), `<time>` mono dates, sequential reveal delays (i * 0.08), closing bottom hairline.
+   113→   113→- Created `src/components/sections/presence.tsx`: SectionHeading from `presence` content (serifTitle, index "19"); SectionShell with `bg-card/30 overflow-hidden` + absolute `bg-grid-faint` overlay masked with radial ellipse + faint emerald `bg-[radial-gradient(circle,oklch(...))]` glow behind the HQ card (both aria-hidden, pointer-events-none); left column mono definition list (`.label-mono` / mono ivory values, closing hairline); right column HQ coordinates card (`border-border/60 bg-background/60`): champagne mono kicker from `presence.hq.label`, large city, country, MapPin + coordinates in emerald mono, minimal 3-ring emerald radar with `animate-pulse` center dot; editorial italic closing line over `.hairline`.
+   114→   114→- Verified: `bunx eslint` clean on all three files; `bunx tsc --noEmit` shows no errors in the new files (remaining project errors are pre-existing in examples/ and layout.tsx); additionally compiled globals.css through the project's Tailwind v4 postcss pipeline and confirmed the risky classes actually generate CSS (mask-image radial mask, oklch radial glow, champagne/emerald opacity utilities, inset-[17%], md:col-span-*, animate-pulse).
+   115→   115→
+   116→   116→Stage Summary:
+   117→   117→- Files created: `src/components/sections/insights.tsx` (export `Insights`), `src/components/sections/news.tsx` (export `News`), `src/components/sections/presence.tsx` (export `Presence`).
+   118→   118→- All sections are "use client", wrapped in SectionShell (ids insights/news/presence with aria-labels) and take data exclusively from `@/content/site` named exports (`insights`, `insightCategories`, `news`, `presence`); hardcoded only the heading copy explicitly mandated by the brief (indices 16/17, titles, leads, presence closing line) since the content module has no heading wrappers for insights/news.
+   119→   119→- Decisions: article cards are non-interactive records (no real URLs yet — ArrowUpRight purely decorative); title hover implemented via `group-hover` (hovering the card = the brief's hover:text-emerald-corp); the "Innovation" chip honestly produces the empty state; all decorative overlays (grid, glow, radar) are aria-hidden + pointer-events-none; radar scales h-16 → md:h-24 to avoid kicker overlap on narrow screens; right HQ card reveals direction="left", left column via SectionHeading's internal reveals + Reveal for the ledger.
+   120→   120→- Next (Task 9 integration): import Insights/News/Presence into page.tsx in index order — insights (16) → news (17) → careers (18) → presence (19) → contact (20).
+   121→   121→
+   122→   122→---
+   123→   123→
+   124→   124→Task ID: 8-d
+   125→   125→Agent: frontend-styling-expert
+   126→   126→Task: Build the Technology, Innovation and Selected Work sections (3 files) for the ETARNITY corporate site.
+   127→   127→
+   128→   128→Work Log:
+   129→   129→- Read worklog.md, primitives (corporate.tsx), content (site.ts), stats.tsx exemplar, globals.css, plus businesses.tsx + hero.tsx to match established status-pill / useScroll / py-20 md:py-28 patterns.
+   130→   130→- Created `src/components/sections/technology.tsx` — SectionShell id="technology"; full-bleed `bg-grid-faint` atmosphere overlay (pointer-events-none, radial mask fading edges, positioned against the section via static inner container) behind a `relative` content wrapper; SectionHeading from `technology` with serifTitle; 8 capabilities as a semantic `ul` hairline grid (`gap-px bg-border/60`, cells `bg-background` via Reveal as="li", emerald lucide icon above each title, hover:bg-card/50); "How we build" champagne mono sub-kicker row with hairline + "Idea → Scale" progress label; the 7-step pipeline as an `ol`: desktop = 7-column grid with per-li hairline connectors running node→node (terminating at "Scale", which uses champagne border/bg as the horizon) + mono 01–07 indices; mobile = vertical rail (`border-l` + absolutely-positioned nodes at -left-[5px]); both wrapped in Reveal with 0.08 delay after the kicker.
+   131→   131→- Created `src/components/sections/innovation.tsx` — SectionShell id="innovation"; SectionHeading from `innovation` with serifTitle; 4 Labs tracks as Stagger/StaggerItem articles in `md:grid-cols-2 gap-4` bordered panels (hover: border-emerald-corp/40 + bg-card/50, no transform hovers); status pills exactly matching businesses.tsx (mono 10px uppercase pill + dot; Active = emerald, "In exploration" = champagne); lucide icons per track (BrainCircuit / Wrench / Lightbulb / Telescope — Toolbox is not exported by lucide-react 0.525, used Wrench per spec alternative); footer line with champagne "Labs Principle" kicker + italic font-editorial statement.
+   132→   132→- Created `src/components/sections/selected-work.tsx` — SectionShell id="work"; SectionHeading (index 14, inline lead per spec); per-project internal `ProjectBlock` component using framer-motion `useScroll` (target ref, offset start-end→end-center) + `useTransform` for a 1px emerald progress hairline (origin-left scaleX, aria-hidden) on each block's top border; sticky identity column (`lg:col-span-5 lg:sticky lg:top-24 lg:self-start`: champagne index + muted year mono, text-3xl/4xl name, emerald label-mono sector, mono stack chips, conditional "View project" link w/ ArrowUpRight only when url is non-null — all current projects have url null so no dead links); narrative fields as a semantic `dl` in `lg:col-span-7` with mono emerald field labels and 4 Reveal rows (direction up, distance 20, delays 0/0.08/0.16/0.24, border-t rhythm between rows); mobile stacks naturally (no sticky below lg).
+   133→   133→- Verified lucide-react 0.525 exports for every icon used; `bunx eslint` on all three files → clean; `bunx tsc --noEmit` → zero errors in my files (remaining errors are pre-existing in examples/, skills/, and layout.tsx from other agents); dev server still 200.
+   134→   134→
+   135→   135→Stage Summary:
+   136→   136→- Files created (only these 3, nothing else touched):
+   137→   137→  - `src/components/sections/technology.tsx` — exports `Technology` (id="technology").
+   138→   138→  - `src/components/sections/innovation.tsx` — exports `Innovation` (id="innovation").
+   139→   139→  - `src/components/sections/selected-work.tsx` — exports `SelectedWork` (id="work").
+   140→   140→- Decisions: pipeline connectors implemented as per-li absolute hairlines (grid, no gaps) so the line terminates exactly at the "Scale" horizon node instead of running past it; pipeline rendered as both "IDEA → SCALE" label and per-step mono 01–07 indices; "5 narrative fields" resolved as 4 dt/dd rows (Problem / The Idea / Design / Outcome) with technology rendered as chips in the identity column, matching the 4 given sequential delays; serifTitle applied to the Selected Work heading for chapter continuity (12–15 all serif); innovation status dot rendered for both statuses (bg-current colors) to match businesses.tsx pill anatomy.
+   141→   141→- All copy (except the inline heading/lead explicitly allowed for Selected Work and the dictated "How we build" / "Labs Principle" micro-labels) imported from `@/content/site`.
+   142→   142→- Ready for page.tsx integration (Task 9): import Technology, Innovation, SelectedWork — suggested order after ventures/businesses: technology → innovation → selected-work (ids: technology, innovation, work).
+   143→   143→
+   144→   144→---
+   145→   145→Task ID: 9-11 (integration, lint, browser verification)
+   146→   146→Agent: Main orchestrator (Z.ai Code)
+   147→   147→Task: Integrate all agent sections into page.tsx, renumber section indices to the final narrative order, lint, and end-to-end browser verification.
+   148→   148→
+   149→   149→Work Log:
+   150→   150→- Integrated all 20 sections into src/app/page.tsx in the PRD §44 journey order: Hero → Stats → WhoWeAre → Mission → Problems → Businesses → Ventures → Industries → Founders → People → Technology → Innovation → SelectedWork → Impact → Insights → News → Careers → Presence → Vision → Contact (+ footer).
+   151→   151→- Renumbered section indices (content module + 6 hardcoded agent files) to a continuous 01–19 sequence matching page order; Vision moved to the pre-contact emotional peak (index 18).
+   152→   152→- `bun run lint` → clean (zero errors/warnings).
+   153→   153→- Agent-browser end-to-end verification (desktop 1440px + mobile 390px):
+   154→   154→  - Page renders fully: all 18 section ids present with expected content (DOM check), 1 h1, 0 dead anchor links.
+   155→   155→  - Hero: headline + italic serif accent + ETARNITY CORE canvas visual confirmed via VLM screenshot analysis; nav + CTAs correct.
+   156→   156→  - Stats count-up grid, businesses 2x2 entity grid, founders panels, technology capabilities + Idea→Scale pipeline (Scale in champagne), selected work sticky blocks, insights grid — all render clean.
+   157→   157→  - Contact golden path: filled form, selected "Partnership" category, submitted → POST /api/contact 201 → success panel + toast → row persisted in SQLite (verified via direct sqlite3 query: correct name/email/organization/category/status).
+   158→   158→  - Insights filter: "AI" → 1 article; "Innovation" → honest empty state; "All" restore.
+   159→   159→  - Menu overlay: dialog role, 18 links, scroll-lock while open, Escape closes + unlocks.
+   160→   160→  - Nav anchor click → scrolls correctly; scroll progress hairline active.
+   161→   161→  - Mobile: no horizontal overflow; hero/problems/contact all pass VLM checks.
+   162→   162→  - Footer: 5 columns, giant ETARNITY signature, statement, legal, flush at bottom (mt-auto flex column).
+   163→   163→  - No page errors in console or dev.log (only benign framer-motion container-position warning).
+   164→   164→
+   165→   165→Stage Summary:
+   166→   166→- The ETARNITY corporate website is complete and browser-verified end-to-end.
+   167→   167→- All PRD sections implemented with honest content (TODO markers in src/content/site.ts flag placeholder data: founders, stats, projects, insights, news — replace with real company data there; no fake trust signals anywhere).
+   168→   168→- Backend: Prisma ContactSubmission pipeline live (zod-validated POST /api/contact). Future-ready CMS models (Business, FounderProfile, Project, Article, JobOpening) already in schema.
+   169→   169→- SEO: Organization JSON-LD, OpenGraph with generated og.jpg, sitemap.ts, robots.ts, semantic headings.
+   170→   170→
+   171→   171→---
+   172→   172→Task ID: 12
+   173→   173→Agent: Main orchestrator (Z.ai Code)
+   174→   174→Task: Convert the entire ETARNITY site UI to black & white (monochrome) per user request.
+   175→   175→
+   176→   176→Work Log:
+   177→   177→- globals.css: redefined every design token to zero-chroma grayscale — --emerald-corp → oklch(0.99 0 0) (pure white accent), --champagne/--accent → oklch(0.74 0 0) (light gray), base/background/card/border/muted/ivory all chroma 0; ring/focus → white; charts → grayscale ramp. Updated ::selection (inverted white-on-black), scrollbar, focus-visible, .label-mono, .hairline, .bg-grid-faint, .rule-left, .scroll-area-corp to neutral values. Token NAMES kept (emerald-corp/champagne/ivory) so all utility classes across 20+ components convert automatically. --destructive intentionally kept red (semantic error color).
+   178→   178→- hero-visual.tsx (ETARNITY CORE canvas): renamed hue system to monochrome "tone" tiers (bright/soft/faint → TONES map: [245,245,245]/[172,172,172]/[210,210,210]); nucleus glow + shells + connections → white; dust + outer atmosphere ring → neutral gray; all green/champagne rgba values removed.
+   179→   179→- Raw gradient neutralization: hero.tsx readability overlay rgba(10,13,11)→rgba(10,10,10); contact.tsx + founders.tsx emerald tints → white tints; mission.tsx/vision.tsx/presence.tsx oklch chroma gradients → grayscale; stale "emerald" comments updated.
+   180→   180→- layout.tsx themeColor #0a0d0b → #0a0a0a. public/logo-mark.svg: E strokes #EDEEE8→#F2F2F2, orbit #5BBF8E→#FFFFFF, node #C9A86A→#ABABAB (favicon + header logo + schema logo now monochrome; logo.svg was already B&W).
+   181→   181→- Fixed latent mobile defect found during verification: pre-reveal framer-motion transforms caused 8px horizontal overflow → added `overflow-x: clip` on body (user can no longer pan horizontally; sticky columns unaffected — verified).
+   182→   182→- Verification: bun run lint clean (exit 0); agent-browser desktop 1440px + mobile 390px; VLM confirmed pure B&W with zero color tints across hero/stats/businesses/founders/technology/contact/footer/mobile/work; contact golden path re-verified (POST /api/contact 201, row persisted via Prisma); no console/page errors in dev.log.
+   183→   183→
+   184→   184→Stage Summary:
+   185→   185→- The ETARNITY site is now strictly monochrome: white = single accent, grays carry hierarchy, no chroma anywhere in UI, canvas visual, logo, or favicon.
+   186→   186→- og.jpg (social preview image) is a raster asset and was NOT regenerated — it may still contain the old green tint; regenerate separately if needed.
+   187→   187→- All token names unchanged, so future palette work is a single-file (globals.css) change.
+   188→   188→
+   189→   189→---
+   190→   190→Task ID: 13
+   191→   191→Agent: Main orchestrator (Z.ai Code)
+   192→   192→Task: Add dark mood / white mood toggle (next-themes) and professional polish pass.
+   193→   193→
+   194→   194→Work Log:
+   195→   195→- globals.css: split `:root,.dark` into a symmetric two-mood system — :root = WHITE MOOD (paper oklch(0.975) ground, ink 0.16 accent, graphite 0.44 metadata, card=white, border 0.885), .dark = DARK MOOD (previous black/white tokens). Added color-scheme light/dark, mood-scoped vars: --glow-faint/--glow-deep (decorative glows), --scrollbar-thumb(-hover), --hairline, --grid-line. Utilities now var-driven (label-mono, hairline, rule-left, bg-grid-faint, scrollbars, ::selection, :focus-visible); new .hero-vignette utility (paper wash light / ink wash dark). body: soft 0.4s bg/color cross-fade on mood change; overflow-x clip retained.
+   196→   196→- layout.tsx: removed hardcoded html class="dark"; wrapped children in next-themes ThemeProvider (attribute="class", defaultTheme="dark", enableSystem=false, themes=[dark,light]). Favicon icons now media-split: logo-mark-light.svg (ink strokes, NEW file) for prefers-light, logo-mark.svg for dark.
+   197→   197→- NEW src/components/theme-toggle.tsx — MoodToggle: segmented radiogroup (Moon/Sun, aria-checked, title labels "Dark mood"/"White mood"), framer-motion layoutId sliding indicator (spring 500/38, reduced-motion safe), bg-emerald-corp/12 active pill, mounted-guard against hydration mismatch, syncs meta[name=theme-color] (#0a0a0a/#f8f8f8) with resolvedTheme.
+   198→   198→- site-header.tsx: MoodToggle integrated in right cluster (before Contact CTA); scroll-progress comment updated to "ink".
+   199→   199→- corporate.tsx Wordmark: replaced <img logo-mark.svg> with inline currentColor SVG mark (mood-aware strokes: ink on white mood, white on dark; node at 0.55 opacity); text-ivory moved to the wrapping span.
+   200→   200→- hero-visual.tsx: per-frame mood detection (documentElement.classList) + getPalette(dark) — white structure (bright 245/soft 172/faint 210/core 255) vs ink structure (26/128/64/17), mood-scaled glow alphas (0.14→0.06) and shell alphas; canvas repaints instantly on live toggle without remount.
+   201→   201→- hero.tsx: vignette → .hero-vignette class; primary CTA hover → bg-emerald-corp/85 + text-primary-foreground (feedback in both moods). contact.tsx submit button same fix.
+   202→   202→- Decorative glows converted to var(--glow-faint)/var(--glow-deep): mission, vision, presence, founders, contact (Tailwind arbitrary values with var() — no spaces).
+   203→   203→- Verification: lint exit 0; agent-browser desktop+mobile. Default dark confirmed (html.dark, meta #0a0a0a, near-black body). Toggle→light: html.light, meta #f8f8f8, lab(97.1) paper body, canvas pixel-check shows ink strokes; VLM verified light hero/stats/founders/work/contact/footer — strict monochrome, excellent contrast, zero defects. Toggle→dark + reload: mood persists via localStorage. Mobile light: toggle reachable, no horizontal pan. Canvas pixel audit in dark: 1043/11470 bright pixels (rings/nodes drawing) + targeted VLM YES/YES. No console/page errors.
+   204→   204→
+   205→   205→Stage Summary:
+   206→   206→- Two-mood monochrome system live: dark (default, brand identity) and white — perfectly inverted palettes, zero chroma in both.
+   207→   207→- Every surface adapts: tokens, canvas visual, logo, favicon, scrollbar, selection, focus rings, glows, vignette.
+   208→   208→- MoodToggle = premium segmented control (radiogroup semantics, sliding spring indicator, meta theme-color sync, localStorage persistence).
+   209→   209→- Note: og.jpg still the old green-tinted generated asset (not regenerated — not requested).
+   210→   210→
+   211→   211→---
+   212→   212→Task ID: 14
+   213→   213→Agent: Main orchestrator (Z.ai Code)
+   214→   214→Task: MachinaFusion redesign foundation — PRD "Ultra-Modern Minimalist UI Redesign" (new brand, light-first, floating capsules, kinetic scroll, GSAP+Lenis).
+   215→   215→
+   216→   216→Work Log:
+   217→   217→- Installed gsap@3.15.0, lenis@1.3.26, sharp@0.35.5.
+   218→   218→- Generated 5 AI image assets (z-ai CLI) + cutout to transparent PNGs via custom sharp flood-fill script (scripts/ deleted after use): public/images/hand-human.png (900x389, fingers→right), hand-robot.png (900x505, fingers→right), device-1.png (440x1012), device-2.png (533x1034, regenerated once — first had sketch artifacts), device-3.png (405x988). All VLM-verified clean on light/dark/orange backgrounds. public/og.jpg regenerated (human+robot hands, 1344x768).
+   219→   219→- Cutout pipeline lessons: sharp blur on 1-channel raw outputs 3 channels — sample channel 0; per-image background criteria (neutral-chroma for warm skin, near-white for white bg, neutral-gray≥128/90/55 tiers for soft drop shadows); despeckle removes enclosed white pockets; hole-close refills interior eaten regions.
+   220→   220→- src/content/machina.ts — new single source of truth (nav, hero, tunnel, metrics 97%/12K/30+, stack+partners, newsroom (data-mapped from old news+insights), contact, footer). PRD marketing figures flagged as needing audit.
+   221→   221→- globals.css REWRITTEN: MachinaFusion tokens — light mood default (#F4F4F6 ground, #111 ink, #FFF cards, #0A0A0C dark panels, #16C784 neon green accent, tunnel blue #38BDF8), dark mood full inversion; --radius 1.75rem (pills + 28px cards); utilities: display-hero/section/footer (Space Grotesk, -0.04em), label-tag (mono uppercase), glass-float, panel-dark, shadow-ambient(-lg)/panel, orb-*, status-dot (pulsing neon), holo-sphere/sheen, bg-noise, editorial-accent (Fraunces italic); scrollbar + selection + reduced-motion; legacy token names (emerald-corp→accent) kept mapped for transition.
+   222→   222→- layout.tsx REWRITTEN: Inter + Space_Grotesk + Fraunces (editorial italic accents) + JetBrains_Mono; MachinaFusion SEO metadata, Organization JSON-LD, og.jpg; ThemeProvider defaultTheme="light" (PRD light-first; dark mood retained via toggle); favicon mf-mark.svg / mf-mark-dark.svg.
+   223→   223→- src/components/providers/smooth-scroll-provider.tsx — Lenis (lerp 0.11) driven by gsap.ticker, ScrollTrigger.update on lenis scroll, reduced-motion opt-out, exports getLenis() + scrollToHash() (offset -96).
+   224→   224→- src/components/machina/mf-primitives.tsx — shared language: LogoMark (inline currentColor SVG M+orbit+neon node), MfSection, Kicker (mono index+label+hairline), SectionTitle, Reveal (framer whileInView, blur+y, reduced-motion safe), FloatCard (28px white card ambient shadow), Pill, MonoLabel.
+   225→   225→- src/components/layout/capsule-header.tsx — floating pill nav: fixed top-4 centered, glass-float + backdrop-blur(16), brand left / pill toggles center (layoutId spring active indicator, IntersectionObserver tracking) / status-dot "Available Positions" CTA right; mobile menu expansion panel; MoodToggle restyled round.
+   226→   226→- src/components/theme-toggle.tsx — retokened for new palette (theme-color #f4f4f6/#0a0a0c, rounded-full).
+   227→   227→- src/components/layout/mf-footer.tsx — oversized typography footer (display-footer sign-off with editorial-accent "human intuition", mission, Download/Recruits pills, domain, legal strip, mt-auto sticky-bottom semantics).
+   228→   228→- public/mf-mark.svg + mf-mark-dark.svg — geometric M + orbit + green node favicon/logo.
+   229→   229→
+   230→   230→Stage Summary:
+   231→   231→- Full design system + layout shell live (light-first, dark mood inversion).
+   232→   232→- Assets ready in public/images; old ETARNITY section files still on disk (unused after page swap — cleanup at integration).
+   233→   233→- Next: Kinetic Hero (me, exemplar), then delegate tunnel/metrics/stack/newsroom+contact to frontend-styling-expert agents, then integrate page.tsx + verify.
+   234→   234→
