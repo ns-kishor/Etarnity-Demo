@@ -8,6 +8,18 @@ import { PageHeader } from "../page-header";
 import { Reveal } from "../reveal";
 import { Section } from "../section";
 import { ErrorState, LoadingState } from "../states";
+import Company3DCore from "../company-3d-core";
+import { 
+  ShieldCheck, 
+  Cpu, 
+  Layers, 
+  CheckCircle2, 
+  Sparkles, 
+  Target, 
+  Users, 
+  Zap, 
+  ArrowRight 
+} from "lucide-react";
 
 /* ------------------------------------------------------------------ */
 /* Fallback content (rendered when the DB has no seeded profile)       */
@@ -108,6 +120,15 @@ function firstSentence(text: string): string {
 /* Page body                                                           */
 /* ------------------------------------------------------------------ */
 
+const PRINCIPLE_ICONS = [
+  Cpu,
+  ShieldCheck,
+  Layers,
+  Target,
+  Users,
+  Zap,
+];
+
 function CompanyBody({ company }: { company: CompanyProfile | null }) {
   const overviewParagraphs =
     company?.overview && company.overview.trim().length > 0
@@ -131,36 +152,56 @@ function CompanyBody({ company }: { company: CompanyProfile | null }) {
 
   return (
     <>
-      {/* ---------- OVERVIEW ---------- */}
+      {/* ---------- OVERVIEW WITH 3D INTERACTIVE CORE ---------- */}
       <Section>
         <h2 className="sr-only">Overview</h2>
-        <div className="lg:grid lg:grid-cols-12 lg:gap-10">
-          <div className="lg:col-span-3">
-            <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-ink-soft lg:sticky lg:top-24 lg:self-start">
-              Overview
+        <div className="lg:grid lg:grid-cols-12 lg:gap-12 items-center">
+          <div className="lg:col-span-5">
+            <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-electric">
+              01 // THE MOTHER GROUP
             </p>
-          </div>
-          <div className="mt-8 lg:col-span-9 lg:mt-0">
-            {overviewParagraphs.map((paragraph, i) => (
-              <Reveal key={i} delay={i * 0.08}>
-                <p
-                  className={
-                    i === 0
-                      ? "max-w-[65ch] text-xl leading-[1.7] font-medium text-graphite"
-                      : "mt-6 max-w-[65ch] text-base leading-[1.85] text-ink-soft md:text-lg"
-                  }
+            <h2 className="mt-4 text-3xl sm:text-4xl font-bold tracking-tight text-graphite leading-[1.15]">
+              Architecting the Deep-Tech Frontier.
+            </h2>
+            <div className="mt-6 space-y-4">
+              {overviewParagraphs.map((paragraph, i) => (
+                <Reveal key={i} delay={i * 0.08}>
+                  <p
+                    className={
+                      i === 0
+                        ? "text-lg font-medium leading-[1.7] text-graphite"
+                        : "text-[15px] leading-[1.8] text-ink-soft"
+                    }
+                  >
+                    {paragraph}
+                  </p>
+                </Reveal>
+              ))}
+            </div>
+
+            <Reveal delay={0.24}>
+              <div className="mt-8 flex flex-wrap items-center gap-4">
+                <Link
+                  to="/technology"
+                  className="inline-flex items-center gap-2 rounded-full bg-graphite px-6 py-3 text-sm font-semibold text-warmwhite transition hover:bg-[#23262D]"
                 >
-                  {paragraph}
-                </p>
-              </Reveal>
-            ))}
-            <Reveal delay={0.16}>
-              <Link
-                to="/technology"
-                className="mt-8 inline-flex items-center gap-1.5 text-sm font-medium text-electric underline-offset-4 hover:underline"
-              >
-                See how we work technically →
-              </Link>
+                  Explore Tech Stack
+                  <ArrowRight className="size-4" />
+                </Link>
+                <Link
+                  to="/businesses"
+                  className="inline-flex items-center gap-2 rounded-full border border-hairline bg-white px-6 py-3 text-sm font-semibold text-graphite transition hover:border-graphite"
+                >
+                  View Ecosystem
+                </Link>
+              </div>
+            </Reveal>
+          </div>
+
+          {/* 3D Visual Core Element */}
+          <div className="mt-10 lg:col-span-7 lg:mt-0">
+            <Reveal delay={0.15}>
+              <Company3DCore />
             </Reveal>
           </div>
         </div>
@@ -169,58 +210,85 @@ function CompanyBody({ company }: { company: CompanyProfile | null }) {
       {/* ---------- MISSION & VISION ---------- */}
       <Section bordered>
         <h2 className="sr-only">Mission &amp; Vision</h2>
-        <div className="grid gap-4 md:grid-cols-2">
+        <div className="grid gap-6 md:grid-cols-2">
           <Reveal className="h-full">
-            <div className="h-full rounded-xl border border-hairline bg-white p-8">
-              <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-electric">
+            <div className="relative overflow-hidden h-full rounded-2xl border border-hairline bg-gradient-to-br from-white to-[#F8F8F6] p-8 md:p-10 shadow-[0_4px_24px_rgba(0,0,0,0.03)] transition-all hover:border-graphite/40 hover:shadow-md">
+              <span className="absolute top-0 right-0 h-1 w-24 bg-electric rounded-bl-full" />
+              <div className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.22em] text-electric">
+                <Sparkles className="size-3.5" />
+                <span>Our Mandate</span>
+              </div>
+              <h3 className="mt-3 text-2xl font-bold tracking-tight text-graphite">
                 Mission
-              </p>
-              <p className="mt-4 text-xl leading-[1.4] font-medium tracking-[-0.01em] text-graphite md:text-[1.35rem]">
+              </h3>
+              <p className="mt-4 text-lg leading-[1.65] font-medium text-graphite/90">
                 {company?.mission ?? FALLBACK_MISSION}
               </p>
             </div>
           </Reveal>
+
           <Reveal delay={0.08} className="h-full">
-            <div className="h-full rounded-xl border border-hairline bg-white p-8">
-              <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-electric">
+            <div className="relative overflow-hidden h-full rounded-2xl border border-hairline bg-gradient-to-br from-white to-[#F8F8F6] p-8 md:p-10 shadow-[0_4px_24px_rgba(0,0,0,0.03)] transition-all hover:border-graphite/40 hover:shadow-md">
+              <span className="absolute top-0 right-0 h-1 w-24 bg-[#10b981] rounded-bl-full" />
+              <div className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.22em] text-[#10b981]">
+                <Target className="size-3.5" />
+                <span>Long-Term Horizon</span>
+              </div>
+              <h3 className="mt-3 text-2xl font-bold tracking-tight text-graphite">
                 Vision
-              </p>
-              <p className="mt-4 text-xl leading-[1.4] font-medium tracking-[-0.01em] text-graphite md:text-[1.35rem]">
+              </h3>
+              <p className="mt-4 text-lg leading-[1.65] font-medium text-graphite/90">
                 {company?.vision ?? FALLBACK_VISION}
               </p>
             </div>
           </Reveal>
         </div>
+
         <Reveal delay={0.16}>
           <div className="mt-8 text-center">
             <Link
               to="/company/mission-vision"
-              className="text-sm text-electric underline-offset-4 hover:underline"
+              className="inline-flex items-center gap-1.5 text-sm font-medium text-electric underline-offset-4 hover:underline"
             >
-              Read the full Mission &amp; Vision →
+              Read the full Mission &amp; Vision statement →
             </Link>
           </div>
         </Reveal>
       </Section>
 
-      {/* ---------- CORE PRINCIPLES ---------- */}
+      {/* ---------- CORE PRINCIPLES (VISUAL 3D CARDS) ---------- */}
       <Section bordered eyebrow="PRINCIPLES" title="How We Operate.">
-        <div className="grid gap-x-8 gap-y-10 md:grid-cols-2 lg:grid-cols-3">
-          {principles.map((principle, i) => (
-            <Reveal key={principle.id} delay={(i % 3) * 0.08}>
-              <article className="border-t border-graphite pt-4">
-                <p className="font-mono text-[11px] text-electric">
-                  {String(i + 1).padStart(2, "0")}
-                </p>
-                <h3 className="mt-2 text-[15px] font-semibold text-graphite">
-                  {principle.title}
-                </h3>
-                <p className="mt-2 text-sm leading-relaxed text-ink-soft">
-                  {principle.description}
-                </p>
-              </article>
-            </Reveal>
-          ))}
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {principles.map((principle, i) => {
+            const Icon = PRINCIPLE_ICONS[i % PRINCIPLE_ICONS.length];
+            return (
+              <Reveal key={principle.id} delay={(i % 3) * 0.08}>
+                <div className="group relative h-full rounded-2xl border border-hairline bg-white p-7 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-electric/40 hover:shadow-[0_14px_40px_rgba(21,23,27,0.07)]">
+                  <div className="flex items-center justify-between">
+                    <span className="flex size-10 items-center justify-center rounded-xl bg-graphite text-white transition-transform duration-300 group-hover:scale-110">
+                      <Icon className="size-5 text-electric" />
+                    </span>
+                    <span className="font-mono text-[11px] font-semibold text-electric">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                  </div>
+
+                  <h3 className="mt-5 text-lg font-bold tracking-tight text-graphite transition-colors group-hover:text-electric">
+                    {principle.title}
+                  </h3>
+
+                  <p className="mt-2.5 text-sm leading-[1.7] text-ink-soft">
+                    {principle.description}
+                  </p>
+
+                  <div className="mt-6 flex items-center gap-1.5 font-mono text-[10px] text-ink-soft/70 border-t border-hairline/80 pt-3">
+                    <CheckCircle2 className="size-3 text-emerald-500" />
+                    <span>OPERATIONAL STANDARD</span>
+                  </div>
+                </div>
+              </Reveal>
+            );
+          })}
         </div>
       </Section>
 

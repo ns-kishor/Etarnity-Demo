@@ -10,6 +10,7 @@ import { Section } from "../section";
 import { Reveal } from "../reveal";
 import { StatusChip } from "../status-chip";
 import { EmptyState, ErrorState, LoadingState } from "../states";
+import EcosystemWorkflow from "../ecosystem-workflow";
 
 /** Human phrasing for each ecosystem relationship type. */
 const RELATIONSHIP_LABELS: Record<string, string> = {
@@ -40,7 +41,23 @@ export default function BusinessesPage() {
         lede="The businesses, products, and platforms ETARNITY builds and operates. Every relationship is stated honestly."
       />
 
-      <Section className="py-14 md:py-20">
+      <Section className="py-10 md:py-16">
+        {/* Animated Visual Workflow Section: How We Work */}
+        <Reveal>
+          <div className="mb-14">
+            <EcosystemWorkflow />
+          </div>
+        </Reveal>
+
+        <div className="mb-6 flex items-center justify-between border-b border-hairline pb-4">
+          <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-electric">
+            ACTIVE DIRECTORY // OPERATING VENTURES
+          </p>
+          <span className="font-mono text-[10px] text-ink-soft">
+            {businesses.length} PORTFOLIO ENTITIES
+          </span>
+        </div>
+
         {loading && businesses.length === 0 ? (
           <LoadingState label="Loading the ecosystem" />
         ) : error && businesses.length === 0 ? (

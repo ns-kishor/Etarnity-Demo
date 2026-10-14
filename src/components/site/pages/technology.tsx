@@ -9,6 +9,9 @@ import { Reveal } from "../reveal";
 import { Section } from "../section";
 import { EmptyState, LoadingState } from "../states";
 
+import TechnologyMatrix from "../technology-matrix";
+import { Cpu, Terminal, CheckCircle2 } from "lucide-react";
+
 /* ------------------------------------------------------------------ */
 /* Constants                                                           */
 /* ------------------------------------------------------------------ */
@@ -44,21 +47,24 @@ function TechnologyAreaRow({
 
   return (
     <Section bordered>
-      <div className="lg:grid lg:grid-cols-12 lg:gap-8">
+      <div className="lg:grid lg:grid-cols-12 lg:gap-10 items-start">
         <div
           className={`lg:col-span-4 lg:self-start lg:sticky lg:top-24 ${
             flipped ? "lg:order-2" : ""
           }`}
         >
           <Reveal>
-            <p className="font-mono text-[11px] text-electric">
-              {String(index + 1).padStart(2, "0")}
-            </p>
-            <h2 className="mt-2 text-2xl font-semibold tracking-tight text-graphite md:text-[1.75rem]">
+            <div className="flex items-center gap-2">
+              <span className="size-2 rounded-full bg-electric animate-pulse" />
+              <p className="font-mono text-[11px] uppercase tracking-widest text-electric">
+                DOMAIN {String(index + 1).padStart(2, "0")}
+              </p>
+            </div>
+            <h2 className="mt-3 text-2xl font-bold tracking-tight text-graphite md:text-[1.85rem]">
               {area.title}
             </h2>
             {area.description ? (
-              <p className="mt-3 max-w-[38ch] text-sm leading-relaxed text-ink-soft">
+              <p className="mt-3.5 max-w-[38ch] text-[15px] leading-relaxed text-ink-soft">
                 {area.description}
               </p>
             ) : null}
@@ -70,26 +76,37 @@ function TechnologyAreaRow({
           }`}
         >
           {area.items.length === 0 ? (
-            <p className="border-t border-hairline py-5 text-sm leading-relaxed text-ink-soft">
-              Details for this area are being documented.
+            <p className="rounded-xl border border-hairline bg-white p-6 text-sm leading-relaxed text-ink-soft">
+              Details for this area are currently undergoing architectural review.
             </p>
           ) : (
-            area.items.map((item) => (
-              <Reveal key={item.title}>
-                <div className="grid gap-2 border-t border-hairline py-5 md:grid-cols-[220px_1fr] md:gap-8">
-                  <h3 className="flex items-start gap-2.5 text-sm font-semibold text-graphite">
-                    <span
-                      aria-hidden="true"
-                      className="mt-[7px] size-1 shrink-0 rounded-full bg-electric"
-                    />
-                    {item.title}
-                  </h3>
-                  <p className="text-sm leading-relaxed text-ink-soft">
-                    {item.description}
-                  </p>
-                </div>
-              </Reveal>
-            ))
+            <div className="space-y-4">
+              {area.items.map((item) => (
+                <Reveal key={item.title}>
+                  <div className="group rounded-2xl border border-hairline bg-white p-6 shadow-sm transition-all duration-300 hover:border-electric/40 hover:shadow-[0_10px_30px_rgba(21,23,27,0.06)] hover:-translate-y-0.5">
+                    <div className="flex items-start justify-between gap-4">
+                      <div className="flex items-start gap-3">
+                        <span className="mt-1 flex size-7 shrink-0 items-center justify-center rounded-lg bg-graphite text-white transition-colors group-hover:bg-electric">
+                          <Cpu className="size-3.5" />
+                        </span>
+                        <div>
+                          <h3 className="text-base font-bold text-graphite transition-colors group-hover:text-electric">
+                            {item.title}
+                          </h3>
+                          <p className="mt-2 text-sm leading-relaxed text-ink-soft">
+                            {item.description}
+                          </p>
+                        </div>
+                      </div>
+                      <span className="hidden sm:inline-flex items-center gap-1 font-mono text-[10px] text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
+                        <CheckCircle2 className="size-3" />
+                        VERIFIED
+                      </span>
+                    </div>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
           )}
         </div>
       </div>
@@ -115,8 +132,15 @@ export default function TechnologyPage() {
         backTo={{ to: "/", label: "Home" }}
       />
 
+      {/* Interactive Core Architecture Matrix */}
+      <section className="container-site pt-12 pb-6">
+        <Reveal>
+          <TechnologyMatrix />
+        </Reveal>
+      </section>
+
       {/* ---------- Intro statement ---------- */}
-      <section className="container-site py-14 md:py-20">
+      <section className="container-site py-12 md:py-16">
         <Reveal>
           <p className="max-w-[40ch] text-2xl leading-[1.4] font-medium tracking-[-0.01em] text-graphite md:text-[1.9rem]">
             Every capability we claim is one we practice daily on real products

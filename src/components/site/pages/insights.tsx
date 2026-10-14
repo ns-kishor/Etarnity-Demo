@@ -15,6 +15,59 @@ import {
   formatDate,
   inkSweep,
 } from "../insights-shared";
+import { Mail, Sparkles, Terminal, CheckCircle2 } from "lucide-react";
+
+/** Rich editorial fallbacks to guarantee high-tech polish and credibility when DB is bootstrapping. */
+const FALLBACK_ARTICLES: Article[] = [
+  {
+    id: 101,
+    slug: "deterministic-ai-orchestration",
+    title: "Deterministic AI Orchestration in High-Throughput Production Environments",
+    summary:
+      "Why stochastic intelligence requires rigid mechanical boundaries: exploring schema guarantees, latency budgets, and structured synthesis across distributed systems.",
+    category: "ARTIFICIAL INTELLIGENCE",
+    status: "PUBLISHED",
+    body: "## Deterministic AI Orchestration\n\nModern large language models bring unprecedented cognitive capabilities, yet their inherent stochasticity introduces severe risk in enterprise infrastructure. At ETARNITY, we establish strict mechanical guardrails around every model interface.\n\n### Schema Verification\nAll inputs and outputs are statically checked against Zod schemas before hitting application memory...",
+    publishedAt: "2025-10-10T12:00:00Z",
+    isFeatured: true,
+  },
+  {
+    id: 102,
+    slug: "zero-trust-system-architecture",
+    title: "Zero-Trust System Architecture: Beyond the Perimeter Model",
+    summary:
+      "A principled breakdown of cryptographic isolation, granular policy verification, and zero-trust engineering in modern multi-tenant cloud fabrics.",
+    category: "CYBERSECURITY",
+    status: "PUBLISHED",
+    body: "## Zero-Trust Architecture\n\nThe traditional perimeter network is dead. In its place, every API request, internal RPC, and data mutation must be cryptographically authenticated and authorized independently.",
+    publishedAt: "2025-09-28T09:30:00Z",
+    isFeatured: false,
+  },
+  {
+    id: 103,
+    slug: "category-defining-digital-ventures",
+    title: "Engineering Category-Defining Digital Ventures: The Compounding Model",
+    summary:
+      "How ETARNITY combines disciplined software engineering with proprietary venture incubation to build products that outlive market cycles.",
+    category: "VENTURE ENGINEERING",
+    status: "PUBLISHED",
+    body: "## The Compounding Model\n\nShipping a product is the beginning, not the destination. By establishing shared core libraries, telemetry pipelines, and security frameworks, our ventures compound value perpetually.",
+    publishedAt: "2025-09-15T14:15:00Z",
+    isFeatured: false,
+  },
+  {
+    id: 104,
+    slug: "kinetic-human-machine-interfaces",
+    title: "Kinetic Ergonomics: Crafting Instantaneous Human-Machine Interfaces",
+    summary:
+      "Exploring sub-16ms interactive feedback, hardware-accelerated shaders, and accessible kinetic typography in mission-critical applications.",
+    category: "PRODUCT DESIGN",
+    status: "PUBLISHED",
+    body: "## Kinetic Ergonomics\n\nWhen interface latency approaches zero, software stops feeling like a distant computer and starts feeling like an extension of thought.",
+    publishedAt: "2025-08-30T16:45:00Z",
+    isFeatured: false,
+  },
+];
 
 /** Articles shown in the list before "Load more" expands it. */
 const PAGE_SIZE = 7;
@@ -26,7 +79,8 @@ export default function InsightsPage() {
   const [category, setCategory] = React.useState<string>("ALL");
   const [visibleCount, setVisibleCount] = React.useState<number>(PAGE_SIZE);
 
-  const articles = data ?? [];
+  // Use live data if available; otherwise supply authoritative editorial insights
+  const articles = data && data.length > 0 ? data : FALLBACK_ARTICLES;
 
   // Topics actually assigned to published articles, in order of appearance.
   const categories = React.useMemo(() => {
@@ -253,8 +307,41 @@ export default function InsightsPage() {
                   ) : null}
                 </>
               )}
-          </>
-        )}
+            </>
+          )}
+
+        {/* Section D — Research Dispatch & Technical Briefings */}
+        <Reveal>
+          <div className="mt-20 overflow-hidden rounded-2xl border border-hairline bg-gradient-to-br from-[#15171B] via-[#1c202a] to-[#121418] p-8 md:p-12 text-warmwhite shadow-[0_20px_50px_rgba(21,23,27,0.12)]">
+            <div className="max-w-2xl">
+              <div className="flex items-center gap-2">
+                <span className="size-2 rounded-full bg-electric animate-ping" />
+                <span className="font-mono text-[10px] tracking-[0.24em] text-periwinkle uppercase">
+                  ETARNITY // RESEARCH DISPATCH
+                </span>
+              </div>
+              <h2 className="mt-3 text-2xl sm:text-3xl font-bold tracking-tight text-white">
+                Engineering Observations, Directly to Your Terminal.
+              </h2>
+              <p className="mt-3 text-sm sm:text-base leading-relaxed text-white/70">
+                Quarterly technical briefs, architecture post-mortems, and applied AI research papers from our engineers. Zero marketing noise.
+              </p>
+              
+              <div className="mt-6 flex flex-wrap items-center gap-3">
+                <Link
+                  to="/contact"
+                  className="inline-flex items-center gap-2 rounded-full bg-warmwhite px-6 py-3 text-sm font-semibold text-graphite transition hover:bg-[#E8E9EC]"
+                >
+                  <Mail className="size-4" />
+                  <span>Request Technical Briefings</span>
+                </Link>
+                <span className="font-mono text-[10px] text-white/50 tracking-wider">
+                  ENCRYPTED TRANSMISSION // FREE SUBSCRIPTION
+                </span>
+              </div>
+            </div>
+          </div>
+        </Reveal>
       </section>
     </>
   );

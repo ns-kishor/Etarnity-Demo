@@ -49,6 +49,7 @@ dev.out.log
 test
 prompt
 
-server.log
 # Skills directory
 /skills/
+*.tar
+resources/

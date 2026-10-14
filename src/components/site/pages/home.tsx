@@ -15,6 +15,8 @@ import ProcessSection from "../process-section";
 import ProblemSolvingSection from "../problem-solving";
 import type { ProblemPairData } from "../problem-solving";
 
+import HeroRobotic from "../hero-robotic";
+
 /* ------------------------------------------------------------------ */
 /* Local constants                                                     */
 /* ------------------------------------------------------------------ */
@@ -77,58 +79,8 @@ export default function HomePage({
 
   return (
     <>
-      {/* ============ HERO — typography-driven ============ */}
-      <section className="relative pt-20 pb-16 md:pt-28 md:pb-24">
-        <div className="container-site">
-          <div className="mx-auto max-w-4xl text-center">
-            <Reveal>
-              <h1 className="text-[2.125rem] font-semibold leading-[1.08] tracking-[-0.03em] text-graphite sm:text-5xl md:text-6xl lg:text-[4.25rem]">
-                {/* Static, accessible headline for screen readers and SEO. */}
-                <span className="sr-only">
-                  We don&apos;t just solve problems. We rethink what&apos;s
-                  possible.
-                </span>
-                {/* Visual headline — only the middle phrase animates. */}
-                <span aria-hidden="true">
-                  <span className="block">We don&apos;t just</span>
-                  <span className="block">
-                    <TypingPhrase />
-                  </span>
-                  <span className="mt-2 block md:mt-3">
-                    We rethink what&apos;s possible.
-                  </span>
-                </span>
-              </h1>
-            </Reveal>
-            <Reveal delay={0.1}>
-              <p className="mx-auto mt-8 max-w-xl text-lg leading-relaxed text-ink-soft">
-                ETARNITY builds technology-driven products, digital platforms,
-                and businesses designed to solve meaningful problems.
-              </p>
-            </Reveal>
-            <Reveal delay={0.2}>
-              <div className="flex flex-wrap justify-center gap-3 pt-2">
-                <Link
-                  to="/company"
-                  className="group inline-flex items-center gap-2 rounded-full bg-graphite px-6 py-3.5 text-sm font-medium text-warmwhite transition hover:bg-[#23262D]"
-                >
-                  Explore ETARNITY
-                  <ArrowRight
-                    aria-hidden="true"
-                    className="size-4 transition-transform group-hover:translate-x-0.5"
-                  />
-                </Link>
-                <Link
-                  to="/businesses"
-                  className="inline-flex items-center rounded-full border border-hairline bg-white px-6 py-3.5 text-sm font-medium text-graphite transition hover:border-graphite"
-                >
-                  Explore Our Businesses
-                </Link>
-              </div>
-            </Reveal>
-          </div>
-        </div>
-      </section>
+      {/* ============ HERO — Robotic Hands & Cyber Matrix ============ */}
+      <HeroRobotic />
 
       {/* ============ 01 / THE COMPANY — scroll-driven points ============ */}
       <Section
