@@ -50,53 +50,68 @@ function parseJsonArray<T>(raw: string | null | undefined, fallback: T[]): T[] {
 /* ---------- Company ---------- */
 
 export async function getCompanyProfile(): Promise<CompanyProfile | null> {
-  const profile = await db.companyProfile.findUnique({ where: { id: 1 } });
-  if (!profile) return null;
-  const [principles, milestones] = await Promise.all([
-    db.principle.findMany({ orderBy: [{ displayOrder: "asc" }, { id: "asc" }] }),
-    db.milestone.findMany({ orderBy: [{ displayOrder: "asc" }, { id: "asc" }] }),
-  ]);
-  return {
-    name: profile.name,
-    tagline: profile.tagline,
-    overview: profile.overview,
-    mission: profile.mission,
-    vision: profile.vision,
-    foundingYear: profile.foundingYear,
-    headquarters: profile.headquarters,
-    operatingStatus: profile.operatingStatus,
-    contactEmail: profile.contactEmail,
-    principles: principles.map((p) => ({
-      id: p.id,
-      title: p.title,
-      description: p.description,
-    })),
-    milestones: milestones.map((m) => ({
-      id: m.id,
-      year: m.year,
-      title: m.title,
-      description: m.description,
-    })),
-  };
+  try {
+    const profile = await db.companyProfile.findUnique({ where: { id: 1 } });
+    if (!profile) return null;
+    const [principles, milestones] = await Promise.all([
+      db.principle.findMany({ orderBy: [{ displayOrder: "asc" }, { id: "asc" }] }).catch(() => []),
+      db.milestone.findMany({ orderBy: [{ displayOrder: "asc" }, { id: "asc" }] }).catch(() => []),
+    ]);
+    return {
+      name: profile.name,
+      tagline: profile.tagline,
+      overview: profile.overview,
+      mission: profile.mission,
+      vision: profile.vision,
+      foundingYear: profile.foundingYear,
+      headquarters: profile.headquarters,
+      operatingStatus: profile.operatingStatus,
+      contactEmail: profile.contactEmail,
+      principles: principles.map((p) => ({
+        id: p.id,
+        title: p.title,
+        description: p.description,
+      })),
+      milestones: milestones.map((m) => ({
+        id: m.id,
+        year: m.year,
+        title: m.title,
+        description: m.description,
+      })),
+    };
+  } catch (error) {
+    console.warn("getCompanyProfile db error:", error);
+    return null;
+  }
 }
 
 /* ---------- Businesses ---------- */
 
 export async function getPublishedBusinesses(): Promise<Business[]> {
-  const rows = await db.business.findMany({
-    where: { isPublished: true },
-    orderBy: [{ displayOrder: "asc" }, { id: "asc" }],
-    include: { logoMedia: true },
-  });
-  return rows.map(serializeBusiness);
+  try {
+    const rows = await db.business.findMany({
+      where: { isPublished: true },
+      orderBy: [{ displayOrder: "asc" }, { id: "asc" }],
+      include: { logoMedia: true },
+    });
+    return rows.map(serializeBusiness);
+  } catch (error) {
+    console.warn("getPublishedBusinesses db error:", error);
+    return [];
+  }
 }
 
 export async function getBusinessBySlug(slug: string): Promise<Business | null> {
-  const row = await db.business.findFirst({
-    where: { slug, isPublished: true },
-    include: { logoMedia: true },
-  });
-  return row ? serializeBusiness(row) : null;
+  try {
+    const row = await db.business.findFirst({
+      where: { slug, isPublished: true },
+      include: { logoMedia: true },
+    });
+    return row ? serializeBusiness(row) : null;
+  } catch (error) {
+    console.warn("getBusinessBySlug db error:", error);
+    return null;
+  }
 }
 
 type BusinessRow = {
@@ -132,20 +147,30 @@ export function serializeBusiness(row: BusinessRow): Business {
 /* ---------- Projects ---------- */
 
 export async function getPublishedProjects(): Promise<Project[]> {
-  const rows = await db.project.findMany({
-    where: { isPublished: true },
-    orderBy: [{ displayOrder: "asc" }, { id: "desc" }],
-    include: { coverMedia: true, assets: { include: { media: true } } },
-  });
-  return rows.map(serializeProject);
+  try {
+    const rows = await db.project.findMany({
+      where: { isPublished: true },
+      orderBy: [{ displayOrder: "asc" }, { id: "asc" }],
+      include: { coverMedia: true, assets: { include: { media: true } } },
+    });
+    return rows.map(serializeProject);
+  } catch (error) {
+    console.warn("getPublishedProjects db error:", error);
+    return [];
+  }
 }
 
 export async function getProjectBySlug(slug: string): Promise<Project | null> {
-  const row = await db.project.findFirst({
-    where: { slug, isPublished: true },
-    include: { coverMedia: true, assets: { include: { media: true } } },
-  });
-  return row ? serializeProject(row) : null;
+  try {
+    const row = await db.project.findFirst({
+      where: { slug, isPublished: true },
+      include: { coverMedia: true, assets: { include: { media: true } } },
+    });
+    return row ? serializeProject(row) : null;
+  } catch (error) {
+    console.warn("getProjectBySlug db error:", error);
+    return null;
+  }
 }
 
 type ProjectRow = {
@@ -195,20 +220,30 @@ export function serializeProject(row: ProjectRow): Project {
 /* ---------- People ---------- */
 
 export async function getPublicPeople(): Promise<Person[]> {
-  const rows = await db.person.findMany({
-    where: { isPublic: true },
-    orderBy: [{ displayOrder: "asc" }, { id: "asc" }],
-    include: { profileMedia: true },
-  });
-  return rows.map(serializePerson);
+  try {
+    const rows = await db.person.findMany({
+      where: { isPublic: true },
+      orderBy: [{ displayOrder: "asc" }, { id: "asc" }],
+      include: { profileMedia: true },
+    });
+    return rows.map(serializePerson);
+  } catch (error) {
+    console.warn("getPublicPeople db error:", error);
+    return [];
+  }
 }
 
 export async function getPersonBySlug(slug: string): Promise<Person | null> {
-  const row = await db.person.findFirst({
-    where: { slug, isPublic: true },
-    include: { profileMedia: true },
-  });
-  return row ? serializePerson(row) : null;
+  try {
+    const row = await db.person.findFirst({
+      where: { slug, isPublic: true },
+      include: { profileMedia: true },
+    });
+    return row ? serializePerson(row) : null;
+  } catch (error) {
+    console.warn("getPersonBySlug db error:", error);
+    return null;
+  }
 }
 
 type PersonRow = {
@@ -252,20 +287,30 @@ export function serializePerson(row: PersonRow): Person {
 /* ---------- Articles ---------- */
 
 export async function getPublishedArticles(): Promise<Article[]> {
-  const rows = await db.article.findMany({
-    where: { status: "PUBLISHED" },
-    orderBy: [{ publishedAt: "desc" }, { id: "desc" }],
-    include: { author: true, coverMedia: true },
-  });
-  return rows.map(serializeArticle);
+  try {
+    const rows = await db.article.findMany({
+      where: { status: "PUBLISHED" },
+      orderBy: [{ publishedAt: "desc" }, { id: "desc" }],
+      include: { author: true, coverMedia: true },
+    });
+    return rows.map(serializeArticle);
+  } catch (error) {
+    console.warn("getPublishedArticles db error:", error);
+    return [];
+  }
 }
 
 export async function getArticleBySlug(slug: string): Promise<Article | null> {
-  const row = await db.article.findFirst({
-    where: { slug, status: "PUBLISHED" },
-    include: { author: true, coverMedia: true },
-  });
-  return row ? serializeArticle(row) : null;
+  try {
+    const row = await db.article.findFirst({
+      where: { slug, status: "PUBLISHED" },
+      include: { author: true, coverMedia: true },
+    });
+    return row ? serializeArticle(row) : null;
+  } catch (error) {
+    console.warn("getArticleBySlug db error:", error);
+    return null;
+  }
 }
 
 type ArticleRow = {
@@ -315,50 +360,65 @@ export function serializeArticle(row: ArticleRow): Article {
 /* ---------- Technology & careers ---------- */
 
 export async function getTechnologyAreas(): Promise<TechnologyArea[]> {
-  const rows = await db.technologyArea.findMany({
-    orderBy: [{ displayOrder: "asc" }, { id: "asc" }],
-  });
-  return rows.map((r) => ({
-    id: r.id,
-    key: r.key,
-    title: r.title,
-    description: r.description,
-    items: parseJsonArray<{ title: string; description: string }>(r.items, []),
-  }));
+  try {
+    const rows = await db.technologyArea.findMany({
+      orderBy: [{ displayOrder: "asc" }, { id: "asc" }],
+    });
+    return rows.map((r) => ({
+      id: r.id,
+      key: r.key,
+      title: r.title,
+      description: r.description,
+      items: parseJsonArray<{ title: string; description: string }>(r.items, []),
+    }));
+  } catch (error) {
+    console.warn("getTechnologyAreas db error:", error);
+    return [];
+  }
 }
 
 export async function getJobPositions(): Promise<JobPosition[]> {
-  const rows = await db.jobPosition.findMany({
-    where: { isOpen: true },
-    orderBy: [{ displayOrder: "asc" }, { id: "asc" }],
-  });
-  return rows.map((r) => ({
-    id: r.id,
-    title: r.title,
-    department: r.department,
-    location: r.location,
-    type: r.type,
-    description: r.description,
-    requirements: parseJsonArray<string>(r.requirements, []),
-  }));
+  try {
+    const rows = await db.jobPosition.findMany({
+      where: { isOpen: true },
+      orderBy: [{ displayOrder: "asc" }, { id: "asc" }],
+    });
+    return rows.map((r) => ({
+      id: r.id,
+      title: r.title,
+      department: r.department,
+      location: r.location,
+      type: r.type,
+      description: r.description,
+      requirements: parseJsonArray<string>(r.requirements, []),
+    }));
+  } catch (error) {
+    console.warn("getJobPositions db error:", error);
+    return [];
+  }
 }
 
 /* ---------- Homepage: Problem Solving ---------- */
 
 export async function getProblemPairs(): Promise<ProblemPair[]> {
-  const rows = await db.problemPair.findMany({
-    where: { isActive: true },
-    orderBy: [{ displayOrder: "asc" }, { id: "asc" }],
-  });
-  return rows.map((r) => ({
-    id: r.id,
-    problemTitle: r.problemTitle,
-    problemDesc: r.problemDesc,
-    solutionTitle: r.solutionTitle,
-    solutionDesc: r.solutionDesc,
-    displayOrder: r.displayOrder,
-    isActive: r.isActive,
-  }));
+  try {
+    const rows = await db.problemPair.findMany({
+      where: { isActive: true },
+      orderBy: [{ displayOrder: "asc" }, { id: "asc" }],
+    });
+    return rows.map((r) => ({
+      id: r.id,
+      problemTitle: r.problemTitle,
+      problemDesc: r.problemDesc,
+      solutionTitle: r.solutionTitle,
+      solutionDesc: r.solutionDesc,
+      displayOrder: r.displayOrder,
+      isActive: r.isActive,
+    }));
+  } catch (error) {
+    console.warn("getProblemPairs db error:", error);
+    return [];
+  }
 }
 
 /* ---------- Initial home payload ---------- */
@@ -371,16 +431,26 @@ export interface HomePayload {
 }
 
 export async function getHomePayload(): Promise<HomePayload> {
-  const [company, businesses, projects, problems] = await Promise.all([
-    getCompanyProfile(),
-    getPublishedBusinesses(),
-    getPublishedProjects(),
-    getProblemPairs(),
-  ]);
-  return {
-    company,
-    businesses,
-    projects: projects.filter((p) => p.isFeatured).slice(0, 4),
-    problems,
-  };
+  try {
+    const [company, businesses, projects, problems] = await Promise.all([
+      getCompanyProfile().catch(() => null),
+      getPublishedBusinesses().catch(() => []),
+      getPublishedProjects().catch(() => []),
+      getProblemPairs().catch(() => []),
+    ]);
+    return {
+      company,
+      businesses: businesses ?? [],
+      projects: (projects ?? []).filter((p) => p.isFeatured).slice(0, 4),
+      problems: problems ?? [],
+    };
+  } catch (error) {
+    console.warn("getHomePayload error:", error);
+    return {
+      company: null,
+      businesses: [],
+      projects: [],
+      problems: [],
+    };
+  }
 }
